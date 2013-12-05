@@ -6,3 +6,5 @@
 /out/
 *.swp
 
+# junit-started local ElasticSearch node puts stuff here
+/data/
