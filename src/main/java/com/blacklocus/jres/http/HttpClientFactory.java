@@ -8,6 +8,8 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * Produces HttpClient instances based on a thread-safe connection pool.
+ *
  * @author Jason Dunkelberger (dirkraft)
  */
 public class HttpClientFactory {
@@ -31,6 +33,7 @@ public class HttpClientFactory {
      */
     public static HttpClient create(final int connectionTimeoutMs, final int socketTimeoutMs) {
         return HttpClientBuilder.create()
+                .setConnectionManager(POOL_MGR)
                 .setDefaultRequestConfig(
                         RequestConfig.copy(RequestConfig.DEFAULT)
                                 .setConnectTimeout(connectionTimeoutMs)

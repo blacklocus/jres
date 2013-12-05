@@ -4,6 +4,9 @@ import com.google.common.base.Suppliers;
 import org.junit.BeforeClass;
 
 /**
+ * Extend this to be guaranteed that a test ElasticSearch instance will be available for usage with the member
+ * {@link #jres}.
+ *
  * @author Jason Dunkelberger (dirkraft)
  */
 public class JresTest {
@@ -13,6 +16,9 @@ public class JresTest {
         ElasticSearchTestInstance.triggerStaticInit();
     }
 
+    /**
+     * Configured to connect to a local ElasticSearch instance created specifically for unit testing
+     */
     protected Jres jres = new Jres(Suppliers.ofInstance("http://localhost:9201"));
 
 }

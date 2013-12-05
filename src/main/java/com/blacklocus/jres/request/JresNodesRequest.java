@@ -1,9 +1,9 @@
 package com.blacklocus.jres.request;
 
 import com.blacklocus.jres.response.JresNodesResponse;
-import com.blacklocus.jres.response.handler.JresNodesResponseHandler;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.codehaus.jackson.JsonNode;
 
 /**
  * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/cluster-nodes-info.html#cluster-nodes-info">Nodes API</a>
@@ -24,6 +24,11 @@ public class JresNodesRequest implements JresRequest<JresNodesResponse> {
 
     @Override
     public ResponseHandler<JresNodesResponse> getResponseHandler() {
-        return new JresNodesResponseHandler(this);
+        return new AbstractJresResponseHandler<JresNodesResponse>(this) {
+            @Override
+            public JresNodesResponse makeResponse(JresRequest<JresNodesResponse> request, JsonNode node) {
+                return new JresNodesResponse(request, node);
+            }
+        };
     }
 }

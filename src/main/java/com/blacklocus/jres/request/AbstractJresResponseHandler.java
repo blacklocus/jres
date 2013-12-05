@@ -1,8 +1,10 @@
-package com.blacklocus.jres.response.handler;
+package com.blacklocus.jres.request;
 
-import com.blacklocus.jres.request.JresRequest;
+import com.blacklocus.jres.response.JresResponse;
+import com.blacklocus.jres.str.ObjectMappers;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -12,13 +14,13 @@ import java.io.IOException;
  * @param <R> response type
  * @author Jason Dunkelberger (dirkraft)
  */
-public abstract class AbstractJresResponseHandler<R> implements JresResponseHandler<R> {
+public abstract class AbstractJresResponseHandler<R extends JresResponse> implements ResponseHandler<R> {
 
     private final ObjectMapper objectMapper;
     private final JresRequest<R> request;
 
     public AbstractJresResponseHandler(JresRequest<R> request) {
-        this.objectMapper = new ObjectMapper();
+        this.objectMapper = ObjectMappers.NORMAL;
         this.request = request;
     }
 

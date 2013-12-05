@@ -3,6 +3,7 @@ package com.blacklocus.jres;
 import com.blacklocus.jres.http.HttpClientFactory;
 import com.blacklocus.jres.http.HttpMethods;
 import com.blacklocus.jres.request.JresRequest;
+import com.blacklocus.jres.response.JresResponse;
 import com.blacklocus.jres.str.JresPaths;
 import com.google.common.base.Supplier;
 import org.apache.http.client.HttpClient;
@@ -23,7 +24,7 @@ public class Jres {
         this.http = HttpClientFactory.create(30, 300);
     }
 
-    public <R, Q extends JresRequest<R>> R request(Q request) {
+    public <R extends JresResponse, Q extends JresRequest<R>> R request(Q request) {
 
         String url = JresPaths.slashed(hosts.get()) + request.getPath();
         try {

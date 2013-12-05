@@ -1,7 +1,10 @@
 package com.blacklocus.jres.response;
 
 import com.blacklocus.jres.request.JresRequest;
+import com.blacklocus.jres.str.ObjectMappers;
 import org.codehaus.jackson.JsonNode;
+
+import java.io.IOException;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
@@ -24,5 +27,14 @@ public abstract class AbstractJresResponse implements JresResponse {
     @Override
     public JsonNode asNode() {
         return node;
+    }
+
+    @Override
+    public String toString() {
+        try {
+            return ObjectMappers.PRETTY.writeValueAsString(asNode());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

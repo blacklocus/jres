@@ -1,5 +1,6 @@
 package com.blacklocus.jres.request;
 
+import com.blacklocus.jres.response.JresResponse;
 import org.apache.http.client.ResponseHandler;
 
 /**
@@ -7,7 +8,7 @@ import org.apache.http.client.ResponseHandler;
  *
  * @author Jason Dunkelberger (dirkraft)
  */
-public interface JresRequest<R> {
+public interface JresRequest<R extends JresResponse> {
 
     /**
      * @return one of the standard http request methods, case-insensitive: [get, post, put, del, options, trace, head, patch]

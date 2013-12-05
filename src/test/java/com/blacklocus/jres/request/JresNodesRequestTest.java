@@ -1,7 +1,6 @@
 package com.blacklocus.jres.request;
 
 import com.blacklocus.jres.JresTest;
-import com.blacklocus.jres.response.JresNodesResponse;
 import org.junit.Test;
 
 /**
