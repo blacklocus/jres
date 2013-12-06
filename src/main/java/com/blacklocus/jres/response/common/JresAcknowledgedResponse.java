@@ -1,6 +1,5 @@
 package com.blacklocus.jres.response.common;
 
-import com.blacklocus.jres.request.JresRequest;
 import com.blacklocus.jres.request.index.JresCreateIndexRequest;
 import com.blacklocus.jres.request.mapping.JresPutMappingRequest;
 import com.blacklocus.jres.response.AbstractJresResponse;

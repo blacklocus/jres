@@ -12,6 +12,8 @@ import org.codehaus.jackson.JsonNode;
 /**
  * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-aliases.html#deleting">Delete Single Index Alias API</a>
  * <p>
+ * This command will return successful even if the alias didn't exist. The index must still exist.
+ * <p>
  * Can throw {@link JresErrorResponseException}.
  *
  * @author Jason Dunkelberger (dirkraft)

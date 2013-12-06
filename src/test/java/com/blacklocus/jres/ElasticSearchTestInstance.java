@@ -1,9 +1,6 @@
 package com.blacklocus.jres;
 
-import com.google.common.io.Files;
 import org.apache.commons.io.FileUtils;
-import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
-import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;

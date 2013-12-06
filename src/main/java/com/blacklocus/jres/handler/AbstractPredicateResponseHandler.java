@@ -1,6 +1,5 @@
 package com.blacklocus.jres.handler;
 
-import com.blacklocus.jres.handler.JresResponseHandler;
 import com.blacklocus.jres.response.JresResponse;
 import com.google.common.base.Predicate;
 import org.apache.http.HttpResponse;

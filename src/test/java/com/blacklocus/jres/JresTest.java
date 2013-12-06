@@ -1,7 +1,6 @@
 package com.blacklocus.jres;
 
 import com.google.common.base.Suppliers;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 /**

@@ -2,7 +2,6 @@ package com.blacklocus.jres.request.index;
 
 import com.blacklocus.jres.JresTest;
 import com.blacklocus.jres.response.common.JresErrorResponseException;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**

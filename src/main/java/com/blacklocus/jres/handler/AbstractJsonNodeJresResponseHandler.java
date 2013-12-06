@@ -1,6 +1,5 @@
 package com.blacklocus.jres.handler;
 
-import com.blacklocus.jres.handler.JresResponseHandler;
 import com.blacklocus.jres.response.JresResponse;
 import com.blacklocus.jres.response.common.JresErrorResponseException;
 import com.blacklocus.jres.strings.ObjectMappers;
