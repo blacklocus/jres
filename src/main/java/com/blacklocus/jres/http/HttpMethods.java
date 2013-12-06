@@ -11,6 +11,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpTrace;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.entity.ContentType;
 
 import java.util.Map;
 
@@ -62,7 +63,15 @@ public class HttpMethods {
                 }
             }).build();
 
+    /**
+     * @param method http method, case-insensitive
+     * @param url destination of request
+     * @return HttpUriRequest with header <code>Accept: application/json; charset=UTF-8</code>
+     */
     public static HttpUriRequest createRequest(String method, String url) {
-        return METHODS.get(method.toUpperCase()).newMethod(url);
+        HttpUriRequest httpUriRequest = METHODS.get(method.toUpperCase()).newMethod(url);
+        httpUriRequest.addHeader("Accept", ContentType.APPLICATION_JSON.toString());
+        return httpUriRequest;
     }
+
 }

@@ -1,21 +1,22 @@
 package com.blacklocus.jres.response;
 
 import com.blacklocus.jres.request.JresRequest;
-import org.codehaus.jackson.JsonNode;
 
 /**
+ * @param <BASIS> basic type of response content or answer
+ *
  * @author Jason Dunkelberger (dirkraft)
  */
-public interface JresResponse {
+public interface JresResponse<BASIS> {
 
     /**
      * @return the request that resulted in this response
      */
-    JresRequest getRequest();
+    JresRequest<BASIS, ?> getRequest();
 
     /**
-     * @return the underlying JsonNode which contains ALL of the response, regardless of what may have been parsed into
-     * semantic, declared properties of this JresResponse
+     * @return the underlying basis upon which subclass accessors provide additional semantic information
      */
-    JsonNode asNode();
+    BASIS basis();
+
 }

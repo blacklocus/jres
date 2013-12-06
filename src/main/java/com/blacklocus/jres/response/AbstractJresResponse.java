@@ -1,40 +1,28 @@
 package com.blacklocus.jres.response;
 
 import com.blacklocus.jres.request.JresRequest;
-import com.blacklocus.jres.str.ObjectMappers;
-import org.codehaus.jackson.JsonNode;
-
-import java.io.IOException;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public abstract class AbstractJresResponse implements JresResponse {
+public abstract class AbstractJresResponse<BASIS> implements JresResponse<BASIS> {
 
-    private final JresRequest<?> request;
-    private final JsonNode node;
+    private final JresRequest<BASIS, ?> request;
+    private final BASIS basis;
 
-    protected AbstractJresResponse(JresRequest<?> request, JsonNode node) {
+    protected AbstractJresResponse(JresRequest<BASIS, ?> request, BASIS basis) {
         this.request = request;
-        this.node = node;
+        this.basis = basis;
     }
 
     @Override
-    public JresRequest<?> getRequest() {
+    public JresRequest<BASIS, ?> getRequest() {
         return request;
     }
 
     @Override
-    public JsonNode asNode() {
-        return node;
+    public BASIS basis() {
+        return basis;
     }
 
-    @Override
-    public String toString() {
-        try {
-            return ObjectMappers.PRETTY.writeValueAsString(asNode());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

@@ -24,7 +24,15 @@ public class Jres {
         this.http = HttpClientFactory.create(30, 300);
     }
 
-    public <R extends JresResponse, Q extends JresRequest<R>> R request(Q request) {
+    /**
+     *
+     * @param <Q> request - type of request object
+     * @param <R> response - type of response object produced as the returned value
+     * @param <B> basis - basic type of value encapsulated by the response. Think of it as a shallow interpretation
+     *           directly of the ElasticSear
+     * @return corresponding response object ({@link JresRequest}'s RESPONSE type)
+     */
+    public <B, R extends JresResponse<B>, Q extends JresRequest<B, R>> R request(Q request) {
 
         String url = JresPaths.slashed(hosts.get()) + request.getPath();
         try {
