@@ -1,7 +1,7 @@
 package com.blacklocus.jres.request;
 
+import com.blacklocus.jres.handler.JresResponseHandler;
 import com.blacklocus.jres.response.JresResponse;
-import org.apache.http.client.ResponseHandler;
 
 /**
  * @param <RESPONSE> response type - the wrapper object built by Jres to encapsulte the full response
@@ -32,5 +32,5 @@ public interface JresRequest<BASIS, RESPONSE extends JresResponse<BASIS>> {
      * @return response handler which will parse the returned JsonNode, or <code>null</code> to disregard any response
      * content
      */
-    ResponseHandler<RESPONSE> getResponseHandler();
+    JresResponseHandler<BASIS, RESPONSE> getResponseHandler();
 }

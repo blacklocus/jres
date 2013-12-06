@@ -7,6 +7,6 @@ import org.apache.http.client.ResponseHandler;
  */
 public interface JresResponseHandler<B, R> extends ResponseHandler<R> {
 
-    public abstract R makeResponse(B value);
+    R makeResponse(B value);
 
 }

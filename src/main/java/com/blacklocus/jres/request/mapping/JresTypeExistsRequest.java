@@ -2,10 +2,10 @@ package com.blacklocus.jres.request.mapping;
 
 import com.blacklocus.jres.handler.AbstractPredicateResponseHandler;
 import com.blacklocus.jres.handler.JresPredicates;
+import com.blacklocus.jres.handler.JresResponseHandler;
 import com.blacklocus.jres.request.JresRequest;
 import com.blacklocus.jres.response.JresBooleanResponse;
 import com.blacklocus.jres.strings.JresPaths;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpHead;
 
 /**
@@ -37,7 +37,7 @@ public class JresTypeExistsRequest implements JresRequest<Boolean, JresBooleanRe
     }
 
     @Override
-    public ResponseHandler<JresBooleanResponse> getResponseHandler() {
+    public JresResponseHandler<Boolean, JresBooleanResponse> getResponseHandler() {
         return new AbstractPredicateResponseHandler<JresBooleanResponse>(JresPredicates.STATUS_200) {
             @Override
             public JresBooleanResponse makeResponse(Boolean value) {

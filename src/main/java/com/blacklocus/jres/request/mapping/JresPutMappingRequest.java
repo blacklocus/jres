@@ -1,11 +1,11 @@
 package com.blacklocus.jres.request.mapping;
 
 import com.blacklocus.jres.handler.AbstractJsonNodeJresResponseHandler;
+import com.blacklocus.jres.handler.JresResponseHandler;
 import com.blacklocus.jres.request.JresRequest;
 import com.blacklocus.jres.response.common.JresAcknowledgedResponse;
 import com.blacklocus.jres.response.common.JresErrorResponseException;
 import com.blacklocus.jres.strings.JresPaths;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPut;
 import org.codehaus.jackson.JsonNode;
 
@@ -48,7 +48,7 @@ public class JresPutMappingRequest implements JresRequest<JsonNode, JresAcknowle
     }
 
     @Override
-    public ResponseHandler<JresAcknowledgedResponse> getResponseHandler() {
+    public JresResponseHandler<JsonNode, JresAcknowledgedResponse> getResponseHandler() {
         return new AbstractJsonNodeJresResponseHandler<JresAcknowledgedResponse>() {
             @Override
             public JresAcknowledgedResponse makeResponse(JsonNode value) {

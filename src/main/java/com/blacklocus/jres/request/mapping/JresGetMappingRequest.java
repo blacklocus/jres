@@ -1,11 +1,11 @@
 package com.blacklocus.jres.request.mapping;
 
 import com.blacklocus.jres.handler.AbstractJsonNodeJresResponseHandler;
+import com.blacklocus.jres.handler.JresResponseHandler;
 import com.blacklocus.jres.request.JresRequest;
 import com.blacklocus.jres.response.JresJsonNodeResponse;
 import com.blacklocus.jres.response.common.JresErrorResponseException;
 import com.blacklocus.jres.strings.JresPaths;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.codehaus.jackson.JsonNode;
 
@@ -42,7 +42,7 @@ public class JresGetMappingRequest implements JresRequest<JsonNode, JresJsonNode
     }
 
     @Override
-    public ResponseHandler<JresJsonNodeResponse> getResponseHandler() {
+    public JresResponseHandler<JsonNode, JresJsonNodeResponse> getResponseHandler() {
         return new AbstractJsonNodeJresResponseHandler<JresJsonNodeResponse>() {
             @Override
             public JresJsonNodeResponse makeResponse(JsonNode value) {

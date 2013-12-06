@@ -1,11 +1,11 @@
 package com.blacklocus.jres.request.alias;
 
 import com.blacklocus.jres.handler.AbstractJsonNodeJresResponseHandler;
+import com.blacklocus.jres.handler.JresResponseHandler;
 import com.blacklocus.jres.request.JresRequest;
 import com.blacklocus.jres.response.alias.JresRetrieveAliasesResponse;
 import com.blacklocus.jres.response.common.JresErrorResponseException;
 import com.blacklocus.jres.strings.JresPaths;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.codehaus.jackson.JsonNode;
 
@@ -48,7 +48,7 @@ public class JresRetrieveAliasesRequest implements JresRequest<JsonNode, JresRet
     }
 
     @Override
-    public ResponseHandler<JresRetrieveAliasesResponse> getResponseHandler() {
+    public JresResponseHandler<JsonNode, JresRetrieveAliasesResponse> getResponseHandler() {
         return new AbstractJsonNodeJresResponseHandler<JresRetrieveAliasesResponse>() {
             @Override
             public JresRetrieveAliasesResponse makeResponse(JsonNode value) {

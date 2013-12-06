@@ -2,9 +2,9 @@ package com.blacklocus.jres.request.index;
 
 import com.blacklocus.jres.handler.AbstractPredicateResponseHandler;
 import com.blacklocus.jres.handler.JresPredicates;
+import com.blacklocus.jres.handler.JresResponseHandler;
 import com.blacklocus.jres.request.JresRequest;
 import com.blacklocus.jres.response.JresBooleanResponse;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpHead;
 
 /**
@@ -36,7 +36,7 @@ public class JresIndexExistsRequest implements JresRequest<Boolean, JresBooleanR
     }
 
     @Override
-    public ResponseHandler<JresBooleanResponse> getResponseHandler() {
+    public JresResponseHandler<Boolean, JresBooleanResponse> getResponseHandler() {
         return new AbstractPredicateResponseHandler<JresBooleanResponse>(JresPredicates.STATUS_200) {
             @Override
             public JresBooleanResponse makeResponse(Boolean value) {

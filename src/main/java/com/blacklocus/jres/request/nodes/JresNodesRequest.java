@@ -1,9 +1,9 @@
 package com.blacklocus.jres.request.nodes;
 
 import com.blacklocus.jres.handler.AbstractJsonNodeJresResponseHandler;
+import com.blacklocus.jres.handler.JresResponseHandler;
 import com.blacklocus.jres.request.JresRequest;
 import com.blacklocus.jres.response.JresJsonNodeResponse;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.codehaus.jackson.JsonNode;
 
@@ -30,7 +30,7 @@ public class JresNodesRequest implements JresRequest<JsonNode, JresJsonNodeRespo
     }
 
     @Override
-    public ResponseHandler<JresJsonNodeResponse> getResponseHandler() {
+    public JresResponseHandler<JsonNode, JresJsonNodeResponse> getResponseHandler() {
         return new AbstractJsonNodeJresResponseHandler<JresJsonNodeResponse>() {
             @Override
             public JresJsonNodeResponse makeResponse(JsonNode value) {
