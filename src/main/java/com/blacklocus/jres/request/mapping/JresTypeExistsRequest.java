@@ -1,23 +1,24 @@
-package com.blacklocus.jres.request.index;
+package com.blacklocus.jres.request.mapping;
 
 import com.blacklocus.jres.handler.AbstractPredicateResponseHandler;
 import com.blacklocus.jres.handler.JresPredicates;
 import com.blacklocus.jres.request.JresRequest;
 import com.blacklocus.jres.response.JresBooleanResponse;
+import com.blacklocus.jres.strings.JresPaths;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpHead;
 
 /**
- * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-exists.html#indices-exists">Index Exists API</a>
- *
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresIndexExistsRequest implements JresRequest<Boolean, JresBooleanResponse> {
+public class JresTypeExistsRequest implements JresRequest<Boolean, JresBooleanResponse> {
 
     private final String index;
+    private final String type;
 
-    public JresIndexExistsRequest(String index) {
+    public JresTypeExistsRequest(String index, String type) {
         this.index = index;
+        this.type = type;
     }
 
     @Override
@@ -27,7 +28,7 @@ public class JresIndexExistsRequest implements JresRequest<Boolean, JresBooleanR
 
     @Override
     public String getPath() {
-        return index;
+        return JresPaths.slashed(index) + type;
     }
 
     @Override

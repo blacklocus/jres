@@ -39,7 +39,7 @@ public class Jres {
 
         String url = JresPaths.slashed(hosts.get()) + request.getPath();
         try {
-            HttpUriRequest httpRequest = HttpMethods.createRequest(request.getHttpMethod(), url);
+            HttpUriRequest httpRequest = HttpMethods.createRequest(request.getHttpMethod(), url, request.getPayload());
             // We like the one that takes a ResponseHandler because supposedly that should prevent http resource
             // leaks whether botched local code or unexpected exceptions.
             return http.execute(httpRequest, request.getResponseHandler());

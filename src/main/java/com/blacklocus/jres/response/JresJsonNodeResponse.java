@@ -1,6 +1,5 @@
 package com.blacklocus.jres.response;
 
-import com.blacklocus.jres.request.JresRequest;
 import com.blacklocus.jres.strings.ObjectMappers;
 import org.codehaus.jackson.JsonNode;
 
@@ -11,8 +10,15 @@ import java.io.IOException;
  */
 public class JresJsonNodeResponse extends AbstractJresResponse<JsonNode> {
 
-    public JresJsonNodeResponse(JresRequest<JsonNode, ?> request, JsonNode jsonNode) {
+    public JresJsonNodeResponse(JsonNode jsonNode) {
         super(jsonNode);
+    }
+
+    /**
+     * alias to {@link #basis()}, sometimes more descriptive in code
+     */
+    public JsonNode asNode() {
+        return basis();
     }
 
     @Override

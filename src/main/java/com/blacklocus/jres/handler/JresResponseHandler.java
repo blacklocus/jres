@@ -1,4 +1,4 @@
-package com.blacklocus.jres.request;
+package com.blacklocus.jres.handler;
 
 import org.apache.http.client.ResponseHandler;
 

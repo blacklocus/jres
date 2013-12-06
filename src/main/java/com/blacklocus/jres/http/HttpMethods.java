@@ -1,6 +1,8 @@
 package com.blacklocus.jres.http;
 
+import com.blacklocus.jres.strings.ObjectMappers;
 import com.google.common.collect.ImmutableMap;
+import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
@@ -12,7 +14,9 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpTrace;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -66,11 +70,21 @@ public class HttpMethods {
     /**
      * @param method http method, case-insensitive
      * @param url destination of request
+     * @param payload (optional) request body, serialized to JSON (so, a String) if it is not already
      * @return HttpUriRequest with header <code>Accept: application/json; charset=UTF-8</code>
      */
-    public static HttpUriRequest createRequest(String method, String url) {
+    public static HttpUriRequest createRequest(String method, String url, Object payload) {
         HttpUriRequest httpUriRequest = METHODS.get(method.toUpperCase()).newMethod(url);
         httpUriRequest.addHeader("Accept", ContentType.APPLICATION_JSON.toString());
+        if (payload != null) {
+            String entity;
+            try {
+                entity = (payload instanceof String) ? (String) payload : ObjectMappers.NORMAL.writeValueAsString(payload);
+                ((HttpEntityEnclosingRequest) httpUriRequest).setEntity(new StringEntity(entity, ContentType.APPLICATION_JSON));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return httpUriRequest;
     }
 

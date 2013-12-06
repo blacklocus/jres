@@ -1,6 +1,6 @@
 package com.blacklocus.jres.request.nodes;
 
-import com.blacklocus.jres.request.AbstractJsonNodeJresResponseHandler;
+import com.blacklocus.jres.handler.AbstractJsonNodeJresResponseHandler;
 import com.blacklocus.jres.request.JresRequest;
 import com.blacklocus.jres.response.nodes.JresNodesResponse;
 import org.apache.http.client.ResponseHandler;
@@ -25,11 +25,16 @@ public class JresNodesRequest implements JresRequest<JsonNode, JresNodesResponse
     }
 
     @Override
+    public Object getPayload() {
+        return null;
+    }
+
+    @Override
     public ResponseHandler<JresNodesResponse> getResponseHandler() {
         return new AbstractJsonNodeJresResponseHandler<JresNodesResponse>() {
             @Override
             public JresNodesResponse makeResponse(JsonNode node) {
-                return new JresNodesResponse(JresNodesRequest.this, node);
+                return new JresNodesResponse(node);
             }
         };
     }

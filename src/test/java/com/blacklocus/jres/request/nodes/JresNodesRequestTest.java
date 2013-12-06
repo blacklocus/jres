@@ -10,7 +10,7 @@ import org.junit.Test;
 public class JresNodesRequestTest extends JresTest {
 
     @Test
-    public void test() {
+    public void testHappy() {
         jres.request(new JresNodesRequest());
     }
 }

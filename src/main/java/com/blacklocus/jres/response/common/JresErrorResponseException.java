@@ -1,12 +1,16 @@
 package com.blacklocus.jres.response.common;
 
 import com.blacklocus.jres.request.index.JresCreateIndexRequest;
+import com.blacklocus.jres.request.index.JresGetIndexSettingsRequest;
+import com.blacklocus.jres.request.mapping.JresPutMappingRequest;
 import com.blacklocus.jres.response.JresResponse;
 import org.codehaus.jackson.JsonNode;
 
 /**
  * Possible response for <ul>
  * <li>{@link JresCreateIndexRequest}</li>
+ * <li>{@link JresGetIndexSettingsRequest}</li>
+ * <li>{@link JresPutMappingRequest}</li>
  * </ul>
  *
  * @author Jason Dunkelberger (dirkraft)

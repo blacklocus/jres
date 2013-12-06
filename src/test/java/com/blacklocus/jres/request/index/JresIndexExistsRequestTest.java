@@ -1,7 +1,7 @@
 package com.blacklocus.jres.request.index;
 
 import com.blacklocus.jres.JresTest;
-import com.blacklocus.jres.response.index.JresIndexExistsResponse;
+import com.blacklocus.jres.response.JresBooleanResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,10 +11,15 @@ import org.junit.Test;
 public class JresIndexExistsRequestTest extends JresTest {
 
     @Test
-    public void test() {
-        JresIndexExistsResponse res = jres.request(new JresIndexExistsRequest("JresIndexExistsRequestTest"));
-        Assert.assertFalse(res.indexExists());
+    public void testHappy() {
+        String index = "JresIndexExistsRequestTest".toLowerCase();
 
+        JresBooleanResponse res = jres.request(new JresIndexExistsRequest(index));
+        Assert.assertFalse(res.verity());
+
+        jres.request(new JresCreateIndexRequest(index));
+        res = jres.request(new JresIndexExistsRequest(index));
+        Assert.assertTrue(res.verity());
 
     }
 }

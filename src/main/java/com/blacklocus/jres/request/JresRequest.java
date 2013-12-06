@@ -23,6 +23,12 @@ public interface JresRequest<BASIS, RESPONSE extends JresResponse<BASIS>> {
     String getPath();
 
     /**
+     * @return request body if the request should have one. The object will automatically be serialized to JSON if it
+     * is not already (a String). May be <code>null</code>.
+     */
+    Object getPayload();
+
+    /**
      * @return response handler which will parse the returned JsonNode, or <code>null</code> to disregard any response
      * content
      */

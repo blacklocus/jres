@@ -1,32 +1,31 @@
-package com.blacklocus.jres.request.index;
+package com.blacklocus.jres.request.mapping;
 
 import com.blacklocus.jres.handler.AbstractJsonNodeJresResponseHandler;
 import com.blacklocus.jres.request.JresRequest;
 import com.blacklocus.jres.response.common.JresAcknowledgedResponse;
 import com.blacklocus.jres.response.common.JresErrorResponseException;
+import com.blacklocus.jres.strings.JresPaths;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPut;
 import org.codehaus.jackson.JsonNode;
 
 /**
- * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-create-index.html#indices-create-index">Create Index API</a>
+ * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-put-mapping.html#indices-put-mapping">Put Mapping API</a>
  * <p>
  * Can throw {@link JresErrorResponseException}.
  *
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresCreateIndexRequest implements JresRequest<JsonNode, JresAcknowledgedResponse> {
+public class JresPutMappingRequest implements JresRequest<JsonNode, JresAcknowledgedResponse> {
 
     private final String index;
-    private final Object settings;
+    private final String type;
+    private final String mappingJson;
 
-    public JresCreateIndexRequest(String index) {
-        this(index, null);
-    }
-
-    public JresCreateIndexRequest(String index, String settingsJson) {
+    public JresPutMappingRequest(String index, String type, String mappingJson) {
         this.index = index;
-        this.settings = settingsJson;
+        this.type = type;
+        this.mappingJson = mappingJson;
     }
 
     @Override
@@ -36,12 +35,12 @@ public class JresCreateIndexRequest implements JresRequest<JsonNode, JresAcknowl
 
     @Override
     public String getPath() {
-        return index;
+        return JresPaths.slashed(index) + JresPaths.slashed(type) + "_mapping";
     }
 
     @Override
     public Object getPayload() {
-        return settings;
+        return mappingJson;
     }
 
     @Override

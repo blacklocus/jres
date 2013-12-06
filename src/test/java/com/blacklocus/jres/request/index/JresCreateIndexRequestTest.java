@@ -1,9 +1,8 @@
 package com.blacklocus.jres.request.index;
 
 import com.blacklocus.jres.JresTest;
-import com.blacklocus.jres.response.common.JresAcknowledgedResponse;
+import com.blacklocus.jres.response.JresBooleanResponse;
 import com.blacklocus.jres.response.common.JresErrorResponseException;
-import com.blacklocus.jres.response.index.JresIndexExistsResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,12 +12,12 @@ import org.junit.Test;
 public class JresCreateIndexRequestTest extends JresTest {
 
     @Test
-    public void testError() {
+    public void testSad() {
         // index names must be lowercase
         String indexName = "JresCreateIndexRequestTest";
 
-        JresIndexExistsResponse indexExistsResponse = jres.request(new JresIndexExistsRequest(indexName));
-        Assert.assertFalse(indexExistsResponse.indexExists());
+        JresBooleanResponse indexExistsResponse = jres.request(new JresIndexExistsRequest(indexName));
+        Assert.assertFalse(indexExistsResponse.verity());
 
         try {
             jres.request(new JresCreateIndexRequest(indexName));
@@ -29,16 +28,14 @@ public class JresCreateIndexRequestTest extends JresTest {
     }
 
     @Test
-    public void testSuccess() {
+    public void testHappy() {
         String indexName = "JresCreateIndexRequestTest".toLowerCase();
 
-        JresIndexExistsResponse indexExistsResponse = jres.request(new JresIndexExistsRequest(indexName));
-        Assert.assertFalse(indexExistsResponse.indexExists());
+        JresBooleanResponse indexExistsResponse = jres.request(new JresIndexExistsRequest(indexName));
+        Assert.assertFalse(indexExistsResponse.verity());
 
-        JresAcknowledgedResponse createIndexResponse = jres.request(new JresCreateIndexRequest(indexName));
-        Assert.assertTrue(createIndexResponse.isOk() && createIndexResponse.isAcknowledged());
-
+        jres.request(new JresCreateIndexRequest(indexName));
         indexExistsResponse = jres.request(new JresIndexExistsRequest(indexName));
-        Assert.assertTrue(indexExistsResponse.indexExists());
+        Assert.assertTrue(indexExistsResponse.verity());
     }
 }
