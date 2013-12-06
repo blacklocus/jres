@@ -18,16 +18,11 @@ public class JresGetIndexSettingsRequestTest extends JresTest {
         jres.request(new JresGetIndexSettingsRequest(indexName));
     }
 
-    @Test
+    @Test(expected = JresErrorResponseException.class)
     public void testSad() {
         String indexName = "JresGetIndexSettingsRequestTest_testSad".toLowerCase();
 
-        try {
-            jres.request(new JresGetIndexSettingsRequest(indexName));
-            Assert.fail();
-        } catch (JresErrorResponseException e) {
-            // good
-        }
+        jres.request(new JresGetIndexSettingsRequest(indexName));
     }
 
 }

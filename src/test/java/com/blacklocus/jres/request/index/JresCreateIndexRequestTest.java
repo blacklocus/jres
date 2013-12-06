@@ -11,25 +11,20 @@ import org.junit.Test;
  */
 public class JresCreateIndexRequestTest extends JresTest {
 
-    @Test
-    public void testSad() {
+    @Test(expected = JresErrorResponseException.class)
+    public void sad() {
         // index names must be lowercase
-        String indexName = "JresCreateIndexRequestTest";
+        String indexName = "JresCreateIndexRequestTest_sad";
 
         JresBooleanResponse indexExistsResponse = jres.request(new JresIndexExistsRequest(indexName));
         Assert.assertFalse(indexExistsResponse.verity());
 
-        try {
-            jres.request(new JresCreateIndexRequest(indexName));
-            Assert.fail();
-        } catch (JresErrorResponseException e) {
-            // good
-        }
+        jres.request(new JresCreateIndexRequest(indexName));
     }
 
     @Test
-    public void testHappy() {
-        String indexName = "JresCreateIndexRequestTest".toLowerCase();
+    public void happy() {
+        String indexName = "JresCreateIndexRequestTest_happy".toLowerCase();
 
         JresBooleanResponse indexExistsResponse = jres.request(new JresIndexExistsRequest(indexName));
         Assert.assertFalse(indexExistsResponse.verity());

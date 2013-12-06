@@ -1,5 +1,7 @@
 package com.blacklocus.jres.response.common;
 
+import com.blacklocus.jres.request.alias.JresAddAliasRequest;
+import com.blacklocus.jres.request.alias.JresDeleteAliasRequest;
 import com.blacklocus.jres.request.index.JresCreateIndexRequest;
 import com.blacklocus.jres.request.index.JresGetIndexSettingsRequest;
 import com.blacklocus.jres.request.mapping.JresGetMappingRequest;
@@ -13,6 +15,8 @@ import org.codehaus.jackson.JsonNode;
  * <li>{@link JresGetIndexSettingsRequest}</li>
  * <li>{@link JresPutMappingRequest}</li>
  * <li>{@link JresGetMappingRequest}</li>
+ * <li>{@link JresAddAliasRequest}</li>
+ * <li>{@link JresDeleteAliasRequest}</li>
  * </ul>
  *
  * @author Jason Dunkelberger (dirkraft)

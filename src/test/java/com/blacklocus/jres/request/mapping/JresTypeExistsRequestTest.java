@@ -17,7 +17,7 @@ public class JresTypeExistsRequestTest extends JresTest {
         String type = "test";
 
         jres.request(new JresCreateIndexRequest(index));
-        jres.request(new JresPutMappingRequest(index, type, "{\"test\":{}}"));
+        jres.request(new JresPutMappingRequest(index, type));
 
         JresBooleanResponse response = jres.request(new JresTypeExistsRequest(index, type));
         Assert.assertTrue(response.verity());
