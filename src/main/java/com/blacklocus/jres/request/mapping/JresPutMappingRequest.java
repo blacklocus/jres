@@ -22,6 +22,10 @@ public class JresPutMappingRequest implements JresRequest<JsonNode, JresAcknowle
     private final String type;
     private final String mappingJson;
 
+    public JresPutMappingRequest(String index, String type) {
+        this(index, type, String.format("{\"%s\":{}}", type));
+    }
+
     public JresPutMappingRequest(String index, String type, String mappingJson) {
         this.index = index;
         this.type = type;

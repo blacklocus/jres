@@ -6,6 +6,8 @@ import org.codehaus.jackson.JsonNode;
 import java.io.IOException;
 
 /**
+ * Apathetic response type for any JSON response, providing no semantic methods.
+ *
  * @author Jason Dunkelberger (dirkraft)
  */
 public class JresJsonNodeResponse extends AbstractJresResponse<JsonNode> {
