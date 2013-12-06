@@ -19,6 +19,9 @@ public class Jres {
     private final Supplier<String> hosts;
     private final HttpClient http;
 
+    /**
+     * @param hostOrHosts externalized host name provider to support arbitrary request load allocation
+     */
     public Jres(Supplier<String> hostOrHosts) {
         this.hosts = hostOrHosts;
         this.http = HttpClientFactory.create(30 * 1000, 300 * 1000); // 30 sec & 5 min
