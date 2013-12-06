@@ -8,7 +8,7 @@ import com.blacklocus.jres.request.JresRequest;
 public class JresBooleanResponse extends AbstractJresResponse<Boolean> {
 
     public JresBooleanResponse(JresRequest<Boolean, ?> request, Boolean aBoolean) {
-        super(request, aBoolean);
+        super(aBoolean);
     }
 
 }

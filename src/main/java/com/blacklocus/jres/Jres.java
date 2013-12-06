@@ -21,7 +21,7 @@ public class Jres {
 
     public Jres(Supplier<String> hostOrHosts) {
         this.hosts = hostOrHosts;
-        this.http = HttpClientFactory.create(30, 300);
+        this.http = HttpClientFactory.create(30 * 1000, 300 * 1000); // 30 sec & 5 min
     }
 
     /**

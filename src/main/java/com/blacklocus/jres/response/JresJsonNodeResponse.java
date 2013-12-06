@@ -12,7 +12,7 @@ import java.io.IOException;
 public class JresJsonNodeResponse extends AbstractJresResponse<JsonNode> {
 
     public JresJsonNodeResponse(JresRequest<JsonNode, ?> request, JsonNode jsonNode) {
-        super(request, jsonNode);
+        super(jsonNode);
     }
 
     @Override
