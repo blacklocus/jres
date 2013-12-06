@@ -4,7 +4,7 @@ import com.blacklocus.jres.http.HttpClientFactory;
 import com.blacklocus.jres.http.HttpMethods;
 import com.blacklocus.jres.request.JresRequest;
 import com.blacklocus.jres.response.JresResponse;
-import com.blacklocus.jres.str.JresPaths;
+import com.blacklocus.jres.strings.JresPaths;
 import com.google.common.base.Supplier;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;

@@ -1,4 +1,4 @@
-package com.blacklocus.jres.str;
+package com.blacklocus.jres.strings;
 
 /**
  * @author Jason Dunkelberger (dirkraft)

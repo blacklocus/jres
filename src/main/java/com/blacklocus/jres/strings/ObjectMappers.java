@@ -1,4 +1,4 @@
-package com.blacklocus.jres.str;
+package com.blacklocus.jres.strings;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
