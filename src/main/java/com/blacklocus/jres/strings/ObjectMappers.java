@@ -16,6 +16,7 @@ public class ObjectMappers {
     }
 
     static ObjectMapper newConfiguredObjectMapper() {
-        return new ObjectMapper();
+        return new ObjectMapper()
+                .configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
     }
 }

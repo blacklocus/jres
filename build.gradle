@@ -12,6 +12,7 @@ dependencies {
     compile 'org.codehaus.jackson:jackson-core-asl:1.9.13'
     compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
 
+    compile 'commons-io:commons-io:2.4'
     compile 'com.google.guava:guava:15.0'
 
     compile 'org.slf4j:slf4j-api:1.7.5'
@@ -19,6 +20,5 @@ dependencies {
     testCompile 'junit:junit:4.11'
     testCompile 'org.elasticsearch:elasticsearch:0.90.7'
     testCompile 'org.slf4j:slf4j-simple:1.7.5'
-    testCompile 'commons-io:commons-io:2.4'
 
 }

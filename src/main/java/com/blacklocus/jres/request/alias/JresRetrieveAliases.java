@@ -1,22 +1,19 @@
 package com.blacklocus.jres.request.alias;
 
-import com.blacklocus.jres.handler.AbstractJsonNodeJresResponseHandler;
-import com.blacklocus.jres.handler.JresResponseHandler;
-import com.blacklocus.jres.request.JresRequest;
-import com.blacklocus.jres.response.alias.JresRetrieveAliasesResponse;
-import com.blacklocus.jres.response.common.JresErrorResponseException;
+import com.blacklocus.jres.request.JresJsonRequest;
+import com.blacklocus.jres.response.alias.JresRetrieveAliasesReply;
+import com.blacklocus.jres.response.common.JresErrorReplyException;
 import com.blacklocus.jres.strings.JresPaths;
 import org.apache.http.client.methods.HttpGet;
-import org.codehaus.jackson.JsonNode;
 
 /**
  * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-aliases.html#alias-adding">Add Single Index Alias API</a>
  * <p>
- * Can throw {@link JresErrorResponseException}.
+ * Can throw {@link JresErrorReplyException}.
  *
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresRetrieveAliasesRequest implements JresRequest<JsonNode, JresRetrieveAliasesResponse> {
+public class JresRetrieveAliases extends JresJsonRequest<JresRetrieveAliasesReply> {
 
     private final String indexPattern;
     private final String aliasPattern;
@@ -27,7 +24,8 @@ public class JresRetrieveAliasesRequest implements JresRequest<JsonNode, JresRet
      * @param aliasPattern which appears to accept any number of '*' wildcards interspersed with characters and multiple
      *                     expressions separated by ','
      */
-    public JresRetrieveAliasesRequest(String indexPattern, String aliasPattern) {
+    public JresRetrieveAliases(String indexPattern, String aliasPattern) {
+        super(JresRetrieveAliasesReply.class);
         this.indexPattern = indexPattern;
         this.aliasPattern = aliasPattern;
     }
@@ -45,16 +43,6 @@ public class JresRetrieveAliasesRequest implements JresRequest<JsonNode, JresRet
     @Override
     public Object getPayload() {
         return null;
-    }
-
-    @Override
-    public JresResponseHandler<JsonNode, JresRetrieveAliasesResponse> getResponseHandler() {
-        return new AbstractJsonNodeJresResponseHandler<JresRetrieveAliasesResponse>() {
-            @Override
-            public JresRetrieveAliasesResponse makeResponse(JsonNode value) {
-                return new JresRetrieveAliasesResponse(value);
-            }
-        };
     }
 
 }

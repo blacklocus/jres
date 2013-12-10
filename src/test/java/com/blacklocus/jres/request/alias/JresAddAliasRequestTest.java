@@ -1,9 +1,9 @@
 package com.blacklocus.jres.request.alias;
 
 import com.blacklocus.jres.JresTest;
-import com.blacklocus.jres.request.index.JresCreateIndexRequest;
-import com.blacklocus.jres.response.alias.JresRetrieveAliasesResponse;
-import com.blacklocus.jres.response.common.JresErrorResponseException;
+import com.blacklocus.jres.request.index.JresCreateIndex;
+import com.blacklocus.jres.response.alias.JresRetrieveAliasesReply;
+import com.blacklocus.jres.response.common.JresErrorReplyException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,20 +19,20 @@ public class JresAddAliasRequestTest extends JresTest {
         String index = "JresAddAliasRequestTest_happy".toLowerCase();
         String alias = index + "_alias";
 
-        jres.request(new JresCreateIndexRequest(index));
+        jres.quest(new JresCreateIndex(index));
 
-        jres.request(new JresAddAliasRequest(index, alias));
-        JresRetrieveAliasesResponse retrieveAliasesResponse = jres.request(new JresRetrieveAliasesRequest(index, alias));
+        jres.quest(new JresAddAlias(index, alias));
+        JresRetrieveAliasesReply retrieveAliasesResponse = jres.quest(new JresRetrieveAliases(index, alias));
         Assert.assertEquals(Arrays.asList(alias), retrieveAliasesResponse.getAliases(index));
     }
 
-    @Test(expected = JresErrorResponseException.class)
+    @Test(expected = JresErrorReplyException.class)
     public void sad() {
         String index = "JresAddAliasRequestTest_sad".toLowerCase();
         String alias = index + "_alias";
 
         // index doesn't even exist
-        jres.request(new JresAddAliasRequest(index, alias));
+        jres.quest(new JresAddAlias(index, alias));
     }
 
 }

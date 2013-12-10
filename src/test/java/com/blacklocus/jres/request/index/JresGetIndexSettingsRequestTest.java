@@ -1,7 +1,7 @@
 package com.blacklocus.jres.request.index;
 
 import com.blacklocus.jres.JresTest;
-import com.blacklocus.jres.response.common.JresErrorResponseException;
+import com.blacklocus.jres.response.common.JresErrorReplyException;
 import org.junit.Test;
 
 /**
@@ -13,15 +13,15 @@ public class JresGetIndexSettingsRequestTest extends JresTest {
     public void testHappy() {
         String indexName = "JresGetIndexSettingsRequestTest_testHappy".toLowerCase();
 
-        jres.request(new JresCreateIndexRequest(indexName));
-        jres.request(new JresGetIndexSettingsRequest(indexName));
+        jres.quest(new JresCreateIndex(indexName));
+        jres.quest(new JresGetIndexSettings(indexName));
     }
 
-    @Test(expected = JresErrorResponseException.class)
+    @Test(expected = JresErrorReplyException.class)
     public void testSad() {
         String indexName = "JresGetIndexSettingsRequestTest_testSad".toLowerCase();
 
-        jres.request(new JresGetIndexSettingsRequest(indexName));
+        jres.quest(new JresGetIndexSettings(indexName));
     }
 
 }

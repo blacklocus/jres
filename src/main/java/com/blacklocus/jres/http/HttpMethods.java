@@ -2,6 +2,8 @@ package com.blacklocus.jres.http;
 
 import com.blacklocus.jres.strings.ObjectMappers;
 import com.google.common.collect.ImmutableMap;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -14,10 +16,17 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpTrace;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
@@ -67,20 +76,52 @@ public class HttpMethods {
                 }
             }).build();
 
+    private static final ExecutorService PIPER = Executors.newCachedThreadPool();
+
     /**
      * @param method http method, case-insensitive
      * @param url destination of request
-     * @param payload (optional) request body, serialized to JSON (so, a String) if it is not already
+     * @param payload (optional) request body. An InputStream or String will be sent as is, while any other type will
+     *                be serialized with {@link ObjectMappers#NORMAL} to JSON.
      * @return HttpUriRequest with header <code>Accept: application/json; charset=UTF-8</code>
      */
-    public static HttpUriRequest createRequest(String method, String url, Object payload) {
+    public static HttpUriRequest createRequest(String method, String url, final Object payload) {
+
         HttpUriRequest httpUriRequest = METHODS.get(method.toUpperCase()).newMethod(url);
         httpUriRequest.addHeader("Accept", ContentType.APPLICATION_JSON.toString());
+
         if (payload != null) {
-            String entity;
             try {
-                entity = (payload instanceof String) ? (String) payload : ObjectMappers.NORMAL.writeValueAsString(payload);
-                ((HttpEntityEnclosingRequest) httpUriRequest).setEntity(new StringEntity(entity, ContentType.APPLICATION_JSON));
+
+                final HttpEntity entity;
+                if (payload instanceof InputStream) {
+                    entity = new InputStreamEntity((InputStream) payload, ContentType.APPLICATION_JSON);
+
+                } else if (payload instanceof String) {
+                    entity = new StringEntity((String) payload, ContentType.APPLICATION_JSON);
+
+                } else {
+                    final PipedOutputStream pipedOutputStream = new PipedOutputStream();
+                    final PipedInputStream pipedInputStream = new PipedInputStream(pipedOutputStream);
+                    PIPER.submit(new Callable<Void>() {
+                        @Override
+                        public Void call() throws Exception {
+                            try {
+                                ObjectMappers.NORMAL.writeValue(pipedOutputStream, payload);
+                            } finally {
+                                pipedOutputStream.flush();
+                                IOUtils.closeQuietly(pipedOutputStream);
+                                IOUtils.closeQuietly(pipedInputStream);
+                            }
+                            return null;
+                        }
+                    });
+                    entity = new InputStreamEntity(pipedInputStream, ContentType.APPLICATION_JSON);
+                }
+
+                // This cast will except if a body is given for non-HttpEntityEnclosingRequest types. Deal with it later.
+                ((HttpEntityEnclosingRequest) httpUriRequest).setEntity(entity);
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

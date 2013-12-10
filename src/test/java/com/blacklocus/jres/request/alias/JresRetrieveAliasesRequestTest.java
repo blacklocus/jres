@@ -1,9 +1,9 @@
 package com.blacklocus.jres.request.alias;
 
 import com.blacklocus.jres.JresTest;
-import com.blacklocus.jres.request.index.JresCreateIndexRequest;
-import com.blacklocus.jres.response.alias.JresRetrieveAliasesResponse;
-import com.blacklocus.jres.response.common.JresErrorResponseException;
+import com.blacklocus.jres.request.index.JresCreateIndex;
+import com.blacklocus.jres.response.alias.JresRetrieveAliasesReply;
+import com.blacklocus.jres.response.common.JresErrorReplyException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,13 +14,13 @@ import java.util.Arrays;
  */
 public class JresRetrieveAliasesRequestTest extends JresTest {
 
-    @Test(expected = JresErrorResponseException.class)
+    @Test(expected = JresErrorReplyException.class)
     public void sad() {
         String index = "JresRetrieveAliasesRequestTest".toLowerCase();
         String alias = index + "_alias";
 
         // no matches returns 404 response
-        jres.request(new JresRetrieveAliasesRequest(index, alias));
+        jres.quest(new JresRetrieveAliases(index, alias));
     }
 
     @Test
@@ -28,10 +28,10 @@ public class JresRetrieveAliasesRequestTest extends JresTest {
         String index = "JresRetrieveAliasesRequestTest_happy".toLowerCase();
         String alias = index + "_alias";
 
-        jres.request(new JresCreateIndexRequest(index));
-        jres.request(new JresAddAliasRequest(index, alias));
+        jres.quest(new JresCreateIndex(index));
+        jres.quest(new JresAddAlias(index, alias));
 
-        JresRetrieveAliasesResponse response = jres.request(new JresRetrieveAliasesRequest(index, "*"));
+        JresRetrieveAliasesReply response = jres.quest(new JresRetrieveAliases(index, "*"));
         Assert.assertEquals(Arrays.asList(index), response.getIndexes());
         Assert.assertEquals(Arrays.asList(alias), response.getAliases(index));
     }

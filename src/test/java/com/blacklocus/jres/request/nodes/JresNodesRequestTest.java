@@ -10,6 +10,6 @@ public class JresNodesRequestTest extends JresTest {
 
     @Test
     public void test() {
-        jres.request(new JresNodesRequest());
+        jres.quest(new JresNodes());
     }
 }

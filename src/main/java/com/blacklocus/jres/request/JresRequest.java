@@ -1,15 +1,12 @@
 package com.blacklocus.jres.request;
 
-import com.blacklocus.jres.handler.JresResponseHandler;
-import com.blacklocus.jres.response.JresResponse;
+import com.blacklocus.jres.response.JresReply;
 
 /**
  * @param <RESPONSE> response type - the wrapper object built by Jres to encapsulte the full response
- * @param <BASIS>    response's basis type - think of it as the basic human interpretation of what is actually returned
- *                   by ElasticSearch
  * @author Jason Dunkelberger (dirkraft)
  */
-public interface JresRequest<BASIS, RESPONSE extends JresResponse<BASIS>> {
+public interface JresRequest<RESPONSE extends JresReply> {
 
     /**
      * @return one of the standard http request methods, case-insensitive: [get, post, put, del, options, trace, head, patch]
@@ -29,8 +26,8 @@ public interface JresRequest<BASIS, RESPONSE extends JresResponse<BASIS>> {
     Object getPayload();
 
     /**
-     * @return response handler which will parse the returned JsonNode, or <code>null</code> to disregard any response
-     * content
+     * @return response object encapsulation type
      */
-    JresResponseHandler<BASIS, RESPONSE> getResponseHandler();
+    Class<RESPONSE> getResponseClass();
+
 }

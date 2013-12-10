@@ -1,17 +1,26 @@
 package com.blacklocus.jres;
 
+import com.blacklocus.jres.handler.JresJsonResponseHandler;
+import com.blacklocus.jres.handler.JresPredicatedResponseHandler;
 import com.blacklocus.jres.http.HttpClientFactory;
 import com.blacklocus.jres.http.HttpMethods;
+import com.blacklocus.jres.request.JresBooleanRequest;
+import com.blacklocus.jres.request.JresJsonRequest;
 import com.blacklocus.jres.request.JresRequest;
-import com.blacklocus.jres.response.JresResponse;
-import com.blacklocus.jres.response.common.JresErrorResponseException;
+import com.blacklocus.jres.response.JresBooleanReply;
+import com.blacklocus.jres.response.JresJsonReply;
+import com.blacklocus.jres.response.JresReply;
+import com.blacklocus.jres.response.common.JresErrorReplyException;
 import com.blacklocus.jres.strings.JresPaths;
 import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+import com.google.common.collect.Iterators;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.codehaus.jackson.JsonNode;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
@@ -21,8 +30,20 @@ public class Jres {
     private final Supplier<String> hosts;
     private final HttpClient http;
 
+    public Jres(final List<String> hostOrHosts) {
+        this(new Supplier<String>() {
+            final Iterator<String> cycler = Iterators.cycle(hostOrHosts);
+
+            @Override
+            public String get() {
+                return cycler.next();
+            }
+        });
+    }
+
     /**
-     * @param hostOrHosts externalized host name provider to support arbitrary request load allocation
+     * @param hostOrHosts externalized host name provider to support arbitrary request load allocation. Use
+     *                    <code>{@link Suppliers#ofInstance(Object) Suppliers.ofInstance(host)}</code> for single entry.
      */
     public Jres(Supplier<String> hostOrHosts) {
         this.hosts = hostOrHosts;
@@ -30,20 +51,16 @@ public class Jres {
     }
 
     /**
-     * @param <Q> request - type of request object
-     * @param <R> response - type of response object produced as the returned value
-     * @param <B> basis - basic type of value encapsulated by the response. Think of it as a shallow interpretation
-     *            directly of the ElasticSearch response body.
-     * @return corresponding response object ({@link JresRequest}'s RESPONSE type)
+     * There are a few requests that return no JSON and are based entirely on status codes.
      */
-    public <B, R extends JresResponse<B>, Q extends JresRequest<B, R>> R request(Q request) {
+    public <REQUEST extends JresBooleanRequest> JresBooleanReply bool(REQUEST request) {
 
         String url = JresPaths.slashed(hosts.get()) + request.getPath();
         try {
             HttpUriRequest httpRequest = HttpMethods.createRequest(request.getHttpMethod(), url, request.getPayload());
             // We like the one that takes a ResponseHandler because supposedly that should prevent http resource
             // leaks whether botched local code or unexpected exceptions.
-            return http.execute(httpRequest, request.getResponseHandler());
+            return http.execute(httpRequest, new JresPredicatedResponseHandler(request.getPredicate()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -51,7 +68,26 @@ public class Jres {
     }
 
     /**
-     * Like {@link #request(JresRequest)} but wraps in a try-catch for {@link JresErrorResponseException} and returns
+     * @param <QUEST>  request - type of request object
+     * @param <REPLY> response - type of response object produced as the returned value
+     * @return corresponding response object ({@link JresRequest}'s RESPONSE type)
+     */
+    public <REPLY extends JresJsonReply, QUEST extends JresJsonRequest<REPLY>> REPLY quest(QUEST quest) {
+
+        String url = JresPaths.slashed(hosts.get()) + quest.getPath();
+        try {
+            HttpUriRequest httpRequest = HttpMethods.createRequest(quest.getHttpMethod(), url, quest.getPayload());
+            // We like the one that takes a ResponseHandler because supposedly that should prevent http resource
+            // leaks whether botched local code or unexpected exceptions.
+            return http.execute(httpRequest, new JresJsonResponseHandler<REPLY>(quest.getResponseClass()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    /**
+     * Like {@link #quest(JresJsonRequest)} but wraps in a try-catch for {@link JresErrorReplyException} and returns
      * it gracefully if the status code matches that given. This is sometimes preferable to inline try-catch blocks for
      * expected error responses, but otherwise functionally equivalent -- e.g. checking if an index exists will return
      * a 404 which is normally translated into a thrown JresErrorResponseException. If 404 was given as the
@@ -59,70 +95,70 @@ public class Jres {
      * <p/>
      * Currently assumes a JsonNode basis for now, to keep exposed signatures' generics simpler.
      *
-     * @param request         JresRequest with JsonNode basis
+     * @param quest         JresRequest with JsonNode basis
      * @param toleratedStatus which if encountered will return wrapped up in a Tolerance instead of being thrown
-     * @param <Q>             request - type of request object
-     * @param <R>             response - type of response object produced as the returned value
+     * @param <QUEST>       request - type of request object
+     * @param <REPLY>      response - type of response object produced as the returned value
      * @return a Tolerance which wraps up the possible ok response or error response. Check {@link Tolerance#isError()}.
      * @see Tolerance
      */
-    public <R extends JresResponse<JsonNode>, Q extends JresRequest<JsonNode, R>> Tolerance<R> tolerate(Q request, int toleratedStatus) {
+    public <REPLY extends JresJsonReply, QUEST extends JresJsonRequest<REPLY>> Tolerance<REPLY> tolerate(QUEST quest, int toleratedStatus) {
 
         try {
-            return new Tolerance<R>(false, request(request));
-        } catch (JresErrorResponseException e) {
+            return new Tolerance<REPLY>(false, quest(quest));
+        } catch (JresErrorReplyException e) {
             if (e.getStatus() != toleratedStatus) {
                 throw e;
             } else {
-                return new Tolerance<R>(true, e);
+                return new Tolerance<REPLY>(true, e);
             }
         }
 
     }
 
     /**
-     * @param <R> response - type of response object produced for a successful ElasticSearch response. Currently assumes
-     *            a JsonNode basis.
+     * @param <REPLY> response - type of response object produced for a successful ElasticSearch response. Currently assumes
+     *                   a JsonNode basis.
      */
-    public static class Tolerance<R extends JresResponse<JsonNode>> {
+    public static class Tolerance<REPLY extends JresReply> {
         // Assume JsonNode basis for now, keep exposed signatures' generics simpler.
 
         private final boolean error;
-        private final JresErrorResponseException exception;
-        private final R response;
+        private final JresErrorReplyException exception;
+        private final REPLY reply;
 
-        Tolerance(boolean error, R response) {
+        Tolerance(boolean error, REPLY reply) {
             this.error = error;
-            this.response = response;
+            this.reply = reply;
             this.exception = null;
         }
 
-        Tolerance(boolean error, JresErrorResponseException exception) {
+        Tolerance(boolean error, JresErrorReplyException exception) {
             this.error = error;
             this.exception = exception;
-            this.response = null;
+            this.reply = null;
         }
 
         /**
          * @return whether or not an error response was captured: <code>true</code> {@link #getError()} is not null,
-         * <code>false</code> {@link #getResponse()} is not null
+         * <code>false</code> {@link #getReply()} is not null
          */
         public boolean isError() {
             return error;
         }
 
         /**
-         * @return captured {@link JresErrorResponseException}, if the request resulted in an error response
+         * @return captured {@link JresErrorReplyException}, if the request resulted in an error response
          */
-        public JresErrorResponseException getError() {
+        public JresErrorReplyException getError() {
             return exception;
         }
 
         /**
-         * @return captured {@link JresResponse}, if the request was ok
+         * @return captured {@link JresReply}, if the request was ok
          */
-        public R getResponse() {
-            return response;
+        public REPLY getReply() {
+            return reply;
         }
 
     }
