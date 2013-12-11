@@ -23,6 +23,7 @@ import com.blacklocus.jres.model.bulk.Item;
 public class JresBulkItemResult {
 
     public static final String ACTION_CREATE = "create";
+    public static final String ACTION_INDEX = "index";
 
     private final String action;
     private final Item result;

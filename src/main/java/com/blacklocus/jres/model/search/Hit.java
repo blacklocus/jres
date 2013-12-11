@@ -63,6 +63,14 @@ public class Hit {
         return source;
     }
 
+    public <T> T getSourceAsType(Class<T> klass) {
+        try {
+            return ObjectMappers.NORMAL.readValue(source, klass);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public <T> T getSourceAsType(TypeReference<T> typeReference) {
         try {
             return ObjectMappers.NORMAL.readValue(source, typeReference);

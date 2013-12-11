@@ -59,6 +59,39 @@ public class JresBulkTest extends JresTest {
     }
 
     @Test
+    public void testWithId() {
+        String index = "JresBulkTest_withId".toLowerCase();
+        String type = "test";
+
+        JresBulkReply bulkResponse = jres.quest(new JresBulk(index, type, Arrays.<JresBulkable>asList(
+                new JresIndexDocument(index, type, "hi", new Document("hi")),
+                new JresIndexDocument(index, type, "bye", new Document("bye"))
+        )));
+        Assert.assertEquals(2, bulkResponse.getItems().size());
+        for (JresBulkItemResult bulkItemResult : bulkResponse.getResults()) {
+            Assert.assertEquals(JresBulkItemResult.ACTION_INDEX, bulkItemResult.getAction());
+        }
+
+        jres.quest(new JresRefresh(index));
+        JresSearchReply searchReply = jres.quest(new JresSearch(index, type));
+        Assert.assertEquals(new Integer(2), searchReply.getHits().getTotal());
+
+        bulkResponse = jres.quest(new JresBulk(index, type, Arrays.<JresBulkable>asList(
+                new JresIndexDocument(index, type, "hi", new Document("hi again")),
+                new JresIndexDocument(index, type, "bye", new Document("bye again"))
+        )));
+        Assert.assertEquals(2, bulkResponse.getItems().size());
+        for (JresBulkItemResult bulkItemResult : bulkResponse.getResults()) {
+            Assert.assertEquals(JresBulkItemResult.ACTION_INDEX, bulkItemResult.getAction());
+        }
+
+        jres.quest(new JresRefresh(index));
+        searchReply = jres.quest(new JresSearch(index, type));
+        Assert.assertEquals("should have only updated existing since IDs given",
+                new Integer(2), searchReply.getHits().getTotal());
+    }
+
+    @Test
     public void testError() {
         String index = "JresBulkRequestTest_error".toLowerCase();
         String type = "test";

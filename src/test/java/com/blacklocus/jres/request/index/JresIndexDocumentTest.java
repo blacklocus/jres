@@ -16,6 +16,8 @@
 package com.blacklocus.jres.request.index;
 
 import com.blacklocus.jres.JresTest;
+import com.blacklocus.jres.model.search.Hits;
+import com.blacklocus.jres.request.search.JresSearch;
 import com.blacklocus.jres.response.index.JresIndexDocumentReply;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,17 +28,46 @@ import org.junit.Test;
 public class JresIndexDocumentTest extends JresTest {
 
     @Test
-    public void test() {
-        String index = "JresIndexDocumentTest_test".toLowerCase();
+    public void testAutoId() {
+        String index = "JresIndexDocumentTest_autoId".toLowerCase();
         String type = "test";
 
         Document document = new Document();
         JresIndexDocumentReply reply = jres.quest(new JresIndexDocument(index, type, document));
 
         Assert.assertTrue(reply.getOk());
-        Assert.assertEquals(reply.getIndex(), index);
-        Assert.assertEquals(reply.getType(), type);
-        Assert.assertEquals(reply.getVersion(), "1");
+        Assert.assertEquals(index, reply.getIndex());
+        Assert.assertEquals(type, reply.getType());
+        Assert.assertEquals("1", reply.getVersion());
+    }
+
+    @Test
+    public void testWithId() {
+        String index = "JresIndexDocumentTest_withId".toLowerCase();
+        String type = "test";
+        String id = "test_id";
+
+        Document document = new Document();
+        JresIndexDocumentReply reply = jres.quest(new JresIndexDocument(index, type, id, document));
+
+        Assert.assertTrue(reply.getOk());
+        Assert.assertEquals(index, reply.getIndex());
+        Assert.assertEquals(type, reply.getType());
+        Assert.assertEquals(id, reply.getId());
+        Assert.assertEquals("1", reply.getVersion());
+
+        jres.quest(new JresRefresh(index));
+        Hits hits = jres.quest(new JresSearch(index, type)).getHits();
+        Assert.assertEquals(new Integer(1), hits.getTotal());
+        Assert.assertEquals(document.value, hits.getHits().get(0).getSourceAsType(Document.class).value);
+
+        document.value = "lol";
+        jres.quest(new JresIndexDocument(index, type, id, document));
+
+        jres.quest(new JresRefresh(index));
+        hits = jres.quest(new JresSearch(index, type)).getHits();
+        Assert.assertEquals("should update existing, rather than create new doc", new Integer(1), hits.getTotal());
+        Assert.assertEquals(document.value, hits.getHits().get(0).getSourceAsType(Document.class).value);
     }
 
     static class Document {

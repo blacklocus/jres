@@ -19,11 +19,10 @@ import com.blacklocus.jres.request.JresBulkable;
 import com.blacklocus.jres.request.JresJsonRequest;
 import com.blacklocus.jres.response.index.JresIndexDocumentReply;
 import com.blacklocus.jres.strings.JresPaths;
+import com.blacklocus.misc.NoNullsMap;
+import com.google.common.collect.ImmutableMap;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-index_.html#docs-index_">Index Document API</a>
@@ -38,10 +37,16 @@ public class JresIndexDocument extends JresJsonRequest<JresIndexDocumentReply> i
     private final String id;
     private final Object document;
 
+    /**
+     * Index a document with no specified id. ElasticSearch will generate one.
+     */
     public JresIndexDocument(String index, String type, Object document) {
         this(index, type, null, document);
     }
 
+    /**
+     * Index a document with a specified id. ElasticSearch will replace any existing document with this id.
+     */
     public JresIndexDocument(String index, String type, String id, Object document) {
         super(JresIndexDocumentReply.class);
         this.index = index;
@@ -62,16 +67,16 @@ public class JresIndexDocument extends JresJsonRequest<JresIndexDocumentReply> i
 
     @Override
     public Object getAction() {
-        return new IndexDocumentAction();
+        return ImmutableMap.of("index", NoNullsMap.of(
+                "_index", index,
+                "_type", type,
+                "_id", id
+        ));
     }
 
     @Override
     public Object getPayload() {
         return document;
-    }
-
-    static class IndexDocumentAction {
-        public Map<String, Object> index = new HashMap<String, Object>();
     }
 
 }
