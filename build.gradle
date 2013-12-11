@@ -1,6 +1,47 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Identifiers
+
+group = 'com.blacklocus'
+version = '1.0-SNAPSHOT'
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Plugins
+
 apply plugin: 'java'
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
 apply plugin: 'maven'
+apply plugin: 'signing'
 apply plugin: 'idea'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.5.0'
+    }
+}
+apply plugin: 'license'
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Defines
+
+/** Function always returns a new manifest that can be customized */
+def defaultManifest() {
+    return manifest {
+        def git_cmd = "git rev-parse HEAD"
+        def git_proc = git_cmd.execute()
+        attributes 'SCM-Revision': git_proc.text.trim()
+        attributes 'Timestamp': String.valueOf(System.currentTimeMillis())
+        attributes 'Build-Host': InetAddress.localHost.hostName
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Dependencies
 
 repositories {
     mavenCentral()
@@ -22,4 +63,93 @@ dependencies {
     testCompile 'org.elasticsearch:elasticsearch:0.90.7'
     testCompile 'org.slf4j:slf4j-simple:1.7.5'
 
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Artifacts
+
+jar {
+    manifest = defaultManifest()
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+    manifest = defaultManifest()
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Publishing
+
+def defaultBlank(closure) {
+    try {
+        closure()
+    } catch (MissingPropertyException e) {
+        ''
+    }
+}
+
+license {
+    header rootProject.file('src/license/HEADER')
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+        //# ./gradlew -PdeployUrl=http://server/artifactory/repo -PdeployUsername=admin -PdeployPassword=pass uploadArchives
+        repository(
+                url: defaultBlank({deployUrl})
+                // for snapshots
+//                url: "https://oss.sonatype.org/content/repositories/snapshots/"
+                // for staging/release
+//                url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+        ) {
+            // If these are not defined assemble needlessly fails for unrelated tasks.
+            authentication(userName: defaultBlank({deployUsername}), password: defaultBlank({deployPassword}))
+        }
+
+        pom.project {
+            description 'An HTTP client for ElasticSearch without any code dependency on the ElasticSearch library.'
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                url 'https://github.com/blacklocus/jres.git'
+                connection 'scm:git:https://github.com/blacklocus/jres.git'
+                developerConnection 'scm:git:git@github.com:blacklocus/jres.git'
+            }
+            organization {
+                url 'https://github.com/blacklocus'
+            }
+            developers {
+                developer {
+                    id 'dirkraft'
+                    name 'Jason Dunkelberger'
+                }
+            }
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Misc
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.9'
+}
+
+idea {
+    project {
+        languageLevel = '1.6'
+    }
 }
