@@ -1,5 +1,7 @@
 package com.blacklocus.jres.response.search;
 
+import com.blacklocus.jres.model.Shards;
+import com.blacklocus.jres.model.search.Hits;
 import com.blacklocus.jres.response.JresJsonReply;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -8,15 +10,29 @@ import org.codehaus.jackson.annotate.JsonProperty;
  */
 public class JresSearchReply extends JresJsonReply {
 
-    private int took;
-    @JsonProperty("timed_out")
-    private boolean timedOut;
+    private Integer took;
 
-    public int getTook() {
+    @JsonProperty("timed_out")
+    private Boolean timedOut;
+
+    @JsonProperty("_shards")
+    private Shards shards;
+
+    private Hits hits;
+
+    public Integer getTook() {
         return took;
     }
 
-    public boolean isTimedOut() {
+    public Boolean isTimedOut() {
         return timedOut;
+    }
+
+    public Shards getShards() {
+        return shards;
+    }
+
+    public Hits getHits() {
+        return hits;
     }
 }

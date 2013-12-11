@@ -1,6 +1,7 @@
 package com.blacklocus.jres.http;
 
 import com.blacklocus.jres.strings.ObjectMappers;
+import com.blacklocus.misc.ExceptingRunnable;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -24,7 +25,6 @@ import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -103,17 +103,15 @@ public class HttpMethods {
                 } else {
                     final PipedOutputStream pipedOutputStream = new PipedOutputStream();
                     final PipedInputStream pipedInputStream = new PipedInputStream(pipedOutputStream);
-                    PIPER.submit(new Callable<Void>() {
+                    PIPER.submit(new ExceptingRunnable() {
                         @Override
-                        public Void call() throws Exception {
+                        protected void go() throws Exception {
                             try {
                                 ObjectMappers.NORMAL.writeValue(pipedOutputStream, payload);
-                            } finally {
                                 pipedOutputStream.flush();
+                            } finally {
                                 IOUtils.closeQuietly(pipedOutputStream);
-                                IOUtils.closeQuietly(pipedInputStream);
                             }
-                            return null;
                         }
                     });
                     entity = new InputStreamEntity(pipedInputStream, ContentType.APPLICATION_JSON);

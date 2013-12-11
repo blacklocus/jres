@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresNodesRequestTest extends JresTest {
+public class JresNodesTest extends JresTest {
 
     @Test
     public void test() {

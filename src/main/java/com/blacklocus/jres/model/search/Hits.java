@@ -7,14 +7,16 @@ import java.util.List;
 /**
 * @author Jason Dunkelberger (dirkraft)
 */
-public class Hits<H extends Hit<H>> {
+public class Hits {
 
-    private int total;
+    private Integer total;
+
     @JsonProperty("max_score")
     private Double maxScore;
-    private List<H> hits;
 
-    public int getTotal() {
+    private List<Hit> hits;
+
+    public Integer getTotal() {
         return total;
     }
 
@@ -22,7 +24,7 @@ public class Hits<H extends Hit<H>> {
         return maxScore;
     }
 
-    public List<H> getHits() {
+    public List<Hit> getHits() {
         return hits;
     }
 }

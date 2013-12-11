@@ -7,7 +7,7 @@ import org.junit.Test;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresGetIndexSettingsRequestTest extends JresTest {
+public class JresGetIndexSettingsTest extends JresTest {
 
     @Test
     public void testHappy() {

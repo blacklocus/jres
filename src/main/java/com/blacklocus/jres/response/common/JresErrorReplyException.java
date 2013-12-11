@@ -24,7 +24,7 @@ import org.codehaus.jackson.JsonNode;
 public class JresErrorReplyException extends RuntimeException implements JresReply {
 
     private String error;
-    private int status;
+    private Integer status;
 
     private JsonNode node;
 
@@ -42,7 +42,7 @@ public class JresErrorReplyException extends RuntimeException implements JresRep
         return error;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 }

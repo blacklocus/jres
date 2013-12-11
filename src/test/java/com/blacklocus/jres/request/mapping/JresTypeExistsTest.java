@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresTypeExistsRequestTest extends JresTest {
+public class JresTypeExistsTest extends JresTest {
 
     @Test
     public void happy() {

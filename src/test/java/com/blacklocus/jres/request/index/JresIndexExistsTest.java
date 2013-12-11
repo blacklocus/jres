@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresIndexExistsRequestTest extends JresTest {
+public class JresIndexExistsTest extends JresTest {
 
     @Test
     public void testHappy() {

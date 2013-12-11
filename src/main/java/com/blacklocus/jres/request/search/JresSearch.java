@@ -1,7 +1,6 @@
 package com.blacklocus.jres.request.search;
 
 import com.blacklocus.jres.request.JresJsonRequest;
-import com.blacklocus.jres.model.search.Hit;
 import com.blacklocus.jres.response.search.JresSearchReply;
 import com.blacklocus.jres.strings.JresPaths;
 import org.apache.http.client.methods.HttpGet;
@@ -9,7 +8,7 @@ import org.apache.http.client.methods.HttpGet;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresSearch<H extends Hit<H>> extends JresJsonRequest<JresSearchReply> {
+public class JresSearch extends JresJsonRequest<JresSearchReply> {
 
     private final String index;
     private final String type;

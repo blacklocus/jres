@@ -13,7 +13,7 @@ import java.util.Arrays;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresDeleteAliasRequestTest extends JresTest {
+public class JresDeleteAliasTest extends JresTest {
 
     @Test
     public void happy() {

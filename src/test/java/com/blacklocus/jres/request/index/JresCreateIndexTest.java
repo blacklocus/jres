@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresCreateIndexRequestTest extends JresTest {
+public class JresCreateIndexTest extends JresTest {
 
     @Test(expected = JresErrorReplyException.class)
     public void sad() {

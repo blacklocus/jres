@@ -8,7 +8,7 @@ import org.junit.Test;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresGetMappingRequestTest extends JresTest {
+public class JresGetMappingTest extends JresTest {
 
     @Test(expected = JresErrorReplyException.class)
     public void sad() {

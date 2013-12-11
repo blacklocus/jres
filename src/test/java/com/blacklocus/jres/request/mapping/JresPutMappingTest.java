@@ -11,7 +11,7 @@ import org.junit.Test;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresPutMappingRequestTest extends JresTest {
+public class JresPutMappingTest extends JresTest {
 
     @Test
     public void sad() {

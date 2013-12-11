@@ -12,7 +12,7 @@ import java.util.Arrays;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresRetrieveAliasesRequestTest extends JresTest {
+public class JresRetrieveAliasesTest extends JresTest {
 
     @Test(expected = JresErrorReplyException.class)
     public void sad() {

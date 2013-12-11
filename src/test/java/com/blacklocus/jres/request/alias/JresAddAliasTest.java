@@ -12,7 +12,7 @@ import java.util.Arrays;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresAddAliasRequestTest extends JresTest {
+public class JresAddAliasTest extends JresTest {
 
     @Test
     public void happy() {
@@ -22,8 +22,8 @@ public class JresAddAliasRequestTest extends JresTest {
         jres.quest(new JresCreateIndex(index));
 
         jres.quest(new JresAddAlias(index, alias));
-        JresRetrieveAliasesReply retrieveAliasesResponse = jres.quest(new JresRetrieveAliases(index, alias));
-        Assert.assertEquals(Arrays.asList(alias), retrieveAliasesResponse.getAliases(index));
+        JresRetrieveAliasesReply retrieveAliasesReply = jres.quest(new JresRetrieveAliases(index, alias));
+        Assert.assertEquals(Arrays.asList(alias), retrieveAliasesReply.getAliases(index));
     }
 
     @Test(expected = JresErrorReplyException.class)

@@ -6,16 +6,16 @@ import org.apache.http.client.ResponseHandler;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-abstract class AbstractJresResponseHandler<RESPONSE extends JresReply> implements ResponseHandler<RESPONSE> {
+abstract class AbstractJresResponseHandler<REPLY extends JresReply> implements ResponseHandler<REPLY> {
 
-    private final Class<RESPONSE> responseClass;
+    private final Class<REPLY> replyClass;
 
-    AbstractJresResponseHandler(Class<RESPONSE> responseClass) {
-        this.responseClass = responseClass;
+    AbstractJresResponseHandler(Class<REPLY> replyClass) {
+        this.replyClass = replyClass;
     }
 
-    public Class<RESPONSE> getResponseClass() {
-        return responseClass;
+    public Class<REPLY> getReplyClass() {
+        return replyClass;
     }
 
 }

@@ -1,13 +1,13 @@
-package com.blacklocus.jres.response.index;
+package com.blacklocus.jres.model.bulk;
 
-import com.blacklocus.jres.response.JresJsonReply;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresIndexDocumentReply extends JresJsonReply {
+public class Item {
 
+    @JsonProperty
     private Boolean ok;
 
     @JsonProperty("_index")
@@ -22,7 +22,7 @@ public class JresIndexDocumentReply extends JresJsonReply {
     @JsonProperty("_version")
     private String version;
 
-    public Boolean isOk() {
+    public Boolean getOk() {
         return ok;
     }
 
@@ -41,5 +41,4 @@ public class JresIndexDocumentReply extends JresJsonReply {
     public String getVersion() {
         return version;
     }
-
 }

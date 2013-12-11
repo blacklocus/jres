@@ -14,14 +14,14 @@ import com.blacklocus.jres.response.JresJsonReply;
  */
 public class JresAcknowledgedReply extends JresJsonReply {
 
-    private boolean ok;
-    private boolean acknowledged;
+    private Boolean ok;
+    private Boolean acknowledged;
 
-    public boolean isOk() {
+    public Boolean isOk() {
         return ok;
     }
 
-    public boolean isAcknowledged() {
+    public Boolean isAcknowledged() {
         return acknowledged;
     }
 }
