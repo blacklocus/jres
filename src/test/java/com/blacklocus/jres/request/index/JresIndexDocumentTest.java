@@ -18,7 +18,7 @@ public class JresIndexDocumentTest extends JresTest {
         Document document = new Document();
         JresIndexDocumentReply reply = jres.quest(new JresIndexDocument(index, type, document));
 
-        Assert.assertTrue(reply.isOk());
+        Assert.assertTrue(reply.getOk());
         Assert.assertEquals(reply.getIndex(), index);
         Assert.assertEquals(reply.getType(), type);
         Assert.assertEquals(reply.getVersion(), "1");

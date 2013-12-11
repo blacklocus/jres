@@ -22,6 +22,8 @@ public class Item {
     @JsonProperty("_version")
     private String version;
 
+    private String error;
+
     public Boolean getOk() {
         return ok;
     }
@@ -40,5 +42,13 @@ public class Item {
 
     public String getVersion() {
         return version;
+    }
+
+    public boolean hasError() {
+        return getError() != null;
+    }
+
+    public String getError() {
+        return error;
     }
 }

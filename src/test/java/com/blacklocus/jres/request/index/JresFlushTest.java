@@ -16,6 +16,6 @@ public class JresFlushTest extends JresTest {
 
         jres.quest(new JresCreateIndex(index));
         JresShardsReply flushReply = jres.quest(new JresFlush(index));
-        Assert.assertTrue(flushReply.isOk());
+        Assert.assertTrue(flushReply.getOk());
     }
 }

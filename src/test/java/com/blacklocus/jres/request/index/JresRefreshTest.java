@@ -16,6 +16,6 @@ public class JresRefreshTest extends JresTest {
 
         jres.quest(new JresCreateIndex(index));
         JresShardsReply refreshReply = jres.quest(new JresRefresh(index));
-        Assert.assertTrue(refreshReply.isOk());
+        Assert.assertTrue(refreshReply.getOk());
     }
 }

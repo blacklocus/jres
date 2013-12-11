@@ -14,7 +14,7 @@ public class JresShardsReply extends JresJsonReply {
     @JsonProperty("_shards")
     private Shards shards;
 
-    public Boolean isOk() {
+    public Boolean getOk() {
         return ok;
     }
 

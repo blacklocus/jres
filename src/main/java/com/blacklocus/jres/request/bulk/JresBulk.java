@@ -1,7 +1,7 @@
 package com.blacklocus.jres.request.bulk;
 
-import com.blacklocus.jres.request.JresJsonRequest;
 import com.blacklocus.jres.request.JresBulkable;
+import com.blacklocus.jres.request.JresJsonRequest;
 import com.blacklocus.jres.response.bulk.JresBulkReply;
 import com.blacklocus.jres.strings.JresPaths;
 import com.blacklocus.jres.strings.ObjectMappers;

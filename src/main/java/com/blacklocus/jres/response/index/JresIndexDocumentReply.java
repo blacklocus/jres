@@ -22,7 +22,7 @@ public class JresIndexDocumentReply extends JresJsonReply {
     @JsonProperty("_version")
     private String version;
 
-    public Boolean isOk() {
+    public Boolean getOk() {
         return ok;
     }
 

@@ -1,7 +1,7 @@
 package com.blacklocus.jres.request.index;
 
-import com.blacklocus.jres.request.JresJsonRequest;
 import com.blacklocus.jres.request.JresBulkable;
+import com.blacklocus.jres.request.JresJsonRequest;
 import com.blacklocus.jres.response.index.JresIndexDocumentReply;
 import com.blacklocus.jres.strings.JresPaths;
 import org.apache.http.client.methods.HttpPost;
