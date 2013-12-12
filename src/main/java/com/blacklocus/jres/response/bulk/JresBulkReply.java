@@ -74,7 +74,7 @@ public class JresBulkReply extends JresJsonReply {
         return Iterables.filter(getResults(), new Predicate<JresBulkItemResult>() {
             @Override
             public boolean apply(JresBulkItemResult input) {
-                return true;
+                return input.getResult().hasError();
             }
         });
     }
