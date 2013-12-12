@@ -27,13 +27,16 @@ import com.blacklocus.jres.response.JresJsonReply;
 import com.blacklocus.jres.response.JresReply;
 import com.blacklocus.jres.response.common.JresErrorReplyException;
 import com.blacklocus.jres.strings.JresPaths;
+import com.blacklocus.jres.strings.ObjectMappers;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Iterators;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.codehaus.jackson.type.TypeReference;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
@@ -176,6 +179,22 @@ public class Jres {
             return reply;
         }
 
+    }
+
+    public static <T> T load(URL script, Class<T> klass) {
+        try {
+            return ObjectMappers.NORMAL.readValue(script.openStream(), klass);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static <T> T load(URL script, TypeReference<T> typeReference) {
+        try {
+            return ObjectMappers.NORMAL.readValue(script.openStream(), typeReference);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

@@ -1,7 +1,5 @@
-{
-  "query": {
-    "term": {
-      "girth": "small"
-    }
+{"query": {
+  "term": {
+    "compass": "small"
   }
-}
+}}
