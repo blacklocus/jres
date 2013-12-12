@@ -34,6 +34,8 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +49,8 @@ import java.util.concurrent.Executors;
  * @author Jason Dunkelberger (dirkraft)
  */
 public class HttpMethods {
+
+    private static final Logger LOG = LoggerFactory.getLogger(HttpMethods.class);
 
     private static final Map<String, HttpMethod> METHODS = ImmutableMap.<String, HttpMethod>builder()
             .put(HttpGet.METHOD_NAME, new HttpMethod() {
@@ -94,8 +98,8 @@ public class HttpMethods {
     private static final ExecutorService PIPER = Executors.newCachedThreadPool();
 
     /**
-     * @param method http method, case-insensitive
-     * @param url destination of request
+     * @param method  http method, case-insensitive
+     * @param url     destination of request
      * @param payload (optional) request body. An InputStream or String will be sent as is, while any other type will
      *                be serialized with {@link ObjectMappers#NORMAL} to JSON.
      * @return HttpUriRequest with header <code>Accept: application/json; charset=UTF-8</code>
@@ -108,32 +112,8 @@ public class HttpMethods {
         if (payload != null) {
             try {
 
-                final HttpEntity entity;
-                if (payload instanceof InputStream) {
-                    entity = new InputStreamEntity((InputStream) payload, ContentType.APPLICATION_JSON);
-
-                } else if (payload instanceof String) {
-                    entity = new StringEntity((String) payload, ContentType.APPLICATION_JSON);
-
-                } else {
-                    final PipedOutputStream pipedOutputStream = new PipedOutputStream();
-                    final PipedInputStream pipedInputStream = new PipedInputStream(pipedOutputStream);
-                    PIPER.submit(new ExceptingRunnable() {
-                        @Override
-                        protected void go() throws Exception {
-                            try {
-                                ObjectMappers.NORMAL.writeValue(pipedOutputStream, payload);
-                                pipedOutputStream.flush();
-                            } finally {
-                                IOUtils.closeQuietly(pipedOutputStream);
-                            }
-                        }
-                    });
-                    entity = new InputStreamEntity(pipedInputStream, ContentType.APPLICATION_JSON);
-                }
-
                 // This cast will except if a body is given for non-HttpEntityEnclosingRequest types. Deal with it later.
-                ((HttpEntityEnclosingRequest) httpUriRequest).setEntity(entity);
+                ((HttpEntityEnclosingRequest) httpUriRequest).setEntity(createEntity(payload));
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -142,4 +122,48 @@ public class HttpMethods {
         return httpUriRequest;
     }
 
+    static HttpEntity createEntity(final Object payload) throws IOException {
+        final HttpEntity entity;
+        if (payload instanceof InputStream) {
+
+            if (LOG.isDebugEnabled()) {
+                String stream = IOUtils.toString((InputStream) payload);
+                LOG.debug(stream);
+                entity = new StringEntity(stream, ContentType.APPLICATION_JSON);
+            } else {
+                entity = new InputStreamEntity((InputStream) payload, ContentType.APPLICATION_JSON);
+            }
+
+        } else if (payload instanceof String) {
+
+            LOG.debug((String) payload);
+            entity = new StringEntity((String) payload, ContentType.APPLICATION_JSON);
+
+        } else { // anything else will be serialized with Jackson
+
+            if (LOG.isDebugEnabled()) {
+                String json = ObjectMappers.NORMAL.writeValueAsString(payload);
+                LOG.debug(json);
+                entity = new StringEntity(json);
+
+            } else {
+                final PipedOutputStream pipedOutputStream = new PipedOutputStream();
+                final PipedInputStream pipedInputStream = new PipedInputStream(pipedOutputStream);
+                PIPER.submit(new ExceptingRunnable() {
+                    @Override
+                    protected void go() throws Exception {
+                        try {
+                            ObjectMappers.NORMAL.writeValue(pipedOutputStream, payload);
+                            pipedOutputStream.flush();
+                        } finally {
+                            IOUtils.closeQuietly(pipedOutputStream);
+                        }
+                    }
+                });
+                entity = new InputStreamEntity(pipedInputStream, ContentType.APPLICATION_JSON);
+            }
+
+        }
+        return entity;
+    }
 }

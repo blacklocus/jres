@@ -18,31 +18,41 @@ package com.blacklocus.jres.request.search;
 import com.blacklocus.jres.request.JresJsonRequest;
 import com.blacklocus.jres.response.search.JresSearchReply;
 import com.blacklocus.jres.strings.JresPaths;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+
+import javax.annotation.Nullable;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
 public class JresSearch extends JresJsonRequest<JresSearchReply> {
 
-    private final String index;
-    private final String type;
-    private final JresQuery query;
+    private String index;
+    private String type;
+    private final JresSearchBody searchBody;
 
-    public JresSearch(String index, String type) {
-        this(index, type, null);
+    public JresSearch() {
+        this(new JresSearchBody());
     }
 
-    public JresSearch(String index, String type, JresQuery query) {
+    public JresSearch(JresSearchBody searchBody) {
+        this(null, null, searchBody);
+    }
+
+    public JresSearch(String index, String type) {
+        this(index, type, new JresSearchBody());
+    }
+
+    public JresSearch(@Nullable String index, @Nullable String type, JresSearchBody searchBody) {
         super(JresSearchReply.class);
+        this.searchBody = searchBody;
         this.index = index;
         this.type = type;
-        this.query = query;
     }
 
     @Override
     public String getHttpMethod() {
-        return HttpGet.METHOD_NAME;
+        return HttpPost.METHOD_NAME;
     }
 
     @Override
@@ -52,7 +62,7 @@ public class JresSearch extends JresJsonRequest<JresSearchReply> {
 
     @Override
     public Object getPayload() {
-        return query;
+        return searchBody;
     }
 
 }

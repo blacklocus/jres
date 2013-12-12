@@ -15,12 +15,18 @@
  */
 package com.blacklocus.jres.strings;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
 public class JresPaths {
 
+    /**
+     * @return fragment appended with '/' if not present. Does nothing to blank strings. <code>null</code>s upgraded
+     * to empty strings
+     */
     public static String slashed(String fragment) {
-        return fragment.endsWith("/") ? fragment : fragment + "/";
+        return StringUtils.isBlank(fragment) || fragment.endsWith("/") ? (fragment == null ? "" : fragment) : fragment + "/";
     }
 }

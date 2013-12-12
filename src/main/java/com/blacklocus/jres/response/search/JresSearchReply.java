@@ -16,9 +16,15 @@
 package com.blacklocus.jres.response.search;
 
 import com.blacklocus.jres.model.Shards;
+import com.blacklocus.jres.model.search.Hit;
 import com.blacklocus.jres.model.search.Hits;
 import com.blacklocus.jres.response.JresJsonReply;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.type.TypeReference;
+
+import java.util.List;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
@@ -49,5 +55,29 @@ public class JresSearchReply extends JresJsonReply {
 
     public Hits getHits() {
         return hits;
+    }
+
+    /**
+     * Shortcut to {@link Hit#getSourceAsType(Class)}
+     */
+    public <T> List<T> getHitsAsType(final Class<T> klass) {
+        return Lists.transform(getHits().getHits(), new Function<Hit, T>() {
+            @Override
+            public T apply(Hit hit) {
+                return hit.getSourceAsType(klass);
+            }
+        });
+    }
+
+    /**
+     * Shortcut to {@link Hit#getSourceAsType(TypeReference)}
+     */
+    public <T> List<T> getHitsAsType(final TypeReference<T> typeReference) {
+        return Lists.transform(getHits().getHits(), new Function<Hit, T>() {
+            @Override
+            public T apply(Hit hit) {
+                return hit.getSourceAsType(typeReference);
+            }
+        });
     }
 }

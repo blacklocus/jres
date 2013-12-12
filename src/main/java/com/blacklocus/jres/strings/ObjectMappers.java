@@ -18,6 +18,7 @@ package com.blacklocus.jres.strings;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
@@ -33,6 +34,8 @@ public class ObjectMappers {
 
     static ObjectMapper newConfiguredObjectMapper() {
         return new ObjectMapper()
+                // ElasticSearch is usually more okay with absence of properties rather than presence with null values.
+                .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL)
                 // Allow empty JSON objects where they might occur.
                 .configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false)
                 // Not all properties need to be mapped back into POJOs.

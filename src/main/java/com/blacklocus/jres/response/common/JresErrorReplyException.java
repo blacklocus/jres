@@ -53,6 +53,11 @@ public class JresErrorReplyException extends RuntimeException implements JresRep
         return this;
     }
 
+    @Override
+    public String getMessage() {
+        return getError();
+    }
+
     public String getError() {
         return error;
     }

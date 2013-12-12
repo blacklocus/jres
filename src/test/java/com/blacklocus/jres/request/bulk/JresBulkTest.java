@@ -25,6 +25,7 @@ import com.blacklocus.jres.request.search.JresSearch;
 import com.blacklocus.jres.response.bulk.JresBulkItemResult;
 import com.blacklocus.jres.response.bulk.JresBulkReply;
 import com.blacklocus.jres.response.search.JresSearchReply;
+import com.google.common.collect.Iterables;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -105,6 +106,8 @@ public class JresBulkTest extends JresTest {
                 new JresIndexDocument(index, type, new Document("one"))
         )));
         Assert.assertEquals(2, bulkResponse.getItems().size());
+        Assert.assertEquals(2, Iterables.size(bulkResponse.getResults()));
+        Assert.assertEquals(1, Iterables.size(bulkResponse.getErrorResults()));
         Iterator<JresBulkItemResult> results = bulkResponse.getResults().iterator();
 
         JresBulkItemResult ok = results.next();
