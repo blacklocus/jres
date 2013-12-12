@@ -27,11 +27,17 @@ public class JresSearch extends JresJsonRequest<JresSearchReply> {
 
     private final String index;
     private final String type;
+    private final JresQuery query;
 
     public JresSearch(String index, String type) {
+        this(index, type, null);
+    }
+
+    public JresSearch(String index, String type, JresQuery query) {
         super(JresSearchReply.class);
         this.index = index;
         this.type = type;
+        this.query = query;
     }
 
     @Override
@@ -46,7 +52,7 @@ public class JresSearch extends JresJsonRequest<JresSearchReply> {
 
     @Override
     public Object getPayload() {
-        return null;
+        return query;
     }
 
 }
