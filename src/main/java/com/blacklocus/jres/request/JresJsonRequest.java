@@ -20,16 +20,16 @@ import com.blacklocus.jres.response.JresReply;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public abstract class JresJsonRequest<RESPONSE extends JresReply> implements JresRequest<RESPONSE> {
+public abstract class JresJsonRequest<REPLY extends JresReply> implements JresRequest<REPLY> {
 
-    private final Class<RESPONSE> responseClass;
+    private final Class<REPLY> responseClass;
 
-    protected JresJsonRequest(Class<RESPONSE> responseClass) {
+    protected JresJsonRequest(Class<REPLY> responseClass) {
         this.responseClass = responseClass;
     }
 
     @Override
-    public final Class<RESPONSE> getResponseClass() {
+    public final Class<REPLY> getResponseClass() {
         return responseClass;
     }
 }

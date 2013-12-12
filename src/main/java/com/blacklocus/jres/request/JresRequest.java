@@ -18,10 +18,10 @@ package com.blacklocus.jres.request;
 import com.blacklocus.jres.response.JresReply;
 
 /**
- * @param <RESPONSE> response type - the wrapper object built by Jres to encapsulte the full response
+ * @param <REPLY> response type - the wrapper object built by Jres to encapsulte the full response
  * @author Jason Dunkelberger (dirkraft)
  */
-public interface JresRequest<RESPONSE extends JresReply> {
+public interface JresRequest<REPLY extends JresReply> {
 
     /**
      * @return one of the standard http request methods, case-insensitive: [get, post, put, del, options, trace, head, patch]
@@ -43,6 +43,6 @@ public interface JresRequest<RESPONSE extends JresReply> {
     /**
      * @return response object encapsulation type
      */
-    Class<RESPONSE> getResponseClass();
+    Class<REPLY> getResponseClass();
 
 }

@@ -39,7 +39,7 @@ public class JresSearch extends JresJsonRequest<JresSearchReply> {
         this(null, null, searchBody);
     }
 
-    public JresSearch(String index, String type) {
+    public JresSearch(@Nullable String index, @Nullable String type) {
         this(index, type, new JresSearchBody());
     }
 
