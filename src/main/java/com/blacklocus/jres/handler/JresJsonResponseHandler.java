@@ -75,11 +75,11 @@ public class JresJsonResponseHandler<REPLY extends JresJsonReply> extends Abstra
             if (ContentType.APPLICATION_JSON.getMimeType().equals(contentType.getMimeType())) {
                 try {
 
-                    JsonNode node = ObjectMappers.NORMAL.readValue(http.getEntity().getContent(), JsonNode.class);
+                    JsonNode node = ObjectMappers.fromJson(http.getEntity().getContent(), JsonNode.class);
                     if (LOG.isDebugEnabled()) {
-                        LOG.debug(ObjectMappers.NORMAL.writeValueAsString(node));
+                        LOG.debug(ObjectMappers.toJson(node));
                     }
-                    return Pair.of(node, ObjectMappers.NORMAL.readValue(node, responseClass));
+                    return Pair.of(node, ObjectMappers.fromJson(node, responseClass));
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);

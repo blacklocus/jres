@@ -24,7 +24,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.codehaus.jackson.JsonNode;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -60,12 +59,8 @@ public class JresBulkReply extends JresJsonReply {
             public JresBulkItemResult apply(JsonNode resultEntry) {
                 assert resultEntry.size() == 1;
                 Map.Entry<String, JsonNode> result = resultEntry.getFields().next();
-                try {
-                    Item item = ObjectMappers.NORMAL.readValue(result.getValue(), Item.class);
-                    return new JresBulkItemResult(result.getKey(), item);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                Item item = ObjectMappers.fromJson(result.getValue(), Item.class);
+                return new JresBulkItemResult(result.getKey(), item);
             }
         });
     }

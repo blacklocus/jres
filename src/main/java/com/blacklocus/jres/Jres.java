@@ -182,19 +182,11 @@ public class Jres {
     }
 
     public static <T> T load(URL script, Class<T> klass) {
-        try {
-            return ObjectMappers.NORMAL.readValue(script.openStream(), klass);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return ObjectMappers.fromJson(script, klass);
     }
 
     public static <T> T load(URL script, TypeReference<T> typeReference) {
-        try {
-            return ObjectMappers.NORMAL.readValue(script.openStream(), typeReference);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return ObjectMappers.fromJson(script, typeReference);
     }
 }
 

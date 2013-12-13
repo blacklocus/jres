@@ -19,7 +19,6 @@ import com.blacklocus.jres.request.search.query.JresQuery;
 import com.blacklocus.jres.strings.ObjectMappers;
 import com.google.common.collect.ImmutableMap;
 
-import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -43,16 +42,12 @@ public class JresSearchBody {
 
     @SuppressWarnings("unchecked")
     public <T extends JresQuery> T getQuery(T sample) {
-        try {
-            String json = ObjectMappers.NORMAL.writeValueAsString(getQuery().get(sample.queryType()));
-            T jresQuery = ObjectMappers.NORMAL.readValue(json, (Class<T>) sample.getClass());
-            assert sample.queryType().equals(jresQuery.queryType());
-            // Swap it in
-            getQuery().put(jresQuery.queryType(), jresQuery);
-            return jresQuery;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String json = ObjectMappers.toJson(getQuery().get(sample.queryType()));
+        T jresQuery = ObjectMappers.fromJson(json, (Class<T>) sample.getClass());
+        assert sample.queryType().equals(jresQuery.queryType());
+        // Swap it in
+        getQuery().put(jresQuery.queryType(), jresQuery);
+        return jresQuery;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

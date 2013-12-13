@@ -151,7 +151,7 @@ public class HttpMethods {
         } else { // anything else will be serialized with Jackson
 
             if (LOG.isDebugEnabled()) {
-                String json = ObjectMappers.NORMAL.writeValueAsString(payload);
+                String json = ObjectMappers.toJson(payload);
                 LOG.debug(json);
                 entity = new StringEntity(json, ContentType.APPLICATION_JSON);
 

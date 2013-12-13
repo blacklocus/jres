@@ -20,8 +20,6 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.type.TypeReference;
 
-import java.io.IOException;
-
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
@@ -64,18 +62,10 @@ public class Hit {
     }
 
     public <T> T getSourceAsType(Class<T> klass) {
-        try {
-            return ObjectMappers.NORMAL.readValue(source, klass);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return ObjectMappers.fromJson(source, klass);
     }
 
     public <T> T getSourceAsType(TypeReference<T> typeReference) {
-        try {
-            return ObjectMappers.NORMAL.readValue(source, typeReference);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return ObjectMappers.fromJson(source, typeReference);
     }
 }

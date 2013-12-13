@@ -15,10 +15,16 @@
  */
 package com.blacklocus.jres.strings;
 
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.type.TypeReference;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
@@ -40,5 +46,81 @@ public class ObjectMappers {
                 .configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false)
                 // Not all properties need to be mapped back into POJOs.
                 .configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    }
+
+    /**
+     * Convenience around {@link ObjectMapper#writeValueAsString(Object)} with {@link ObjectMappers#NORMAL} wrapping
+     * checked exceptions in {@link RuntimeException}
+     */
+    public static String toJson(Object o) {
+        try {
+            return NORMAL.writeValueAsString(o);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Convenience around {@link ObjectMapper#readValue(String, Class)} with {@link ObjectMappers#NORMAL} wrapping
+     * checked exceptions in {@link RuntimeException}
+     */
+    public static <T> T fromJson(String json, Class<T> klass) {
+        try {
+            return NORMAL.readValue(json, klass);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Convenience around {@link ObjectMapper#readValue(InputStream, Class)} with {@link ObjectMappers#NORMAL} wrapping
+     * checked exceptions in {@link RuntimeException}
+     */
+    public static <T> T fromJson(InputStream json, Class<T> klass) {
+        try {
+            return NORMAL.readValue(json, klass);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static <T> T fromJson(URL json, Class<T> klass) {
+        try {
+            return NORMAL.readValue(json, klass);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static <T> T fromJson(URL json, TypeReference<T> typeReference) {
+        try {
+            return NORMAL.readValue(json, typeReference);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Convenience around {@link ObjectMapper#readValue(JsonNode, Class)} with {@link ObjectMappers#NORMAL} wrapping
+     * checked exceptions in {@link RuntimeException}
+     */
+    public static <T> T fromJson(JsonNode json, Class<T> klass) {
+        try {
+            return NORMAL.readValue(json, klass);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Convenience around {@link ObjectMapper#readValue(JsonNode, TypeReference)} with {@link ObjectMappers#NORMAL} wrapping
+     * checked exceptions in {@link RuntimeException}
+     */
+    public static <T> T fromJson(JsonNode json, TypeReference<T> typeReference) {
+        try {
+            return NORMAL.readValue(json, typeReference);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

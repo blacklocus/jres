@@ -16,6 +16,7 @@
 package com.blacklocus.jres.response.bulk;
 
 import com.blacklocus.jres.model.bulk.Item;
+import com.blacklocus.jres.strings.ObjectMappers;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
@@ -39,5 +40,10 @@ public class JresBulkItemResult {
 
     public Item getResult() {
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return ObjectMappers.toJson(this);
     }
 }
