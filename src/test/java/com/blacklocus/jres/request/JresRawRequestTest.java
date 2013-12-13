@@ -23,6 +23,7 @@ import com.blacklocus.jres.request.search.JresSearch;
 import com.blacklocus.jres.request.search.JresSearchBody;
 import com.blacklocus.jres.request.search.query.JresBoolQuery;
 import com.blacklocus.jres.request.search.query.JresMatchQuery;
+import com.blacklocus.jres.response.JresJsonReply;
 import com.blacklocus.jres.response.search.JresSearchReply;
 import com.blacklocus.jres.strings.JresPaths;
 import org.apache.http.client.methods.HttpPost;
@@ -70,6 +71,11 @@ public class JresRawRequestTest extends BaseJresTest {
         hits = jres.quest(new JresSearch(index, type, searchBody)).getHitsAsType(Document.class);
         Assert.assertEquals(1, hits.size());
         Assert.assertEquals("big", hits.get(0).compass);
+    }
+
+    @Test
+    public void testBase() {
+        JresJsonReply quest = jres.quest(new JresRawRequest<JresJsonReply>("get", "_search"));
     }
 
     static class Document {

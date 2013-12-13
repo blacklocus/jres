@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.request;
 
-import com.blacklocus.jres.response.JresReply;
+import com.blacklocus.jres.response.JresJsonReply;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,11 +23,25 @@ import java.net.URL;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresRawRequest<REPLY extends JresReply> extends JresJsonRequest<REPLY> {
+public class JresRawRequest<REPLY extends JresJsonReply> extends JresJsonRequest<REPLY> {
 
     private final String method;
     private final String path;
     private final Object body;
+
+    @SuppressWarnings("unchecked")
+    public JresRawRequest(String method, String path) {
+        this(method, path, (Object) null, (Class<REPLY>) JresJsonReply.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    public JresRawRequest(String method, String path, Object body) {
+        this(method, path, body, (Class<REPLY>) JresJsonReply.class);
+    }
+
+    public JresRawRequest(String method, String path, Class<REPLY> replyClass) {
+        this(method, path, (Object) null, replyClass);
+    }
 
     public JresRawRequest(String method, String path, URL body, Class<REPLY> replyClass) {
         this(method, path, url(body), replyClass);
