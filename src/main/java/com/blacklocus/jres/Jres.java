@@ -182,11 +182,21 @@ public class Jres {
     }
 
     public static <T> T load(URL script, Class<T> klass) {
-        return ObjectMappers.fromJson(script, klass);
+        try {
+            // Don't use ObjectMapper.readValue(URL, ?), doesn't seem to be able to find local resources.
+            return ObjectMappers.fromJson(script.openStream(), klass);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static <T> T load(URL script, TypeReference<T> typeReference) {
-        return ObjectMappers.fromJson(script, typeReference);
+        try {
+            // Don't use ObjectMapper.readValue(URL, ?), doesn't seem to be able to find local resources.
+            return ObjectMappers.fromJson(script.openStream(), typeReference);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

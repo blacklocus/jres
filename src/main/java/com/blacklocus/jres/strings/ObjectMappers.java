@@ -24,7 +24,6 @@ import org.codehaus.jackson.type.TypeReference;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
@@ -84,15 +83,11 @@ public class ObjectMappers {
         }
     }
 
-    public static <T> T fromJson(URL json, Class<T> klass) {
-        try {
-            return NORMAL.readValue(json, klass);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static <T> T fromJson(URL json, TypeReference<T> typeReference) {
+    /**
+     * Convenience around {@link ObjectMapper#readValue(InputStream, TypeReference)} with {@link ObjectMappers#NORMAL} wrapping
+     * checked exceptions in {@link RuntimeException}
+     */
+    public static <T> T fromJson(InputStream json, TypeReference<T> typeReference) {
         try {
             return NORMAL.readValue(json, typeReference);
         } catch (IOException e) {
