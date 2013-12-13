@@ -75,7 +75,7 @@ public class JresRawRequestTest extends BaseJresTest {
 
     @Test
     public void testBase() {
-        JresJsonReply quest = jres.quest(new JresRawRequest<JresJsonReply>("get", "_search"));
+        jres.quest(new JresRawRequest<JresJsonReply>("get", "_search"));
     }
 
     static class Document {

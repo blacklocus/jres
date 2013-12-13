@@ -22,7 +22,9 @@ import com.blacklocus.jres.request.index.JresGetIndexSettings;
 import com.blacklocus.jres.request.mapping.JresGetMapping;
 import com.blacklocus.jres.request.mapping.JresPutMapping;
 import com.blacklocus.jres.response.JresReply;
+import com.blacklocus.jres.strings.ObjectMappers;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.type.TypeReference;
 
 /**
  * Possible response for <ul>
@@ -38,24 +40,19 @@ import org.codehaus.jackson.JsonNode;
  */
 public class JresErrorReplyException extends RuntimeException implements JresReply {
 
-    private String error;
-    private Integer status;
+    private final String error;
+    private final Integer status;
+    private final JsonNode node;
 
-    private JsonNode node;
+    public JresErrorReplyException(String error, Integer status, JsonNode node) {
+        this.error = error;
+        this.status = status;
+        this.node = node;
+    }
 
     @Override
     public JsonNode node() {
         return node;
-    }
-
-    public JresErrorReplyException node(JsonNode node) {
-        this.node = node;
-        return this;
-    }
-
-    @Override
-    public String getMessage() {
-        return getError();
     }
 
     public String getError() {
@@ -64,5 +61,13 @@ public class JresErrorReplyException extends RuntimeException implements JresRep
 
     public Integer getStatus() {
         return status;
+    }
+
+    public <T> T asType(Class<T> klass) {
+        return ObjectMappers.fromJson(node, klass);
+    }
+
+    public <T> T asType(TypeReference<T> typeReference) {
+        return ObjectMappers.fromJson(node, typeReference);
     }
 }

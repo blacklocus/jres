@@ -54,10 +54,10 @@ public class JresJsonResponseHandler<REPLY extends JresJsonReply> extends Abstra
             return reply;
 
         } else if (statusCode / 100 == 4) {
-            Pair<JsonNode, JresErrorReplyException> replyPair = read(http, JresErrorReplyException.class);
-            JresErrorReplyException exception = replyPair.getRight();
-            exception.node(replyPair.getLeft());
-            throw exception;
+            Pair<JsonNode, JresJsonReply> replyPair = read(http, null); // only want the node
+            JsonNode node = replyPair.getLeft();
+            String error = node != null && node.has("error") ? node.get("error").asText() : null;
+            throw new JresErrorReplyException(error, statusCode, node);
 
         } else {
             // Does ElasticSearch ever return 1xx or 3xx (or other)?
@@ -79,7 +79,7 @@ public class JresJsonResponseHandler<REPLY extends JresJsonReply> extends Abstra
                     if (LOG.isDebugEnabled()) {
                         LOG.debug(ObjectMappers.toJson(node));
                     }
-                    return Pair.of(node, ObjectMappers.fromJson(node, responseClass));
+                    return Pair.of(node, responseClass == null ? null : ObjectMappers.fromJson(node, responseClass));
 
                 } catch (IOException e) {
                     throw new RuntimeException(e);
