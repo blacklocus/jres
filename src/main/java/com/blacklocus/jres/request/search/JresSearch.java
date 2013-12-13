@@ -27,8 +27,8 @@ import javax.annotation.Nullable;
  */
 public class JresSearch extends JresJsonRequest<JresSearchReply> {
 
-    private String index;
-    private String type;
+    private @Nullable String index;
+    private @Nullable String type;
     private final JresSearchBody searchBody;
 
     public JresSearch() {

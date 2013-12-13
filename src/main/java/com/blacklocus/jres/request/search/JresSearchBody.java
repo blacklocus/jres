@@ -27,9 +27,7 @@ import java.util.Map;
  */
 public class JresSearchBody {
 
-    /**
-     * Single entry from {@link JresQuery#queryType()} to the JresQuery itself.
-     */
+    /** Single entry from {@link JresQuery#queryType()} to the JresQuery itself. */
     private Map<String, Object> query;
     private Integer size;
 

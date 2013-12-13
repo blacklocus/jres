@@ -22,6 +22,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpOptions;
@@ -41,6 +42,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.net.URI;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -71,7 +73,14 @@ public class HttpMethods {
             }).put(HttpDelete.METHOD_NAME, new HttpMethod() {
                 @Override
                 public HttpRequestBase newMethod(String url) {
-                    return new HttpDelete(url);
+                    HttpEntityEnclosingRequestBase request = new HttpEntityEnclosingRequestBase() {
+                        @Override
+                        public String getMethod() {
+                            return HttpDelete.METHOD_NAME;
+                        }
+                    };
+                    request.setURI(URI.create(url));
+                    return request;
                 }
             }).put(HttpHead.METHOD_NAME, new HttpMethod() {
                 @Override
@@ -144,7 +153,7 @@ public class HttpMethods {
             if (LOG.isDebugEnabled()) {
                 String json = ObjectMappers.NORMAL.writeValueAsString(payload);
                 LOG.debug(json);
-                entity = new StringEntity(json);
+                entity = new StringEntity(json, ContentType.APPLICATION_JSON);
 
             } else {
                 final PipedOutputStream pipedOutputStream = new PipedOutputStream();
