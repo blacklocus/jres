@@ -26,7 +26,13 @@ public class JresPaths {
      * @return fragment appended with '/' if not present. Does nothing to blank strings. <code>null</code>s upgraded
      * to empty strings
      */
-    public static String slashed(String fragment) {
-        return StringUtils.isBlank(fragment) || fragment.endsWith("/") ? (fragment == null ? "" : fragment) : fragment + "/";
+    public static String slashed(String... fragments) {
+        StringBuilder sb = new StringBuilder();
+        for (String fragment : fragments) {
+            sb.append(StringUtils.isBlank(fragment) || fragment.endsWith("/") ?
+                    (fragment == null ? "" : fragment) :
+                    fragment + "/");
+        }
+        return sb.toString();
     }
 }
