@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.request.mapping;
 
-import com.blacklocus.jres.JresTest;
+import com.blacklocus.jres.BaseJresTest;
 import com.blacklocus.jres.request.index.JresCreateIndex;
 import com.blacklocus.jres.response.JresBooleanReply;
 import org.junit.Assert;
@@ -24,7 +24,7 @@ import org.junit.Test;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresTypeExistsTest extends JresTest {
+public class JresTypeExistsTest extends BaseJresTest {
 
     @Test
     public void happy() {

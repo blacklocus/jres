@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.request.index;
 
-import com.blacklocus.jres.JresTest;
+import com.blacklocus.jres.BaseJresTest;
 import com.blacklocus.jres.response.JresBooleanReply;
 import com.blacklocus.jres.response.common.JresErrorReplyException;
 import org.junit.Assert;
@@ -24,7 +24,7 @@ import org.junit.Test;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresCreateIndexTest extends JresTest {
+public class JresCreateIndexTest extends BaseJresTest {
 
     @Test(expected = JresErrorReplyException.class)
     public void sad() {

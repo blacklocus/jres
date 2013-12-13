@@ -15,8 +15,8 @@
  */
 package com.blacklocus.jres.request;
 
+import com.blacklocus.jres.BaseJresTest;
 import com.blacklocus.jres.Jres;
-import com.blacklocus.jres.JresTest;
 import com.blacklocus.jres.request.index.JresIndexDocument;
 import com.blacklocus.jres.request.index.JresRefresh;
 import com.blacklocus.jres.request.search.JresSearch;
@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresRawRequestTest extends JresTest {
+public class JresRawRequestTest extends BaseJresTest {
 
     @Test
     public void test() {

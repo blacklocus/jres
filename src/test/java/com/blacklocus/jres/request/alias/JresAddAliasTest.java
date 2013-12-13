@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.request.alias;
 
-import com.blacklocus.jres.JresTest;
+import com.blacklocus.jres.BaseJresTest;
 import com.blacklocus.jres.request.index.JresCreateIndex;
 import com.blacklocus.jres.response.alias.JresRetrieveAliasesReply;
 import com.blacklocus.jres.response.common.JresErrorReplyException;
@@ -27,7 +27,7 @@ import java.util.Arrays;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresAddAliasTest extends JresTest {
+public class JresAddAliasTest extends BaseJresTest {
 
     @Test
     public void happy() {

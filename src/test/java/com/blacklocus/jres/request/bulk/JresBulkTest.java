@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.request.bulk;
 
-import com.blacklocus.jres.JresTest;
+import com.blacklocus.jres.BaseJresTest;
 import com.blacklocus.jres.request.JresBulkable;
 import com.blacklocus.jres.request.index.JresCreateIndex;
 import com.blacklocus.jres.request.index.JresIndexDocument;
@@ -35,7 +35,7 @@ import java.util.Iterator;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresBulkTest extends JresTest {
+public class JresBulkTest extends BaseJresTest {
 
     @Test
     public void testHappy() {

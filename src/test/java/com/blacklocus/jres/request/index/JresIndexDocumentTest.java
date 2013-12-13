@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.request.index;
 
-import com.blacklocus.jres.JresTest;
+import com.blacklocus.jres.BaseJresTest;
 import com.blacklocus.jres.model.search.Hits;
 import com.blacklocus.jres.request.search.JresSearch;
 import com.blacklocus.jres.response.index.JresIndexDocumentReply;
@@ -25,7 +25,7 @@ import org.junit.Test;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresIndexDocumentTest extends JresTest {
+public class JresIndexDocumentTest extends BaseJresTest {
 
     @Test
     public void testAutoId() {

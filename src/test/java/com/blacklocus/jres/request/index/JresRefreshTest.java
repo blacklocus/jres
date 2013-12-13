@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.request.index;
 
-import com.blacklocus.jres.JresTest;
+import com.blacklocus.jres.BaseJresTest;
 import com.blacklocus.jres.response.common.JresShardsReply;
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,7 +23,7 @@ import org.junit.Test;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresRefreshTest extends JresTest {
+public class JresRefreshTest extends BaseJresTest {
     
     @Test
     public void test() {

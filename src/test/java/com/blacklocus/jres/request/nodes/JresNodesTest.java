@@ -15,13 +15,13 @@
  */
 package com.blacklocus.jres.request.nodes;
 
-import com.blacklocus.jres.JresTest;
+import com.blacklocus.jres.BaseJresTest;
 import org.junit.Test;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresNodesTest extends JresTest {
+public class JresNodesTest extends BaseJresTest {
 
     @Test
     public void test() {

@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.request.mapping;
 
-import com.blacklocus.jres.JresTest;
+import com.blacklocus.jres.BaseJresTest;
 import com.blacklocus.jres.request.index.JresCreateIndex;
 import com.blacklocus.jres.response.JresBooleanReply;
 import com.blacklocus.jres.response.common.JresAcknowledgedReply;
@@ -26,7 +26,7 @@ import org.junit.Test;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresPutMappingTest extends JresTest {
+public class JresPutMappingTest extends BaseJresTest {
 
     @Test
     public void sad() {

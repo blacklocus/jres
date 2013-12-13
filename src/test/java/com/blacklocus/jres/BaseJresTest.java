@@ -24,7 +24,7 @@ import org.junit.BeforeClass;
  *
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresTest {
+public class BaseJresTest {
 
     @BeforeClass
     public static void startLocalElasticSearch() {

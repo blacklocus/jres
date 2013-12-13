@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.request.search;
 
-import com.blacklocus.jres.JresTest;
+import com.blacklocus.jres.BaseJresTest;
 import com.blacklocus.jres.request.index.JresCreateIndex;
 import com.blacklocus.jres.request.index.JresIndexDocument;
 import com.blacklocus.jres.request.index.JresRefresh;
@@ -27,7 +27,7 @@ import org.junit.Test;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresSearchTest extends JresTest {
+public class JresSearchTest extends BaseJresTest {
 
     @Test
     public void test() throws InterruptedException {

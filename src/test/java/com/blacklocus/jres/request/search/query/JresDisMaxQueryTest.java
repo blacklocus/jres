@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.request.search.query;
 
-import com.blacklocus.jres.JresTest;
+import com.blacklocus.jres.BaseJresTest;
 import com.blacklocus.jres.request.index.JresIndexDocument;
 import com.blacklocus.jres.request.index.JresRefresh;
 import com.blacklocus.jres.request.search.JresSearch;
@@ -27,7 +27,7 @@ import org.junit.Test;
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
-public class JresDisMaxQueryTest extends JresTest {
+public class JresDisMaxQueryTest extends BaseJresTest {
 
     @Test
     public void test() {
