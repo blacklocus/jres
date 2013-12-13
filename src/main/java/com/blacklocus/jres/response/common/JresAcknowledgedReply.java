@@ -36,7 +36,7 @@ public class JresAcknowledgedReply extends JresJsonReply {
         return ok;
     }
 
-    public Boolean isAcknowledged() {
+    public Boolean getAcknowledged() {
         return acknowledged;
     }
 }

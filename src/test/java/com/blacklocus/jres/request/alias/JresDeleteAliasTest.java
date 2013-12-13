@@ -45,7 +45,7 @@ public class JresDeleteAliasTest extends JresTest {
         Assert.assertEquals(Arrays.asList(alias), retrieveAliasesResponse.getAliases(index));
 
         JresAcknowledgedReply response = jres.quest(new JresDeleteAlias(index, alias));
-        Assert.assertTrue(response.getOk() && response.isAcknowledged());
+        Assert.assertTrue(response.getOk() && response.getAcknowledged());
         try {
             retrieveAliasesResponse = jres.quest(new JresRetrieveAliases(index, "*"));
             Assert.assertEquals(0, retrieveAliasesResponse.getAliases(index).size());
