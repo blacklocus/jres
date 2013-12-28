@@ -1,3 +1,5 @@
+(incubating...)
+
 Jres
 ====
 A Java ElasticSearch client library with does not have a code dependency on the entire ElasticSearch library. All
