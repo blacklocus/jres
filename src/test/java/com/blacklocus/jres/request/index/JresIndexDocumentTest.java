@@ -17,10 +17,17 @@ package com.blacklocus.jres.request.index;
 
 import com.blacklocus.jres.BaseJresTest;
 import com.blacklocus.jres.model.search.Hits;
+import com.blacklocus.jres.request.JresBulkable;
+import com.blacklocus.jres.request.bulk.JresBulk;
 import com.blacklocus.jres.request.search.JresSearch;
+import com.blacklocus.jres.response.bulk.JresBulkReply;
+import com.blacklocus.jres.response.common.JresErrorReplyException;
 import com.blacklocus.jres.response.index.JresIndexDocumentReply;
+import com.google.common.collect.Iterables;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
@@ -68,6 +75,51 @@ public class JresIndexDocumentTest extends BaseJresTest {
         hits = jres.quest(new JresSearch(index, type)).getHits();
         Assert.assertEquals("should update existing, rather than create new doc", new Integer(1), hits.getTotal());
         Assert.assertEquals(document.value, hits.getHits().get(0).getSourceAsType(Document.class).value);
+    }
+
+    @Test(expected = JresErrorReplyException.class)
+    public void testWithCreateOnly() {
+        String index = "JresIndexDocumentTest_withCreateOnly".toLowerCase();
+        String type = "test";
+        String id = "test_id";
+
+        Document document = new Document();
+        JresIndexDocumentReply reply = jres.quest(new JresIndexDocument(index, type, id, document, true));
+        Assert.assertTrue(reply.getOk());
+        Assert.assertEquals(index, reply.getIndex());
+        Assert.assertEquals(type, reply.getType());
+        Assert.assertEquals(id, reply.getId());
+        Assert.assertEquals("1", reply.getVersion());
+
+        reply = jres.quest(new JresIndexDocument(index, type, id, document, false));
+        Assert.assertTrue(reply.getOk());
+        Assert.assertEquals(index, reply.getIndex());
+        Assert.assertEquals(type, reply.getType());
+        Assert.assertEquals(id, reply.getId());
+        Assert.assertEquals("2", reply.getVersion());
+
+        jres.quest(new JresIndexDocument(index, type, id, document, true));
+    }
+
+    @Test
+    public void testBulkCreateOnly() {
+        String index = "JresIndexDocumentTest_bulkCreateOnly".toLowerCase();
+        String type = "test";
+        String id1 = "test_id1";
+        String id2 = "test_id2";
+
+        Document document = new Document();
+        JresBulkReply reply = jres.quest(new JresBulk(index, type, Arrays.<JresBulkable>asList(
+                new JresIndexDocument(index, type, id1, document, true),
+                new JresIndexDocument(index, type, id1, document, false)
+        )));
+        Assert.assertEquals(0, Iterables.size(reply.getErrorResults()));
+
+        reply = jres.quest(new JresBulk(index, type, Arrays.<JresBulkable>asList(
+                new JresIndexDocument(index, type, id2, document, true),
+                new JresIndexDocument(index, type, id2, document, true)
+        )));
+        Assert.assertEquals(1, Iterables.size(reply.getErrorResults()));
     }
 
     static class Document {
