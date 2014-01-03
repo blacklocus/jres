@@ -1,26 +1,11 @@
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Identifiers
-
-group = 'com.blacklocus'
-version = '0.1.1-SNAPSHOT'
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Plugins
-
-apply plugin: 'java'
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
-
-apply plugin: 'maven'
-apply plugin: 'signing'
 apply plugin: 'idea'
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Defines
 
 /** Function always returns a new manifest that can be customized */
 def defaultManifest() {
-    return manifest{
+    return manifest {
         def git_cmd = "git rev-parse HEAD"
         def git_proc = git_cmd.execute()
         attributes 'SCM-Revision': git_proc.text.trim()
@@ -35,55 +20,6 @@ def defaultBlank(closure) {
     } catch (MissingPropertyException e) {
         ''
     }
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Dependencies
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile 'org.apache.httpcomponents:httpclient:4.3.1'
-    compile 'org.codehaus.jackson:jackson-core-asl:1.9.13'
-    compile 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
-
-    compile 'org.apache.commons:commons-lang3:3.1'
-    compile 'commons-io:commons-io:2.4'
-    compile 'com.google.guava:guava:15.0'
-    compile 'com.google.code.findbugs:jsr305:2.0.2'
-
-    compile 'org.slf4j:slf4j-api:1.7.5'
-
-    testCompile 'junit:junit:4.11'
-    testCompile 'org.elasticsearch:elasticsearch:0.90.7'
-    testCompile 'org.slf4j:slf4j-simple:1.7.5'
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Artifacts
-
-jar {
-    manifest = defaultManifest()
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from 'build/docs/javadoc'
-    manifest = defaultManifest()
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-    manifest = defaultManifest()
-}
-
-artifacts {
-    archives jar
-    archives javadocJar
-    archives sourcesJar
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,53 +42,106 @@ allprojects {
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Publishing
+subprojects {
 
-signing {
-    sign configurations.archives
-}
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Identifiers
 
-uploadArchives {
-    repositories.mavenDeployer {
-        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+    group = 'com.blacklocus'
+    version = '0.1.1-SNAPSHOT'
+    ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
-        //# ./gradlew -PdeployUrl=http://server/artifactory/repo -PdeployUsername=admin -PdeployPassword=pass uploadArchives
-        repository(
-                url: defaultBlank({ deployUrl })
-                // for snapshots
-//                url: "https://oss.sonatype.org/content/repositories/snapshots/"
-                // for staging/release
-//                url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-        ) {
-            // If these are not defined assemble needlessly fails for unrelated tasks.
-            authentication(userName: defaultBlank({ deployUsername }), password: defaultBlank({ deployPassword }))
-        }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Plugins
 
-        pom.project {
-            name 'jres'
-            description 'An HTTP client for ElasticSearch without any code dependency on the ElasticSearch library.'
-            url 'https://github.com/blacklocus/jres'
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
+    apply plugin: 'java'
+    sourceCompatibility = 1.6
+    targetCompatibility = 1.6
+
+    apply plugin: 'maven'
+    apply plugin: 'signing'
+    apply plugin: 'idea'
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Dependencies
+
+    repositories {
+        mavenCentral()
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Artifacts
+
+    jar {
+        manifest = defaultManifest()
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from 'build/docs/javadoc'
+        manifest = defaultManifest()
+    }
+
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+        manifest = defaultManifest()
+    }
+
+    artifacts {
+        archives jar
+        archives javadocJar
+        archives sourcesJar
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Publishing
+
+    signing {
+        required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+        sign configurations.archives
+    }
+
+    uploadArchives {
+        dependsOn licenseFormatMain, licenseFormatTest
+        repositories.mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            //# ./gradlew -PdeployUrl=http://server/artifactory/repo -PdeployUsername=admin -PdeployPassword=pass uploadArchives
+            // for snapshots https://oss.sonatype.org/content/repositories/snapshots
+            // for staging/release https://oss.sonatype.org/service/local/staging/deploy/maven2
+            repository(
+                    url: defaultBlank({ deployUrl })
+            ) {
+                // If these are not defined assemble needlessly fails for unrelated tasks, hence, defaultBlank.
+                authentication(userName: defaultBlank({ deployUsername }), password: defaultBlank({ deployPassword }))
+            }
+
+            pom.project {
+                name 'jres'
+                description 'An HTTP client for ElasticSearch without any code dependency on the ElasticSearch library.'
+                url 'https://github.com/blacklocus/jres'
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
                 }
-            }
-            scm {
-                url 'https://github.com/blacklocus/jres.git'
-                connection 'scm:git:https://github.com/blacklocus/jres.git'
-                developerConnection 'scm:git:git@github.com:blacklocus/jres.git'
-            }
-            organization {
-                name 'BlackLocus'
-                url 'https://github.com/blacklocus'
-            }
-            developers {
-                developer {
-                    id 'dirkraft'
-                    name 'Jason Dunkelberger'
+                scm {
+                    url 'https://github.com/blacklocus/jres.git'
+                    connection 'scm:git:https://github.com/blacklocus/jres.git'
+                    developerConnection 'scm:git:git@github.com:blacklocus/jres.git'
+                }
+                organization {
+                    name 'BlackLocus'
+                    url 'https://github.com/blacklocus'
+                }
+                developers {
+                    developer {
+                        id 'dirkraft'
+                        name 'Jason Dunkelberger'
+                    }
                 }
             }
         }
@@ -162,13 +151,12 @@ uploadArchives {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Misc
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.10'
+}
+
 idea {
     project {
         languageLevel = '1.6'
     }
 }
-
-task createWrapper(type: Wrapper) {
-    gradleVersion = '1.8'
-}
-

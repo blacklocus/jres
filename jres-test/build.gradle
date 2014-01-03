@@ -1,0 +1,9 @@
+dependencies {
+
+    compile project(':jres')
+
+    compile 'junit:junit:4.11'
+    compile 'org.elasticsearch:elasticsearch:0.90.7'
+    testCompile 'org.slf4j:slf4j-simple:1.7.5'
+
+}

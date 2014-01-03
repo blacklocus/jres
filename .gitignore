@@ -1,8 +1,8 @@
-/jres.ipr
-/jres.iml
-/jres.iws
+*.ipr
+*.iml
+*.iws
 /.gradle/
-/build/
-/out/
+build/
+out/
 *.swp
 
