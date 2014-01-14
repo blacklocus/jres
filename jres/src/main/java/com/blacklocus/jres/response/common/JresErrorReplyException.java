@@ -45,6 +45,7 @@ public class JresErrorReplyException extends RuntimeException implements JresRep
     private final JsonNode node;
 
     public JresErrorReplyException(String error, Integer status, JsonNode node) {
+        super(error);
         this.error = error;
         this.status = status;
         this.node = node;
