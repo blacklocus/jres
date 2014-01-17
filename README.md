@@ -49,8 +49,9 @@ These are ElasticSearch API calls that return JSON (not all ElasticSearch APIs r
 can be deserialized into representative objects. If the HTTP response status code is not ok, then a
 `JresErrorReplyException` will be thrown. An example follows for indexing a document.
 
-[Index Document](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-index_.html) has been captured as
-[JresIndexDocument](https://github.com/blacklocus/jres/tree/master/jres/src/main/java/com/blacklocus/jres/request/JresRequest.java)
+[ElasticSearch API Index Document](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-index_.html)
+has been captured as
+[`JresIndexDocument`](https://github.com/blacklocus/jres/tree/master/jres/src/main/java/com/blacklocus/jres/request/JresRequest.java)
 This example is obscenely verbose for illustration.
 
     Jres jres = new Jres(Suppliers.ofInstance("http://elasticsearchhost:9200/"));
