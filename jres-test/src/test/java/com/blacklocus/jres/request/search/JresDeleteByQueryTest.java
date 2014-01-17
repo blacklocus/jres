@@ -37,17 +37,17 @@ public class JresDeleteByQueryTest extends BaseJresTest {
         jres.quest(new JresIndexDocument(index, type, new Document()));
         jres.quest(new JresRefresh(index));
         JresSearchReply searchReply = jres.quest(new JresSearch(index, type));
-        Assert.assertEquals(new Integer(1), searchReply.getHits().getTotal());
+        Assert.assertEquals((Object) 1L, searchReply.getHits().getTotal());
 
         jres.quest(new JresDeleteByQuery(index, type, new JresMatchQuery("bogus", "value")));
         jres.quest(new JresRefresh(index));
         searchReply = jres.quest(new JresSearch(index, type));
-        Assert.assertEquals(new Integer(1), searchReply.getHits().getTotal());
+        Assert.assertEquals((Object) 1L, searchReply.getHits().getTotal());
 
         jres.quest(new JresDeleteByQuery(index, type, new JresMatchAllQuery()));
         jres.quest(new JresRefresh(index));
         searchReply = jres.quest(new JresSearch(index, type));
-        Assert.assertEquals(new Integer(0), searchReply.getHits().getTotal());
+        Assert.assertEquals((Object) 0L, searchReply.getHits().getTotal());
     }
 
     static class Document {

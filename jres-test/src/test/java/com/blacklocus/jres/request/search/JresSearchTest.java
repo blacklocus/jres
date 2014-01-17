@@ -41,7 +41,7 @@ public class JresSearchTest extends BaseJresTest {
         jres.quest(new JresRefresh(index));
 
         JresSearchReply searchReply = jres.quest(new JresSearch(index, type));
-        Assert.assertEquals(new Integer(2), searchReply.getHits().getTotal());
+        Assert.assertEquals((Object) 2L, searchReply.getHits().getTotal());
     }
 
     static class Document {

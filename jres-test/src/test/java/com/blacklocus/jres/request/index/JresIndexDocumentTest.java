@@ -65,7 +65,7 @@ public class JresIndexDocumentTest extends BaseJresTest {
 
         jres.quest(new JresRefresh(index));
         Hits hits = jres.quest(new JresSearch(index, type)).getHits();
-        Assert.assertEquals(new Integer(1), hits.getTotal());
+        Assert.assertEquals((Object) 1L, hits.getTotal());
         Assert.assertEquals(document.value, hits.getHits().get(0).getSourceAsType(Document.class).value);
 
         document.value = "lol";
@@ -73,7 +73,7 @@ public class JresIndexDocumentTest extends BaseJresTest {
 
         jres.quest(new JresRefresh(index));
         hits = jres.quest(new JresSearch(index, type)).getHits();
-        Assert.assertEquals("should update existing, rather than create new doc", new Integer(1), hits.getTotal());
+        Assert.assertEquals("should update existing, rather than create new doc", (Object) 1L, hits.getTotal());
         Assert.assertEquals(document.value, hits.getHits().get(0).getSourceAsType(Document.class).value);
     }
 

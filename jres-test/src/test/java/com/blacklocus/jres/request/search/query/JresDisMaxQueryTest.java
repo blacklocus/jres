@@ -39,7 +39,7 @@ public class JresDisMaxQueryTest extends BaseJresTest {
         jres.quest(new JresIndexDocument(index, type, new Document("yellow car")));
         jres.quest(new JresRefresh(index));
         JresSearchReply quest = jres.quest(new JresSearch(index, type));
-        Assert.assertEquals(new Integer(3), quest.getHits().getTotal());
+        Assert.assertEquals((Object) 3L, quest.getHits().getTotal());
 
         JresSearchReply searchReply = jres.quest(new JresSearch(index, type,
                 new JresSearchBody().query(
@@ -48,7 +48,7 @@ public class JresDisMaxQueryTest extends BaseJresTest {
                         )
                 )
         ));
-        Assert.assertEquals(new Integer(2), searchReply.getHits().getTotal());
+        Assert.assertEquals((Object) 2L, searchReply.getHits().getTotal());
         for (Document document : searchReply.getHitsAsType(Document.class)) {
             Assert.assertTrue(document.description.contains("yellow"));
         }

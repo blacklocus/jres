@@ -56,7 +56,7 @@ public class JresBulkTest extends BaseJresTest {
 
         jres.quest(new JresRefresh(index));
         JresSearchReply searchReply = jres.quest(new JresSearch(index, type));
-        Assert.assertEquals(new Integer(2), searchReply.getHits().getTotal());
+        Assert.assertEquals((Object) 2L, searchReply.getHits().getTotal());
     }
 
     @Test
@@ -75,7 +75,7 @@ public class JresBulkTest extends BaseJresTest {
 
         jres.quest(new JresRefresh(index));
         JresSearchReply searchReply = jres.quest(new JresSearch(index, type));
-        Assert.assertEquals(new Integer(2), searchReply.getHits().getTotal());
+        Assert.assertEquals((Object) 2L, searchReply.getHits().getTotal());
 
         bulkResponse = jres.quest(new JresBulk(index, type, Arrays.<JresBulkable>asList(
                 new JresIndexDocument(index, type, "hi", new Document("hi again")),
@@ -89,7 +89,7 @@ public class JresBulkTest extends BaseJresTest {
         jres.quest(new JresRefresh(index));
         searchReply = jres.quest(new JresSearch(index, type));
         Assert.assertEquals("should have only updated existing since IDs given",
-                new Integer(2), searchReply.getHits().getTotal());
+                (Object) 2L, searchReply.getHits().getTotal());
     }
 
     @Test
@@ -120,7 +120,7 @@ public class JresBulkTest extends BaseJresTest {
 
         jres.quest(new JresRefresh(index));
         JresSearchReply searchReply = jres.quest(new JresSearch(index, type));
-        Assert.assertEquals(new Integer(1), searchReply.getHits().getTotal());
+        Assert.assertEquals((Object) 1L, searchReply.getHits().getTotal());
 
 
         bulkResponse = jres.quest(new JresBulk(index, type, Arrays.<JresBulkable>asList(

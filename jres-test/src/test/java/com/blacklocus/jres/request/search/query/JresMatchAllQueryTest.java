@@ -44,7 +44,7 @@ public class JresMatchAllQueryTest extends BaseJresTest {
         jres.quest(new JresRefresh(index));
 
         JresSearchReply searchReply = jres.quest(new JresSearch(index, type, new JresSearchBody().query(new JresMatchAllQuery())));
-        Assert.assertEquals(new Integer(3), searchReply.getHits().getTotal());
+        Assert.assertEquals((Object) 3L, searchReply.getHits().getTotal());
         Set<String> ids = Sets.newHashSet("1", "2", "3");
         for (Hit hit : searchReply.getHits().getHits()) {
             ids.remove(hit.getId());
