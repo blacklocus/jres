@@ -48,9 +48,14 @@ public class Jres {
     private final Supplier<String> hosts;
     private final HttpClient http;
 
-    public Jres(final List<String> hostOrHosts) {
+    public Jres(String elasticSearchHost) {
+        this(Suppliers.ofInstance(elasticSearchHost));
+
+    }
+
+    public Jres(final List<String> elasticSearchHostOrHosts) {
         this(new Supplier<String>() {
-            final Iterator<String> cycler = Iterators.cycle(hostOrHosts);
+            final Iterator<String> cycler = Iterators.cycle(elasticSearchHostOrHosts);
 
             @Override
             public String get() {
@@ -60,11 +65,11 @@ public class Jres {
     }
 
     /**
-     * @param hostOrHosts externalized host name provider to support arbitrary request load allocation. Use
+     * @param elasticSearchHostOrHosts externalized host name provider to support arbitrary request load allocation. Use
      *                    <code>{@link Suppliers#ofInstance(Object) Suppliers.ofInstance(host)}</code> for single entry.
      */
-    public Jres(Supplier<String> hostOrHosts) {
-        this.hosts = hostOrHosts;
+    public Jres(Supplier<String> elasticSearchHostOrHosts) {
+        this.hosts = elasticSearchHostOrHosts;
         this.http = HttpClientFactory.create(30 * 1000, 300 * 1000); // 30 sec & 5 min
     }
 
