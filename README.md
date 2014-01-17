@@ -39,7 +39,7 @@ of JresRequest&lt;JresReply&gt;), instead of requiring a large number of methods
 unique ElasticSearch API call.
 
 
-### jres.quest(request) ###
+### jres.quest ###
 
 This will likely be the primary invocation on a Jres object. It covers most kinds of requests and those that would be
 used most frequently such as indexing documents. It accepts JresRequests whose response extends the JresRequest-implementing abstract
@@ -80,14 +80,14 @@ For IntelliJ, use [Extract Variable Refactor](http://www.jetbrains.com/idea/webh
     }
 
 
-### jres.tolerate(...) ###
+### jres.tolerate ###
 
 is identical to `jres.quest` but tolerates exception responses. If there was an exception response and the HTTP response
 status code matches the given tolerated status code, that is captured in the return. This is useful where an error
 response might be expected without involving expensive and laborious exception handling.
 
 
-### jres.bool(request) ###
+### jres.bool ###
 
 represents ElasticSearch APIs that return a boolean response in the form of HTTP status codes (200 or 404). Negative
 responses should translate to false return values rather than JresErrorReplyExceptions.
