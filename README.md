@@ -44,8 +44,7 @@ of methods on the Jres object to represent each unique ElasticSearch API call.
 ### jres.quest ###
 
 This will likely be the primary invocation on a Jres object. It covers most kinds of requests and those that would be
-used most frequently such as indexing documents. It accepts JresRequests whose correlated response extends
-[JresJsonReply](https://github.com/blacklocus/jres/tree/master/jres/src/main/java/com/blacklocus/jres/response/JresJsonReply.java).
+used most frequently such as indexing documents. It accepts JresRequests whose correlated response extends `JresJsonReply`.
 These are ElasticSearch API calls that return JSON (not all ElasticSearch APIs return JSON), and so those responses
 can be deserialized into representative objects. If the HTTP response status code is not ok, then a
 `JresErrorReplyException` will be thrown. An example follows for indexing a document.
