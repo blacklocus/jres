@@ -30,20 +30,22 @@ gradle
 
 ## Usage ##
 
-Select ElasticSearch APIs are wrapped up in corresponding request objects that implement `JresRequest`. All such
-request objects are located in the `com.blacklocus.jres.request` package tree.
+Select ElasticSearch APIs are wrapped up in corresponding request objects that implement
+[`JresRequest`](https://github.com/blacklocus/jres/tree/master/jres/src/main/java/com/blacklocus/jres/request/JresRequest.java).
+All such request objects are located in the `com.blacklocus.jres.request` package tree.
 
-Notice that the request object captures what its `JsonReply` should be as a type parameter. Because the total
-ElasticSearch API is rather large, this transforms API bindings into the form of representative classes (implementors
-of JresRequest&lt;JresReply&gt;), instead of requiring a large number of methods on the Jres object to represent each
-unique ElasticSearch API call.
+Notice that the request object captures what its
+[`JresReply`](https://github.com/blacklocus/jres/tree/master/jres/src/main/java/com/blacklocus/jres/response/JresReply.java)
+should be as a type parameter. Because the total ElasticSearch API is rather large, this transforms API bindings into
+the form of representative classes (implementors of JresRequest&lt;JresReply&gt;), instead of requiring a large number
+of methods on the Jres object to represent each unique ElasticSearch API call.
 
 
 ### jres.quest ###
 
 This will likely be the primary invocation on a Jres object. It covers most kinds of requests and those that would be
-used most frequently such as indexing documents. It accepts JresRequests whose response extends the JresRequest-implementing abstract
-class [JresJsonReply](https://github.com/blacklocus/jres/tree/master/jres/src/main/java/com/blacklocus/jres/response/JresJsonReply.java).
+used most frequently such as indexing documents. It accepts JresRequests whose correlated response extends
+[JresJsonReply](https://github.com/blacklocus/jres/tree/master/jres/src/main/java/com/blacklocus/jres/response/JresJsonReply.java).
 These are ElasticSearch API calls that return JSON (not all ElasticSearch APIs return JSON), and so those responses
 can be deserialized into representative objects. If the HTTP response status code is not ok, then a
 `JresErrorReplyException` will be thrown. An example follows for indexing a document.
@@ -95,8 +97,8 @@ responses should translate to false return values rather than JresErrorReplyExce
 
 ----
 
-Plenty more examples can be observed in the request object unit tests
-[src/test/java/com.blacklocus.jres.request](https://github.com/blacklocus/jres/tree/master/jres-test/src/test/java/com/blacklocus/jres/request)
+Plenty more examples can be observed in the request object unit tests:
+[jres-test/src/test/java/com.blacklocus.jres.request](https://github.com/blacklocus/jres/tree/master/jres-test/src/test/java/com/blacklocus/jres/request)
 
 
 
