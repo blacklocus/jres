@@ -24,14 +24,14 @@ import java.util.List;
 */
 public class Hits {
 
-    private Integer total;
+    private Long total;
 
     @JsonProperty("max_score")
     private Double maxScore;
 
     private List<Hit> hits;
 
-    public Integer getTotal() {
+    public Long getTotal() {
         return total;
     }
 

@@ -15,6 +15,7 @@
  */
 package com.blacklocus.jres.request.search;
 
+import com.blacklocus.jres.request.search.facet.JresFacet;
 import com.blacklocus.jres.request.search.query.JresQuery;
 import com.blacklocus.jres.strings.ObjectMappers;
 import com.google.common.collect.ImmutableMap;
@@ -28,10 +29,20 @@ public class JresSearchBody {
 
     /** Single entry from {@link JresQuery#queryType()} to the JresQuery itself. */
     private Map<String, Object> query;
+    private Map<String, Object> facets;
     private Integer size;
 
     public JresSearchBody query(JresQuery query) {
         this.query = ImmutableMap.<String, Object>of(query.queryType(), query);
+        return this;
+    }
+
+    public JresSearchBody facets(JresFacet... facets) {
+        ImmutableMap.Builder<String, Object> builder = ImmutableMap.builder();
+        for (JresFacet facet : facets) {
+            builder.put(facet.facetName(), ImmutableMap.of(facet.facetType(), facet));
+        }
+        this.facets = builder.build();
         return this;
     }
 
@@ -55,6 +66,10 @@ public class JresSearchBody {
 
     public Map<String, Object> getQuery() {
         return query;
+    }
+
+    public Map<String, Object> getFacets() {
+        return facets;
     }
 
     public Integer getSize() {

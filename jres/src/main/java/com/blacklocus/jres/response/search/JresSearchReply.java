@@ -16,6 +16,7 @@
 package com.blacklocus.jres.response.search;
 
 import com.blacklocus.jres.model.Shards;
+import com.blacklocus.jres.model.search.Facets;
 import com.blacklocus.jres.model.search.Hit;
 import com.blacklocus.jres.model.search.Hits;
 import com.blacklocus.jres.response.JresJsonReply;
@@ -41,6 +42,9 @@ public class JresSearchReply extends JresJsonReply {
 
     private Hits hits;
 
+    private Facets facets;
+
+
     public Integer getTook() {
         return took;
     }
@@ -55,6 +59,10 @@ public class JresSearchReply extends JresJsonReply {
 
     public Hits getHits() {
         return hits;
+    }
+
+    public Facets getFacets() {
+        return facets;
     }
 
     /**
