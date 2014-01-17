@@ -18,8 +18,8 @@ import java.util.Arrays;
 public class JresTermsFacetTest extends BaseJresTest {
 
     @Test
-    public void testAllTerms() {
-        String index = "JresTermsFacetTest.testAllTerms".toLowerCase();
+    public void testTerms() {
+        String index = "JresTermsFacetTest.testTerms".toLowerCase();
         String type = "test";
 
         jres.quest(new JresCreateIndex(index));
@@ -37,13 +37,41 @@ public class JresTermsFacetTest extends BaseJresTest {
 
         TermsFacet termsFacet = reply.getFacets().get("the_terms", TermsFacet.class);
         Assert.assertEquals((Object) 6L, termsFacet.getTotal());
+        Assert.assertEquals((Object) 0L, termsFacet.getOther());
         Assert.assertEquals("terms", termsFacet.getType());
         Assert.assertEquals(Arrays.asList(
                 new TermsFacet.Term("three", 3L),
                 new TermsFacet.Term("two", 2L),
                 new TermsFacet.Term("one", 1L)
         ), termsFacet.getTerms());
+    }
 
-        System.out.println();
+    @Test
+    public void testRegex() {
+        String index = "JresTermsFacetTest.testRegex".toLowerCase();
+        String type = "test";
+
+        jres.quest(new JresCreateIndex(index));
+        jres.quest(new JresPutMapping(index, type));
+        jres.quest(new JresIndexDocument(index, type, ImmutableMap.of("value", "one")));
+        jres.quest(new JresIndexDocument(index, type, ImmutableMap.of("value", "two")));
+        jres.quest(new JresIndexDocument(index, type, ImmutableMap.of("value", "two")));
+        jres.quest(new JresIndexDocument(index, type, ImmutableMap.of("value", "three")));
+        jres.quest(new JresIndexDocument(index, type, ImmutableMap.of("value", "three")));
+        jres.quest(new JresIndexDocument(index, type, ImmutableMap.of("value", "three")));
+        jres.quest(new JresRefresh(index));
+
+        JresSearchBody search = new JresSearchBody().size(0).facets(new JresTermsFacet("the_terms", "value").regex("t.*"));
+        JresSearchReply reply = jres.quest(new JresSearch(index, type, search));
+
+        TermsFacet termsFacet = reply.getFacets().get("the_terms", TermsFacet.class);
+        Assert.assertEquals((Object) 6L, termsFacet.getTotal());
+        Assert.assertEquals((Object) 1L, termsFacet.getOther());
+        Assert.assertEquals("terms", termsFacet.getType());
+        Assert.assertEquals(Arrays.asList(
+                new TermsFacet.Term("three", 3L),
+                new TermsFacet.Term("two", 2L)
+                // one didn't match the regex "t.*"
+        ), termsFacet.getTerms());
     }
 }

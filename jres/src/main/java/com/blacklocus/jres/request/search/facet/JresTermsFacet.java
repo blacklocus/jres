@@ -9,6 +9,7 @@ public class JresTermsFacet implements JresFacet {
     private String field;
     @JsonProperty("all_terms")
     private Boolean allTerms;
+    private String regex;
 
     public JresTermsFacet(String name, String field) {
         this.name = name;
@@ -30,6 +31,11 @@ public class JresTermsFacet implements JresFacet {
         return this;
     }
 
+    public JresTermsFacet regex(String regex) {
+        this.regex = regex;
+        return this;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Serializable getter properties
 
@@ -39,5 +45,9 @@ public class JresTermsFacet implements JresFacet {
 
     public Boolean getAllTerms() {
         return allTerms;
+    }
+
+    public String getRegex() {
+        return regex;
     }
 }
