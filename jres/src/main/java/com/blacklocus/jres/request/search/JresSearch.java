@@ -29,7 +29,7 @@ public class JresSearch extends JresJsonRequest<JresSearchReply> {
 
     private @Nullable String index;
     private @Nullable String type;
-    private final JresSearchBody searchBody;
+    private final Object searchBody;
 
     public JresSearch() {
         this(new JresSearchBody());
@@ -44,6 +44,10 @@ public class JresSearch extends JresJsonRequest<JresSearchReply> {
     }
 
     public JresSearch(@Nullable String index, @Nullable String type, JresSearchBody searchBody) {
+        this(index, type, (Object) searchBody);
+    }
+
+    public JresSearch(@Nullable String index, @Nullable String type, Object searchBody) {
         super(JresSearchReply.class);
         this.searchBody = searchBody;
         this.index = index;

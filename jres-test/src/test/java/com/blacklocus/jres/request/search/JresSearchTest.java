@@ -31,7 +31,7 @@ public class JresSearchTest extends BaseJresTest {
 
     @Test
     public void test() throws InterruptedException {
-        String index = "JresSearchRequestTest_test".toLowerCase();
+        String index = "JresSearchTest.test".toLowerCase();
         String type = "test";
 
         jres.quest(new JresCreateIndex(index));
@@ -42,6 +42,21 @@ public class JresSearchTest extends BaseJresTest {
 
         JresSearchReply searchReply = jres.quest(new JresSearch(index, type));
         Assert.assertEquals((Object) 2L, searchReply.getHits().getTotal());
+    }
+
+    @Test
+    public void testArbitraryStringQuery() {
+        String index = "JresSearchTest.testArbitraryStringQuery".toLowerCase();
+        String type = "test";
+
+        jres.quest(new JresCreateIndex(index));
+        jres.quest(new JresPutMapping(index, type));
+        jres.quest(new JresIndexDocument(index, type, new Document("one")));
+        jres.quest(new JresIndexDocument(index, type, new Document("two")));
+        jres.quest(new JresRefresh(index));
+
+        JresSearchReply searchReply = jres.quest(new JresSearch(index, type, "{\"size\":1}"));
+        Assert.assertEquals(1, searchReply.getHits().getHits().size());
     }
 
     static class Document {
