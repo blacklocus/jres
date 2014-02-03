@@ -46,7 +46,7 @@ public class JresGetMapping extends JresJsonRequest<JresJsonReply> {
 
     @Override
     public String getPath() {
-        return JresPaths.slashed(index) + JresPaths.slashed(type) + "_mapping";
+        return JresPaths.slashedPath(index) + JresPaths.slashedPath(type) + "_mapping";
     }
 
     @Override

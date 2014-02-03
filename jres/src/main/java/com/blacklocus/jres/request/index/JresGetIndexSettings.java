@@ -44,7 +44,7 @@ public class JresGetIndexSettings extends JresJsonRequest<JresJsonReply> {
 
     @Override
     public String getPath() {
-        return JresPaths.slashed(index) + "_settings";
+        return JresPaths.slashedPath(index) + "_settings";
     }
 
     @Override

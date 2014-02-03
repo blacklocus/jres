@@ -43,7 +43,7 @@ public class JresGetDocument extends JresJsonRequest<JresGetDocumentReply> {
 
     @Override
     public String getPath() {
-        return JresPaths.slashed(index, type) + id;
+        return JresPaths.slashedPath(index, type) + id;
     }
 
     @Override

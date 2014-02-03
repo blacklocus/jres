@@ -97,13 +97,16 @@ subprojects {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Publishing
 
+    assemble {
+        dependsOn licenseFormatMain, licenseFormatTest
+    }
+
     signing {
         required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
         sign configurations.archives
     }
 
     uploadArchives {
-        dependsOn licenseFormatMain, licenseFormatTest
         repositories.mavenDeployer {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 

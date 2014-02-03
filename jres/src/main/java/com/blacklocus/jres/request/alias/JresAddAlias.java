@@ -50,7 +50,7 @@ public class JresAddAlias extends JresJsonRequest<JresAcknowledgedReply> {
 
     @Override
     public String getPath() {
-        return JresPaths.slashed(index) + "_alias/" + alias;
+        return JresPaths.slashedPath(index) + "_alias/" + alias;
     }
 
     @Override

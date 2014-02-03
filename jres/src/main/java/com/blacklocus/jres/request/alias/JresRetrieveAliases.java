@@ -52,7 +52,7 @@ public class JresRetrieveAliases extends JresJsonRequest<JresRetrieveAliasesRepl
 
     @Override
     public String getPath() {
-        return JresPaths.slashed(indexPattern) + "_alias/" + aliasPattern;
+        return JresPaths.slashedPath(indexPattern) + "_alias/" + aliasPattern;
     }
 
     @Override

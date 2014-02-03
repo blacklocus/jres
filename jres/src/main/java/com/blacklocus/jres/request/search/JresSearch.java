@@ -27,16 +27,20 @@ import javax.annotation.Nullable;
  */
 public class JresSearch extends JresJsonRequest<JresSearchReply> {
 
-    private @Nullable String index;
-    private @Nullable String type;
+    private final @Nullable String index;
+    private final @Nullable String type;
     private final Object searchBody;
 
     public JresSearch() {
-        this(new JresSearchBody());
+        this(null, null, new JresSearchBody());
     }
 
     public JresSearch(JresSearchBody searchBody) {
         this(null, null, searchBody);
+    }
+
+    public JresSearch(@Nullable String index) {
+        this(index, null, new JresSearchBody());
     }
 
     public JresSearch(@Nullable String index, @Nullable String type) {
@@ -61,7 +65,7 @@ public class JresSearch extends JresJsonRequest<JresSearchReply> {
 
     @Override
     public String getPath() {
-        return JresPaths.slashed(index) + JresPaths.slashed(type) + "_search";
+        return JresPaths.slashedPath(index) + JresPaths.slashedPath(type) + "_search";
     }
 
     @Override

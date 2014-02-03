@@ -42,7 +42,7 @@ public class JresTypeExists extends JresBooleanRequest {
 
     @Override
     public String getPath() {
-        return JresPaths.slashed(index) + type;
+        return JresPaths.slashedPath(index) + type;
     }
 
     @Override

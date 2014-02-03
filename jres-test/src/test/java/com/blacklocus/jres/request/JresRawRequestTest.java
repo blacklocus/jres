@@ -48,7 +48,7 @@ public class JresRawRequestTest extends BaseJresTest {
 
         List<Document> hits = jres.quest(new JresRawRequest<JresSearchReply>(
                 HttpPost.METHOD_NAME,
-                JresPaths.slashed(index) + "_search",
+                JresPaths.slashedPath(index) + "_search",
                 "{\"query\":{\"match_all\":{}}}",
                 JresSearchReply.class
         )).getHitsAsType(Document.class);
@@ -56,7 +56,7 @@ public class JresRawRequestTest extends BaseJresTest {
 
         hits = jres.quest(new JresRawRequest<JresSearchReply>(
                 HttpPost.METHOD_NAME,
-                JresPaths.slashed(index) + "_search",
+                JresPaths.slashedPath(index) + "_search",
                 JresRawRequestTest.class.getResource("raw query.json"),
                 JresSearchReply.class
         )).getHitsAsType(Document.class);

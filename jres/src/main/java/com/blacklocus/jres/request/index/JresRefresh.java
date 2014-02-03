@@ -39,7 +39,7 @@ public class JresRefresh extends JresJsonRequest<JresShardsReply> {
 
     @Override
     public String getPath() {
-        return JresPaths.slashed(index) + "_refresh";
+        return JresPaths.slashedPath(index) + "_refresh";
     }
 
     @Override

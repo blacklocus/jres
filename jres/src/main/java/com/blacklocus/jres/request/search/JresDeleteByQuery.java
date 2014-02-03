@@ -53,7 +53,7 @@ public class JresDeleteByQuery extends JresJsonRequest<JresIndicesReply> {
 
     @Override
     public String getPath() {
-        return JresPaths.slashed(index) + JresPaths.slashed(type) + "_query";
+        return JresPaths.slashedPath(index) + JresPaths.slashedPath(type) + "_query";
     }
 
     @Override

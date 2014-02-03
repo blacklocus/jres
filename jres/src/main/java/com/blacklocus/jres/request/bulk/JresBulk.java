@@ -53,7 +53,7 @@ public class JresBulk extends JresJsonRequest<JresBulkReply> {
 
     @Override
     public String getPath() {
-        return JresPaths.slashed(index) + JresPaths.slashed(type) + "_bulk";
+        return JresPaths.slashedPath(index) + JresPaths.slashedPath(type) + "_bulk";
     }
 
     @Override

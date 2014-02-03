@@ -39,7 +39,7 @@ public class JresFlush extends JresJsonRequest<JresShardsReply> {
 
     @Override
     public String getPath() {
-        return JresPaths.slashed(index) + "_flush";
+        return JresPaths.slashedPath(index) + "_flush";
     }
 
     @Override

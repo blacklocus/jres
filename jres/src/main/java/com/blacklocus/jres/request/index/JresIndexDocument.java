@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 
-import static com.blacklocus.jres.strings.JresPaths.slashed;
+import static com.blacklocus.jres.strings.JresPaths.slashedPath;
 
 /**
  * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-index_.html#docs-index_">Index Document API</a>
@@ -74,9 +74,9 @@ public class JresIndexDocument extends JresJsonRequest<JresIndexDocumentReply> i
 
     @Override
     public String getPath() {
-        String path = slashed(index, type) + (id == null ? "" : id);
+        String path = slashedPath(index, type) + (id == null ? "" : id);
         if (createOnly) {
-            path = slashed(path) + "?op_type=create";
+            path = slashedPath(path) + "?op_type=create";
         }
         return path;
     }

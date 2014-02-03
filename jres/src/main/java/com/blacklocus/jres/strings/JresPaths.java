@@ -17,14 +17,16 @@ package com.blacklocus.jres.strings;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 /**
  * @author Jason Dunkelberger (dirkraft)
  */
 public class JresPaths {
 
     /**
-     * @return fragment appended with '/' if not present. Does nothing to blank strings. <code>null</code>s upgraded
-     * to empty strings
+     * @return fragments each appended with '/' if not present, and concatenated together
      */
     public static String slashed(String... fragments) {
         StringBuilder sb = new StringBuilder();
@@ -34,5 +36,21 @@ public class JresPaths {
                     fragment + "/");
         }
         return sb.toString();
+    }
+
+    /**
+     * @return fragments encoded as valid URI path sections, each appended with '/' if not present. <code>null</code>s
+     * upgraded to empty strings. Appends nothing to blank strings (and nulls). Any leading slashes will be dropped.
+     */
+    public static String slashedPath(String... fragments) {
+        String slashed = slashed(fragments);
+        try {
+            // Encode (anything that needs to be) in the path. Surprisingly this works.
+            String encodedPath = new URI(null, null, slashed, null).getRawPath();
+            // Strip leading slash. Omitting it is slightly more portable where URIs are being constructed.
+            return encodedPath.startsWith("/") ? encodedPath.substring(1) : encodedPath;
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
