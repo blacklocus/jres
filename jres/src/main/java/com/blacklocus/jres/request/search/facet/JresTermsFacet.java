@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.request.search.facet;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class JresTermsFacet implements JresFacet {
 

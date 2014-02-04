@@ -17,7 +17,7 @@ package com.blacklocus.jres.response.common;
 
 import com.blacklocus.jres.model.Indices;
 import com.blacklocus.jres.response.JresJsonReply;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
@@ -36,4 +36,5 @@ public class JresIndicesReply extends JresJsonReply {
     public Indices getIndices() {
         return indices;
     }
+
 }

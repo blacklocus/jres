@@ -20,10 +20,10 @@ import com.blacklocus.jres.model.search.Facets;
 import com.blacklocus.jres.model.search.Hit;
 import com.blacklocus.jres.model.search.Hits;
 import com.blacklocus.jres.response.JresJsonReply;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.type.TypeReference;
 
 import java.util.List;
 

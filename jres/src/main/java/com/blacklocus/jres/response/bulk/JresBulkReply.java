@@ -18,11 +18,11 @@ package com.blacklocus.jres.response.bulk;
 import com.blacklocus.jres.model.bulk.Item;
 import com.blacklocus.jres.response.JresJsonReply;
 import com.blacklocus.jres.strings.ObjectMappers;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import org.codehaus.jackson.JsonNode;
 
 import java.util.List;
 import java.util.Map;
@@ -58,7 +58,7 @@ public class JresBulkReply extends JresJsonReply {
             @Override
             public JresBulkItemResult apply(JsonNode resultEntry) {
                 assert resultEntry.size() == 1;
-                Map.Entry<String, JsonNode> result = resultEntry.getFields().next();
+                Map.Entry<String, JsonNode> result = resultEntry.fields().next();
                 Item item = ObjectMappers.fromJson(result.getValue(), Item.class);
                 return new JresBulkItemResult(result.getKey(), item);
             }

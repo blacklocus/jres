@@ -19,10 +19,10 @@ import com.blacklocus.jres.request.JresBulkable;
 import com.blacklocus.jres.request.JresJsonRequest;
 import com.blacklocus.jres.response.index.JresIndexDocumentReply;
 import com.blacklocus.misc.NoNullsMap;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
 import org.apache.http.client.methods.HttpPost;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import static com.blacklocus.jres.strings.JresPaths.slashedPath;
 

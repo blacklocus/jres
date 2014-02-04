@@ -16,7 +16,7 @@
 package com.blacklocus.jres.response.index;
 
 import com.blacklocus.jres.response.JresJsonReply;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Jason Dunkelberger (dirkraft)

@@ -15,10 +15,10 @@
  */
 package com.blacklocus.jres.request.search.query;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.Arrays;
 import java.util.List;

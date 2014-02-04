@@ -17,7 +17,7 @@ package com.blacklocus.jres.response.common;
 
 import com.blacklocus.jres.model.Shards;
 import com.blacklocus.jres.response.JresJsonReply;
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Jason Dunkelberger (dirkraft)

@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.response;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * @author Jason Dunkelberger (dirkraft)

@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.request.search.query;
 
-import org.codehaus.jackson.annotate.JsonValue;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.Collections;
 import java.util.Map;

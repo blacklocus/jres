@@ -19,10 +19,10 @@ import com.blacklocus.jres.response.JresJsonReply;
 import com.blacklocus.jres.response.JresReply;
 import com.blacklocus.jres.response.common.JresErrorReplyException;
 import com.blacklocus.jres.strings.ObjectMappers;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.ContentType;
-import org.codehaus.jackson.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -23,8 +23,8 @@ import com.blacklocus.jres.request.search.JresSearch;
 import com.blacklocus.jres.response.common.JresErrorReplyException;
 import com.blacklocus.jres.response.document.JresGetDocumentReply;
 import com.blacklocus.jres.response.search.JresSearchReply;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.ImmutableMap;
-import org.codehaus.jackson.type.TypeReference;
 import org.junit.Assert;
 import org.junit.Test;
 

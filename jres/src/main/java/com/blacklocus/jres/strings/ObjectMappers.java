@@ -15,12 +15,14 @@
  */
 package com.blacklocus.jres.strings;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializationConfig;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.type.TypeReference;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,17 +36,17 @@ public class ObjectMappers {
 
     public static final ObjectMapper PRETTY = newConfiguredObjectMapper();
     static {
-        PRETTY.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+        PRETTY.configure(SerializationFeature.INDENT_OUTPUT, true);
     }
 
     static ObjectMapper newConfiguredObjectMapper() {
         return new ObjectMapper()
                 // ElasticSearch is usually more okay with absence of properties rather than presence with null values.
-                .setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL)
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 // Allow empty JSON objects where they might occur.
-                .configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false)
+                .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
                 // Not all properties need to be mapped back into POJOs.
-                .configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     /**
@@ -108,24 +110,24 @@ public class ObjectMappers {
     }
 
     /**
-     * Convenience around {@link ObjectMapper#readValue(JsonNode, Class)} with {@link ObjectMappers#NORMAL} wrapping
+     * Convenience around {@link ObjectMapper#readValue(JsonParser, Class)} with {@link ObjectMappers#NORMAL} wrapping
      * checked exceptions in {@link RuntimeException}
      */
     public static <T> T fromJson(JsonNode json, Class<T> klass) {
         try {
-            return NORMAL.readValue(json, klass);
+            return NORMAL.readValue(json.traverse(), klass);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     /**
-     * Convenience around {@link ObjectMapper#readValue(JsonNode, TypeReference)} with {@link ObjectMappers#NORMAL} wrapping
+     * Convenience around {@link ObjectMapper#readValue(JsonParser, TypeReference)} with {@link ObjectMappers#NORMAL} wrapping
      * checked exceptions in {@link RuntimeException}
      */
     public static <T> T fromJson(JsonNode json, TypeReference<T> typeReference) {
         try {
-            return NORMAL.readValue(json, typeReference);
+            return NORMAL.readValue(json.traverse(), typeReference);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

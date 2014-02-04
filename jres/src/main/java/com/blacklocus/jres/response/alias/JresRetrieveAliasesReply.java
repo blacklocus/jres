@@ -29,10 +29,10 @@ import java.util.List;
 public class JresRetrieveAliasesReply extends JresJsonReply {
 
     public List<String> getIndexes() {
-        return Lists.newArrayList(node().getFieldNames());
+        return Lists.newArrayList(node().fieldNames());
     }
 
     public List<String> getAliases(String index) {
-        return Lists.newArrayList(node().get(index).get("aliases").getFieldNames());
+        return Lists.newArrayList(node().get(index).get("aliases").fieldNames());
     }
 }

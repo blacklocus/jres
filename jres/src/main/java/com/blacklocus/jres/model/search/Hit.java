@@ -16,9 +16,9 @@
 package com.blacklocus.jres.model.search;
 
 import com.blacklocus.jres.strings.ObjectMappers;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.type.TypeReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * @author Jason Dunkelberger (dirkraft)

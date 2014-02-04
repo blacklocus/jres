@@ -16,7 +16,7 @@
 package com.blacklocus.jres.model.search;
 
 import com.blacklocus.jres.strings.ObjectMappers;
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.HashMap;
 

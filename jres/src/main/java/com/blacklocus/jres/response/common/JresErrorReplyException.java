@@ -23,8 +23,8 @@ import com.blacklocus.jres.request.mapping.JresGetMapping;
 import com.blacklocus.jres.request.mapping.JresPutMapping;
 import com.blacklocus.jres.response.JresReply;
 import com.blacklocus.jres.strings.ObjectMappers;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.type.TypeReference;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * Possible response for <ul>

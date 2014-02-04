@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.model.bulk;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Jason Dunkelberger (dirkraft)

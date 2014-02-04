@@ -28,12 +28,12 @@ import com.blacklocus.jres.response.JresReply;
 import com.blacklocus.jres.response.common.JresErrorReplyException;
 import com.blacklocus.jres.strings.JresPaths;
 import com.blacklocus.jres.strings.ObjectMappers;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Iterators;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.codehaus.jackson.type.TypeReference;
 
 import java.io.IOException;
 import java.net.URL;
