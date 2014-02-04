@@ -22,6 +22,8 @@ import com.blacklocus.misc.NoNullsMap;
 import com.google.common.collect.ImmutableMap;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import static com.blacklocus.jres.strings.JresPaths.slashedPath;
 
@@ -58,13 +60,38 @@ public class JresIndexDocument extends JresJsonRequest<JresIndexDocumentReply> i
      * Index a document with the specified id. If <code>`create`</code> ElasticSearch will error on an attempt to
      * update an existing document at the given id.
      */
-    public JresIndexDocument(String index, String type, String id, Object document, boolean createOnly) {
+    @JsonCreator
+    public JresIndexDocument(@JsonProperty("index") String index,
+                             @JsonProperty("type") String type,
+                             @JsonProperty("id") String id,
+                             @JsonProperty("document") Object document,
+                             @JsonProperty("createOnly") boolean createOnly) {
         super(JresIndexDocumentReply.class);
         this.index = index;
         this.type = type;
         this.id = id;
         this.document = document;
         this.createOnly = createOnly;
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Object getDocument() {
+        return document;
+    }
+
+    public Boolean getCreateOnly() {
+        return createOnly;
     }
 
     @Override
@@ -96,4 +123,29 @@ public class JresIndexDocument extends JresJsonRequest<JresIndexDocumentReply> i
         return document;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JresIndexDocument that = (JresIndexDocument) o;
+
+        if (createOnly != null ? !createOnly.equals(that.createOnly) : that.createOnly != null) return false;
+        if (document != null ? !document.equals(that.document) : that.document != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (index != null ? !index.equals(that.index) : that.index != null) return false;
+        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = index != null ? index.hashCode() : 0;
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (document != null ? document.hashCode() : 0);
+        result = 31 * result + (createOnly != null ? createOnly.hashCode() : 0);
+        return result;
+    }
 }

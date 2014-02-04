@@ -21,6 +21,8 @@ import com.blacklocus.jres.response.index.JresIndexDocumentReply;
 import com.blacklocus.misc.NoNullsMap;
 import com.google.common.collect.ImmutableMap;
 import org.apache.http.client.methods.HttpPost;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import static com.blacklocus.jres.strings.JresPaths.slashedPath;
 
@@ -54,13 +56,38 @@ public class JresUpdateDocument extends JresJsonRequest<JresIndexDocumentReply> 
      *
      * @param docAsUpsert If false, prevents ElasticSearch from automatically creating a new document.
      */
-    public JresUpdateDocument(String index, String type, String id, Object document, boolean docAsUpsert) {
+    @JsonCreator
+    public JresUpdateDocument(@JsonProperty("index") String index,
+                              @JsonProperty("type") String type,
+                              @JsonProperty("id") String id,
+                              @JsonProperty("documment") Object document,
+                              @JsonProperty("docAsUpsert") boolean docAsUpsert) {
         super(JresIndexDocumentReply.class);
         this.index = index;
         this.type = type;
         this.id = id;
         this.document = document;
         this.docAsUpsert = docAsUpsert;
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Object getDocument() {
+        return document;
+    }
+
+    public boolean isDocAsUpsert() {
+        return docAsUpsert;
     }
 
     @Override
@@ -88,5 +115,31 @@ public class JresUpdateDocument extends JresJsonRequest<JresIndexDocumentReply> 
                 "doc", document,
                 "doc_as_upsert", docAsUpsert
         );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        JresUpdateDocument that = (JresUpdateDocument) o;
+
+        if (docAsUpsert != that.docAsUpsert) return false;
+        if (document != null ? !document.equals(that.document) : that.document != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (index != null ? !index.equals(that.index) : that.index != null) return false;
+        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = index != null ? index.hashCode() : 0;
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (document != null ? document.hashCode() : 0);
+        result = 31 * result + (docAsUpsert ? 1 : 0);
+        return result;
     }
 }

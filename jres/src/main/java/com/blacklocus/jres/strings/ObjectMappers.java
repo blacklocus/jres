@@ -72,6 +72,18 @@ public class ObjectMappers {
     }
 
     /**
+     * Convenience around {@link ObjectMapper#readValue(String, TypeReference)} with {@link ObjectMappers#NORMAL} wrapping
+     * checked exceptions in {@link RuntimeException}
+     */
+    public static <T> T fromJson(String json, TypeReference<T> typeReference) {
+        try {
+            return NORMAL.readValue(json, typeReference);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Convenience around {@link ObjectMapper#readValue(InputStream, Class)} with {@link ObjectMappers#NORMAL} wrapping
      * checked exceptions in {@link RuntimeException}
      */
