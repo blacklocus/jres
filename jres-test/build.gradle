@@ -2,9 +2,13 @@ dependencies {
 
     compile project(':jres')
 
-    compile 'junit:junit:4.11'
-    compile 'org.elasticsearch:elasticsearch:0.90.7'
-    testCompile 'org.slf4j:slf4j-simple:1.7.5'
-    testCompile 'org.reflections:reflections:0.9.8'
+    compile deps.junit
+    compile deps.elasticsearch
+
+
+    testCompile project(':jres-util')
+
+    testCompile deps.slf4j_simple
+    testCompile deps.reflections
 
 }

@@ -32,5 +32,19 @@ public interface JresBulkable {
      */
     Object getPayload();
 
+    /**
+     * @return target ElasticSearch index
+     */
+    String getIndex();
+
+    /**
+     * @return target ElasticSearch type
+     */
+    String getType();
+
+    /*
+     * @return target document id
+     */
+    String getId();
 
 }

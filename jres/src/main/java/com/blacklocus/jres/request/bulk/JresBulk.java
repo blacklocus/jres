@@ -27,6 +27,7 @@ import com.google.common.io.ByteStreams;
 import com.google.common.io.InputSupplier;
 import org.apache.http.client.methods.HttpPost;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -35,11 +36,15 @@ import java.io.InputStream;
  */
 public class JresBulk extends JresJsonRequest<JresBulkReply> {
 
-    private final String index;
-    private final String type;
+    private final @Nullable String index;
+    private final @Nullable String type;
     private final Iterable<JresBulkable> actions;
 
-    public JresBulk(String index, String type, Iterable<JresBulkable> actions) {
+    /**
+     * `index` or `type` are nullable if given JresBulkables specify them. For those that don't, ElasticSearch behavior
+     * is to default to the index or type given here.
+     */
+    public JresBulk(@Nullable String index, @Nullable String type, Iterable<JresBulkable> actions) {
         super(JresBulkReply.class);
         this.index = index;
         this.type = type;

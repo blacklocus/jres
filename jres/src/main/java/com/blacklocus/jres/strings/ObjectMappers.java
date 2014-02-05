@@ -62,6 +62,18 @@ public class ObjectMappers {
     }
 
     /**
+     * Convenience around {@link ObjectMapper#writeValueAsString(Object)} with {@link ObjectMappers#PRETTY} wrapping
+     * checked exceptions in {@link RuntimeException}
+     */
+    public static String toJsonPretty(Object o) {
+        try {
+            return PRETTY.writeValueAsString(o);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Convenience around {@link ObjectMapper#readValue(String, Class)} with {@link ObjectMappers#NORMAL} wrapping
      * checked exceptions in {@link RuntimeException}
      */

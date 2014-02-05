@@ -115,6 +115,8 @@ public class HttpMethods {
      */
     public static HttpUriRequest createRequest(String method, String url, final Object payload) {
 
+        LOG.debug("{} {}", method, url);
+
         HttpUriRequest httpUriRequest = METHODS.get(method.toUpperCase()).newMethod(url);
         httpUriRequest.addHeader("Accept", ContentType.APPLICATION_JSON.toString());
 

@@ -19,6 +19,7 @@ import com.blacklocus.jres.strings.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Objects;
 
 /**
  * @author Jason Dunkelberger (dirkraft)
@@ -67,5 +68,17 @@ public class Hit {
 
     public <T> T getSourceAsType(TypeReference<T> typeReference) {
         return ObjectMappers.fromJson(source, typeReference);
+    }
+
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("index", index)
+                .add("type", type)
+                .add("id", id)
+                .add("score", score)
+                .add("source", ObjectMappers.toJsonPretty(source))
+                .toString();
     }
 }

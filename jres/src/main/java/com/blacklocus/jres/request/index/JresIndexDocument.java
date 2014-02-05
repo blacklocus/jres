@@ -17,6 +17,7 @@ package com.blacklocus.jres.request.index;
 
 import com.blacklocus.jres.request.JresBulkable;
 import com.blacklocus.jres.request.JresJsonRequest;
+import com.blacklocus.jres.request.bulk.JresBulk;
 import com.blacklocus.jres.response.index.JresIndexDocumentReply;
 import com.blacklocus.misc.NoNullsMap;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -24,6 +25,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+
+import javax.annotation.Nullable;
 
 import static com.blacklocus.jres.strings.JresPaths.slashedPath;
 
@@ -34,36 +37,41 @@ import static com.blacklocus.jres.strings.JresPaths.slashedPath;
  */
 public class JresIndexDocument extends JresJsonRequest<JresIndexDocumentReply> implements JresBulkable {
 
-    private final String index;
-    private final String type;
+    private final @Nullable String index;
+    private final @Nullable String type;
 
-    private final String id;
+    private final @Nullable String id;
     private final Object document;
 
     private final Boolean createOnly;
 
     /**
-     * Index a document with no specified id. ElasticSearch will generate one.
+     * Index a document with no specified id. ElasticSearch will generate one. `index` or `type` are nullable
+     * if this operation is to be included in a {@link JresBulk} request which specifies a default index or type,
+     * respectively.
      */
-    public JresIndexDocument(String index, String type, Object document) {
+    public JresIndexDocument(@Nullable String index, @Nullable String type, Object document) {
         this(index, type, null, document);
     }
 
     /**
      * Index a document with a specified id. ElasticSearch will replace any existing document with this id.
+     * `index` or `type` are nullable if this operation is to be included in a {@link JresBulk} request which specifies
+     * a default index or type, respectively.
      */
-    public JresIndexDocument(String index, String type, String id, Object document) {
+    public JresIndexDocument(@Nullable String index, @Nullable String type, @Nullable String id, Object document) {
         this(index, type, id, document, false);
     }
 
     /**
      * Index a document with the specified id. If <code>`create`</code> ElasticSearch will error on an attempt to
-     * update an existing document at the given id.
+     * update an existing document at the given id. `index` or `type` are nullable if this operation is to be included
+     * in a {@link JresBulk} request which specifies a default index or type, respectively.
      */
     @JsonCreator
-    public JresIndexDocument(@JsonProperty("index") String index,
-                             @JsonProperty("type") String type,
-                             @JsonProperty("id") String id,
+    public JresIndexDocument(@JsonProperty("index") @Nullable String index,
+                             @JsonProperty("type") @Nullable String type,
+                             @JsonProperty("id") @Nullable String id,
                              @JsonProperty("document") Object document,
                              @JsonProperty("createOnly") boolean createOnly) {
         super(JresIndexDocumentReply.class);
@@ -74,14 +82,20 @@ public class JresIndexDocument extends JresJsonRequest<JresIndexDocumentReply> i
         this.createOnly = createOnly;
     }
 
+    @Override
+    @Nullable
     public String getIndex() {
         return index;
     }
 
+    @Override
+    @Nullable
     public String getType() {
         return type;
     }
 
+    @Override
+    @Nullable
     public String getId() {
         return id;
     }
