@@ -20,7 +20,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * This is a clone of {@link Executors.DefaultThreadFactory} except that the threads it produces are always daemon threads.
+ * This is a clone of <code>Executors.DefaultThreadFactory</code> except that the threads it produces are always daemon threads.
  * Lingering non-daemon threads are often the cause of JVM shutdown hang. All {@link Executors} builders that use
  * the Executors.DefaultThreadFactory produce non-daemon threads which result in this behavior. All {@link Executors}
  * builders have a second form which accepts a non-default {@link ThreadFactory}, the ideal conduit to make use of

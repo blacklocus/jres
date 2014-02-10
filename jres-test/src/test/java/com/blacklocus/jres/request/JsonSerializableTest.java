@@ -17,14 +17,17 @@ package com.blacklocus.jres.request;
 
 import com.blacklocus.jres.request.index.JresIndexDocument;
 import com.blacklocus.jres.request.index.JresUpdateDocument;
+import com.blacklocus.jres.request.index.JresUpdateDocumentScript;
 import com.blacklocus.jres.strings.ObjectMappers;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
 import org.reflections.Reflections;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,6 +49,13 @@ public class JsonSerializableTest {
         // In lexicographical order of class hierarchy under JresBulkable
         check(new JresIndexDocument("index", "type", "id", "document", false), new TypeReference<JresIndexDocument>() {});
         check(new JresUpdateDocument("index", "type", "id", "document", false), new TypeReference<JresUpdateDocument>() {});
+        check(new JresUpdateDocumentScript("index", "type", "id", "the script", ImmutableMap.of(
+                "field", "value",
+                "another", Arrays.asList("two", "values")
+        ), ImmutableMap.of(
+                "fields", "initial",
+                "another", Arrays.asList("one", "two")
+        )), new TypeReference<JresUpdateDocumentScript>() {});
     }
 
     /**

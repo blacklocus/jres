@@ -66,7 +66,7 @@ This example is obscenely verbose for illustration.
 
 Usually I find that IDE tooling helps immensely here. Lay out your request without variable capture.
 
-    jres.quest(new JresIndexDocument(elasticSearchIndex, elasticSearchDocumentType, document)
+    jres.quest(new JresIndexDocument(elasticSearchIndex, elasticSearchDocumentType, document))
 
 Then use your tooling to figure out what the reply object is, rather than inspecting the request class yourself.
 For IntelliJ, use [Extract Variable Refactor](http://www.jetbrains.com/idea/webhelp/extract-variable.html).
