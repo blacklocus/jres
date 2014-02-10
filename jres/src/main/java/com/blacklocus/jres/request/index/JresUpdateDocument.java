@@ -60,7 +60,7 @@ public class JresUpdateDocument extends JresJsonRequest<JresIndexDocumentReply> 
     public JresUpdateDocument(@JsonProperty("index") String index,
                               @JsonProperty("type") String type,
                               @JsonProperty("id") String id,
-                              @JsonProperty("documment") Object document,
+                              @JsonProperty("document") Object document,
                               @JsonProperty("docAsUpsert") boolean docAsUpsert) {
         super(JresIndexDocumentReply.class);
         this.index = index;
