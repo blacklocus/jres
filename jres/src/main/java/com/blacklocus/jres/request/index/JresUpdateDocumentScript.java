@@ -21,6 +21,7 @@ import com.blacklocus.jres.request.bulk.JresBulk;
 import com.blacklocus.jres.response.index.JresIndexDocumentReply;
 import com.blacklocus.jres.strings.JresPaths;
 import com.blacklocus.misc.NoNullsMap;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
@@ -34,6 +35,7 @@ import java.util.Map;
  *
  * Covers the scripted update portion.
  */
+@JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentReply> implements JresBulkable {
 
     private final @Nullable String index;
@@ -92,33 +94,44 @@ public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentR
 
     @Override
     @Nullable
+    @JsonProperty
     public String getIndex() {
         return index;
     }
 
     @Override
     @Nullable
+    @JsonProperty
     public String getType() {
         return type;
     }
 
     @Override
+    @JsonProperty
     public String getId() {
         return id;
     }
 
+    @JsonProperty
     public String getScript() {
         return script;
     }
 
     @Nullable
+    @JsonProperty
     public Map<String, ?> getParams() {
         return params;
     }
 
     @Nullable
+    @JsonProperty
     public Object getUpsert() {
         return upsert;
+    }
+
+    @Override
+    public String getJsonTypeInfo() {
+        return JresUpdateDocumentScript.class.getName();
     }
 
     @Override

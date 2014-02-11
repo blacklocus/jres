@@ -20,6 +20,7 @@ import com.blacklocus.jres.request.JresJsonRequest;
 import com.blacklocus.jres.request.bulk.JresBulk;
 import com.blacklocus.jres.response.index.JresIndexDocumentReply;
 import com.blacklocus.misc.NoNullsMap;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
@@ -35,6 +36,7 @@ import static com.blacklocus.jres.strings.JresPaths.slashedPath;
  *
  * @author Jason Dunkelberger (dirkraft)
  */
+@JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class JresIndexDocument extends JresJsonRequest<JresIndexDocumentReply> implements JresBulkable {
 
     private final @Nullable String index;
@@ -84,28 +86,38 @@ public class JresIndexDocument extends JresJsonRequest<JresIndexDocumentReply> i
 
     @Override
     @Nullable
+    @JsonProperty
     public String getIndex() {
         return index;
     }
 
     @Override
     @Nullable
+    @JsonProperty
     public String getType() {
         return type;
     }
 
     @Override
     @Nullable
+    @JsonProperty
     public String getId() {
         return id;
     }
 
+    @JsonProperty
     public Object getDocument() {
         return document;
     }
 
+    @JsonProperty
     public Boolean getCreateOnly() {
         return createOnly;
+    }
+
+    @Override
+    public String getJsonTypeInfo() {
+        return JresIndexDocument.class.getName();
     }
 
     @Override

@@ -20,6 +20,7 @@ import com.blacklocus.jres.request.JresJsonRequest;
 import com.blacklocus.jres.request.bulk.JresBulk;
 import com.blacklocus.jres.response.index.JresIndexDocumentReply;
 import com.blacklocus.misc.NoNullsMap;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
@@ -34,6 +35,7 @@ import static com.blacklocus.jres.strings.JresPaths.slashedPath;
  *
  * Covers the non-scripted update portion.
  */
+@JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class JresUpdateDocument extends JresJsonRequest<JresIndexDocumentReply> implements JresBulkable {
 
     private final @Nullable String index;
@@ -81,25 +83,35 @@ public class JresUpdateDocument extends JresJsonRequest<JresIndexDocumentReply> 
     }
 
     @Nullable
+    @JsonProperty
     public String getIndex() {
         return index;
     }
 
     @Nullable
+    @JsonProperty
     public String getType() {
         return type;
     }
 
+    @JsonProperty
     public String getId() {
         return id;
     }
 
+    @JsonProperty
     public Object getDocument() {
         return document;
     }
 
+    @JsonProperty
     public Boolean isDocAsUpsert() {
         return docAsUpsert;
+    }
+
+    @Override
+    public String getJsonTypeInfo() {
+        return JresUpdateDocument.class.getName();
     }
 
     @Override
