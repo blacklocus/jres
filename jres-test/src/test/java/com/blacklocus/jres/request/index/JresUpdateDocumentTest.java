@@ -28,8 +28,17 @@ import com.google.common.collect.ImmutableMap;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class JresUpdateDocumentTest extends BaseJresTest {
 
@@ -41,7 +50,7 @@ public class JresUpdateDocumentTest extends BaseJresTest {
 
         jres.quest(new JresUpdateDocument(index, type, id1, ImmutableMap.of(
                 "rating", 3
-        ), false));
+        ), false, 0));
     }
 
     @Test
@@ -131,5 +140,74 @@ public class JresUpdateDocumentTest extends BaseJresTest {
         Assert.assertEquals((Map) ImmutableMap.of(
                 "description", "Es margarita"
         ), doc2);
+    }
+
+    @Test(expected = ExecutionException.class)
+    public void testRetryOnConflictExpectError() throws InterruptedException, ExecutionException {
+        final String index = "JresUpdateDocumentTest.testRetryOnConflictExpectError".toLowerCase();
+        final String type = "test";
+        final String id = "warzone";
+
+        final AtomicReference<String> error = new AtomicReference<String>();
+        final int numThreads = 16, numIterations = 100;
+
+        ExecutorService x = Executors.newFixedThreadPool(numThreads);
+        List<Future<?>> futures = new ArrayList<Future<?>>(numThreads);
+        for (int i = 0; i < numThreads; i++) {
+            futures.add(x.submit(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    for (int j = 0; j < numIterations; j++) {
+                        jres.quest(new JresUpdateDocument(index, type, id, ImmutableMap.of("value", 0)));
+                    }
+                    return null;
+                }
+            }));
+        }
+        x.shutdown();
+        x.awaitTermination(1, TimeUnit.MINUTES);
+
+        for (Future<?> future : futures) {
+            // expecting a conflict exception from ElasticSearch
+            future.get();
+        }
+    }
+
+    @Test
+    public void testRetryOnConflict() throws InterruptedException {
+        final String index = "JresUpdateDocumentTest.testRetryOnConflict".toLowerCase();
+        final String type = "test";
+        final String id = "warzone";
+
+        final AtomicReference<String> error = new AtomicReference<String>();
+
+        final int numThreads = 16, numIterations = 100;
+
+        ExecutorService x = Executors.newFixedThreadPool(numThreads);
+        for (int i = 0; i < numThreads; i++) {
+            x.submit(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        for (int j = 0; j < numIterations; j++) {
+                            JresUpdateDocument req = new JresUpdateDocument(index, type, id, ImmutableMap.of("value", 0));
+                            req.setRetryOnConflict(numIterations * 10);
+                            jres.quest(req);
+                        }
+                    } catch (Exception e) {
+                        error.set(e.getMessage());
+                    }
+                }
+            });
+        }
+        x.shutdown();
+        x.awaitTermination(1, TimeUnit.MINUTES);
+
+        Assert.assertNull("With so many retries, all of these should have gotten through without conflict error", error.get());
+        jres.quest(new JresRefresh(index));
+        JresGetDocumentReply getReply = jres.quest(new JresGetDocument(index, type, id));
+        Map<String, Integer> doc = getReply.getSourceAsType(new TypeReference<Map<String, Integer>>() {});
+        Assert.assertEquals("Should have been numThreads * numIterations versions committed",
+                (Object) (numThreads * numIterations), getReply.getVersion());
     }
 }

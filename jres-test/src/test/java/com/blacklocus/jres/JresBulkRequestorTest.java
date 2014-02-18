@@ -65,7 +65,7 @@ public class JresBulkRequestorTest extends BaseJresTest {
         for (int i = 0; i < batchSize; i++) {
             Document doc = docs.get(i);
             doc.name = RandomStringUtils.randomAscii(8) + ".mp3";
-            futures.add(bulkRequestor.put(new JresUpdateDocument(index, type, doc.id, doc, false)));
+            futures.add(bulkRequestor.put(new JresUpdateDocument(index, type, doc.id, doc, false, 0)));
         }
         // batch filled, buffer should flush
 

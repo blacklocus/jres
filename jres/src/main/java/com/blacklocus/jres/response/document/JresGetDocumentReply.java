@@ -38,7 +38,7 @@ public class JresGetDocumentReply extends JresJsonReply {
     private String id;
 
     @JsonProperty("_version")
-    private String version;
+    private Integer version;
 
     private Boolean exists;
 
@@ -61,7 +61,7 @@ public class JresGetDocumentReply extends JresJsonReply {
         return id;
     }
 
-    public String getVersion() {
+    public Integer getVersion() {
         return version;
     }
 

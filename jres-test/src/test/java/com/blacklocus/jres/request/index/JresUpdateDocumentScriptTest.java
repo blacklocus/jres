@@ -20,17 +20,32 @@ import com.blacklocus.jres.request.JresBulkable;
 import com.blacklocus.jres.request.bulk.JresBulk;
 import com.blacklocus.jres.request.document.JresGetDocument;
 import com.blacklocus.jres.request.search.JresSearch;
+import com.blacklocus.jres.request.search.JresSearchBody;
+import com.blacklocus.jres.request.search.query.JresTermQuery;
 import com.blacklocus.jres.response.common.JresErrorReplyException;
+import com.blacklocus.jres.response.document.JresGetDocumentReply;
 import com.blacklocus.jres.response.search.JresSearchReply;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Range;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class JresUpdateDocumentScriptTest extends BaseJresTest {
 
@@ -130,5 +145,81 @@ public class JresUpdateDocumentScriptTest extends BaseJresTest {
         Assert.assertEquals(ImmutableMap.of(
                 "description", Arrays.asList("Es margarita")
         ), doc2);
+    }
+
+    @Test(expected = ExecutionException.class)
+    public void testRetryOnConflictExpectError() throws InterruptedException, ExecutionException {
+        final String index = "JresUpdateDocumentScriptTest.testRetryOnConflictExpectError".toLowerCase();
+        final String type = "test";
+        final String id = "warzone";
+
+        final AtomicReference<String> error = new AtomicReference<String>();
+        final int numThreads = 16, numIterations = 100;
+
+        ExecutorService x = Executors.newFixedThreadPool(numThreads);
+        List<Future<?>> futures = new ArrayList<Future<?>>(numThreads);
+        for (int i = 0; i < numThreads; i++) {
+            futures.add(x.submit(new Callable<Void>() {
+                @Override
+                public Void call() throws Exception {
+                    for (int j = 0; j < numIterations; j++) {
+                        jres.quest(new JresUpdateDocumentScript(index, type, id, "ctx._source.value += 1",
+                                null, ImmutableMap.of("value", 0)));
+                    }
+                    return null;
+                }
+            }));
+        }
+        x.shutdown();
+        x.awaitTermination(1, TimeUnit.MINUTES);
+
+        for (Future<?> future : futures) {
+            // expecting a conflict exception from ElasticSearch
+            future.get();
+        }
+    }
+
+    @Test
+    public void testRetryOnConflict() throws InterruptedException {
+        final String index = "JresUpdateDocumentScriptTest.testRetryOnConflict".toLowerCase();
+        final String type = "test";
+        final String id = "warzone";
+
+        final AtomicInteger total = new AtomicInteger();
+        final AtomicReference<String> error = new AtomicReference<String>();
+        final Random random = new Random(System.currentTimeMillis());
+
+        final int numThreads = 16, numIterations = 100;
+
+        ExecutorService x = Executors.newFixedThreadPool(numThreads);
+        for (int i = 0; i < numThreads; i++) {
+            x.submit(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        for (int j = 0; j < numIterations; j++) {
+                            int increment = random.nextInt(5);
+                            total.addAndGet(increment);
+                            JresUpdateDocumentScript req = new JresUpdateDocumentScript(index, type, id, "ctx._source.value += increment",
+                                    ImmutableMap.of("increment", increment), ImmutableMap.of("value", increment));
+                            req.setRetryOnConflict(numIterations * 10);
+                            jres.quest(req);
+                        }
+                    } catch (Exception e) {
+                        error.set(e.getMessage());
+                    }
+                }
+            });
+        }
+        x.shutdown();
+        x.awaitTermination(1, TimeUnit.MINUTES);
+
+        Assert.assertNull("With so many retries, all of these should have gotten through without conflict error", error.get());
+        jres.quest(new JresRefresh(index));
+        JresGetDocumentReply getReply = jres.quest(new JresGetDocument(index, type, id));
+        Map<String, Integer> doc = getReply.getSourceAsType(new TypeReference<Map<String, Integer>>() {});
+        Assert.assertEquals("All increments should have gotten committed", (Object) total.get(), doc.get("value"));
+        Assert.assertEquals("Should have been numThreads * numIterations versions committed",
+                (Object) (numThreads * numIterations), getReply.getVersion());
     }
 }

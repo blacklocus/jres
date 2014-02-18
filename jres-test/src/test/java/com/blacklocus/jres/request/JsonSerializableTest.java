@@ -34,9 +34,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * This test class must be run in total to work properly. It tests itself to the extent that it covers all the classes
+ * that it must to fulfill its existence.
+ */
 public class JsonSerializableTest {
 
-    static final Set<Class<? extends JresBulkable>> BULKABLE_CLASSES_TESTED =
+    static final Set<Class<? extends JresBulkable>> BULKABLE_CLASSES_SERIAL =
+            Collections.newSetFromMap(new ConcurrentHashMap<Class<? extends JresBulkable>, Boolean>());
+    static final Set<Class<? extends JresBulkable>> BULKABLE_CLASSES_POLY =
             Collections.newSetFromMap(new ConcurrentHashMap<Class<? extends JresBulkable>, Boolean>());
 
     /**
@@ -49,9 +55,9 @@ public class JsonSerializableTest {
     @Test
     public void testRequestObjectsSerializable() {
         // In lexicographical order of class hierarchy under JresBulkable
-        check(new JresIndexDocument("index", "type", "id", "document", false), new TypeReference<JresIndexDocument>() {});
-        check(new JresUpdateDocument("index", "type", "id", "document", false), new TypeReference<JresUpdateDocument>() {});
-        check(new JresUpdateDocumentScript("index", "type", "id", "the script", ImmutableMap.of(
+        forSerial(new JresIndexDocument("index", "type", "id", "document", false), new TypeReference<JresIndexDocument>() {});
+        forSerial(new JresUpdateDocument("index", "type", "id", "document", false, 3), new TypeReference<JresUpdateDocument>() {});
+        forSerial(new JresUpdateDocumentScript("index", "type", "id", "the script", ImmutableMap.of(
                 "field", "value",
                 "another", Arrays.asList("two", "values")
         ), ImmutableMap.of(
@@ -63,15 +69,15 @@ public class JsonSerializableTest {
     @Test
     public void testPolymorphismSerializable() {
         List<JresBulkable> bulkActions = Lists.<JresBulkable>newArrayList(
-                new JresIndexDocument("index", "type", "id", "document", false),
-                new JresUpdateDocument("index", "type", "id", "document", false),
-                new JresUpdateDocumentScript("index", "type", "id", "the script", ImmutableMap.of(
+                forPoly(new JresIndexDocument("index", "type", "id", "document", false)),
+                forPoly(new JresUpdateDocument("index", "type", "id", "document", false, 3)),
+                forPoly(new JresUpdateDocumentScript("index", "type", "id", "the script", ImmutableMap.of(
                         "field", "value",
                         "another", Arrays.asList("two", "values")
                 ), ImmutableMap.of(
                         "fields", "initial",
                         "another", Arrays.asList("one", "two")
-                ))
+                )))
         );
         String json = ObjectMappers.toJsonPretty(bulkActions);
         List<JresBulkable> backAgain = ObjectMappers.fromJson(json, new TypeReference<List<JresBulkable>>() {});
@@ -81,28 +87,43 @@ public class JsonSerializableTest {
     /**
      * Serializes to json, serializes back to object, serializes back to json - the two json strings should match.
      * Depends on equals being correctly implemented and exhaustive of all core parameters of the request.
+     * <p/>
+     * Notes that the bulkable class has been included in {@link #testRequestObjectsSerializable()}
      */
     @SuppressWarnings("unchecked")
-    <T extends JresBulkable> void check(T bulkableRequest, TypeReference<T> typeReference) {
+    <T extends JresBulkable> void forSerial(T bulkableRequest, TypeReference<T> typeReference) {
         T roundTrip = ObjectMappers.fromJson(ObjectMappers.toJson(bulkableRequest), typeReference);
         Assert.assertEquals(bulkableRequest, roundTrip);
-        BULKABLE_CLASSES_TESTED.add((Class<? extends JresBulkable>) ObjectMappers.NORMAL.getTypeFactory().constructType(typeReference.getType()).getRawClass());
+        BULKABLE_CLASSES_SERIAL.add((Class<? extends JresBulkable>) ObjectMappers.NORMAL.getTypeFactory().constructType(typeReference.getType()).getRawClass());
+    }
+
+    /**
+     * Notes that the bulkable class has been included in {@link #testPolymorphismSerializable()}
+     */
+    <T extends JresBulkable> T forPoly(T bulkableRequest) {
+        BULKABLE_CLASSES_POLY.add(bulkableRequest.getClass());
+        return bulkableRequest;
     }
 
 
     /**
      * Reflectively ensures that all {@link JresRequest} concrete classes were covered by this unit test
-     * {@link #testRequestObjectsSerializable()}
+     * {@link #testRequestObjectsSerializable()} and {@link #testPolymorphismSerializable()}
      */
     @AfterClass
     public static void ensureClassesTested() {
         Reflections reflections = new Reflections("com.blacklocus.jres");
 
         Set<Class<? extends JresBulkable>> requestTypes = reflections.getSubTypesOf(JresBulkable.class);
-        if (!BULKABLE_CLASSES_TESTED.containsAll(requestTypes)) {
+        if (!BULKABLE_CLASSES_SERIAL.containsAll(requestTypes)) {
             System.err.println("Some JresBulkable types were not tested for JSON serializability");
-            System.err.println(Sets.difference(requestTypes, BULKABLE_CLASSES_TESTED));
+            System.err.println(Sets.difference(requestTypes, BULKABLE_CLASSES_SERIAL));
             Assert.fail("All JresBulkable classes tested for JSON serialization");
+        }
+        if (!BULKABLE_CLASSES_POLY.containsAll(requestTypes)) {
+            System.err.println("Some JresBulkable types were not tested for JSON polymorphic serializability");
+            System.err.println(Sets.difference(requestTypes, BULKABLE_CLASSES_SERIAL));
+            Assert.fail("All JresBulkable classes tested for JSON polymorphic serializability");
         }
 
     }

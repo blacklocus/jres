@@ -38,13 +38,19 @@ import java.util.Map;
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentReply> implements JresBulkable {
 
-    private final @Nullable String index;
-    private final @Nullable String type;
-    private final String id;
+    private @Nullable String index;
+    private @Nullable String type;
+    private String id;
 
-    private final String script;
-    private final @Nullable Map<String, ?> params;
-    private final @Nullable Object upsert;
+    private String script;
+    private @Nullable Map<String, ?> params;
+    private @Nullable Object upsert;
+    private Integer retryOnConflict;
+
+    // for JSON deserialization
+    JresUpdateDocumentScript() {
+        super(JresIndexDocumentReply.class);
+    }
 
     /**
      * `index` or `type` are nullable if this operation is to be included in a {@link JresBulk} request which specifies
@@ -76,13 +82,8 @@ public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentR
      * @param params (optional) corresponding to update script
      * @param upsert (optional) initial document to index if no such document exists at the given `id`
      */
-    @JsonCreator
-    public JresUpdateDocumentScript(@JsonProperty("index") @Nullable String index,
-                                    @JsonProperty("type") @Nullable String type,
-                                    @JsonProperty("id") String id,
-                                    @JsonProperty("script") String script,
-                                    @JsonProperty("params") @Nullable Map<String, ?> params,
-                                    @JsonProperty("upsert") @Nullable Object upsert) {
+    public JresUpdateDocumentScript(@Nullable String index, @Nullable String type, String id, String script,
+                                    @Nullable Map<String, ?> params, @Nullable Object upsert) {
         super(JresIndexDocumentReply.class);
         this.index = index;
         this.type = type;
@@ -99,11 +100,19 @@ public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentR
         return index;
     }
 
+    public void setIndex(@Nullable String index) {
+        this.index = index;
+    }
+
     @Override
     @Nullable
     @JsonProperty
     public String getType() {
         return type;
+    }
+
+    public void setType(@Nullable String type) {
+        this.type = type;
     }
 
     @Override
@@ -112,9 +121,17 @@ public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentR
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @JsonProperty
     public String getScript() {
         return script;
+    }
+
+    public void setScript(String script) {
+        this.script = script;
     }
 
     @Nullable
@@ -123,10 +140,27 @@ public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentR
         return params;
     }
 
+    public void setParams(@Nullable Map<String, ?> params) {
+        this.params = params;
+    }
+
     @Nullable
     @JsonProperty
     public Object getUpsert() {
         return upsert;
+    }
+
+    public void setUpsert(@Nullable Object upsert) {
+        this.upsert = upsert;
+    }
+
+    @JsonProperty
+    public Integer getRetryOnConflict() {
+        return retryOnConflict;
+    }
+
+    public void setRetryOnConflict(Integer retryOnConflict) {
+        this.retryOnConflict = retryOnConflict;
     }
 
     @Override
@@ -141,7 +175,12 @@ public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentR
 
     @Override
     public String getPath() {
-        return JresPaths.slashedPath(index, type, id) + "_update";
+        String path = JresPaths.slashedPath(index, type, id) + "_update";
+        if (retryOnConflict != null) {
+            path += "?retry_on_conflict=" + retryOnConflict;
+        }
+        return path;
+
     }
 
     @Override
@@ -158,7 +197,8 @@ public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentR
         return ImmutableMap.of("update", NoNullsMap.of(
                 "_index", index,
                 "_type", type,
-                "_id", id
+                "_id", id,
+                "_retry_on_conflict", retryOnConflict
         ));
     }
 

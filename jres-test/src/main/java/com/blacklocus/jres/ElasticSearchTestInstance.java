@@ -30,6 +30,7 @@ import java.io.File;
  * @author Jason Dunkelberger (dirkraft)
  */
 class ElasticSearchTestInstance {
+
     static void triggerStaticInit(){}
 
     static final Node node;
@@ -40,8 +41,11 @@ class ElasticSearchTestInstance {
             FileUtils.deleteQuietly(dir);
             dir.mkdirs();
         }
-        Settings settings = ImmutableSettings.settingsBuilder().put("http.port", 9201).put("node.http.enabled", true)
-                .put("index.number_of_shards", 1).put("index.number_of_replicas", 0)
+        Settings settings = ImmutableSettings.settingsBuilder()
+                .put("http.port", 9201)
+                .put("node.http.enabled", true)
+                .put("index.number_of_shards", 1)
+                .put("index.number_of_replicas", 0)
                 .put("path.data", dir.getAbsolutePath()).build();
 
         node = NodeBuilder.nodeBuilder().local(true).settings(settings).clusterName("junit_test_cluster").node();
