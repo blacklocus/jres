@@ -63,7 +63,7 @@ public class JsonSerializableTest {
         ), ImmutableMap.of(
                 "fields", "initial",
                 "another", Arrays.asList("one", "two")
-        )), new TypeReference<JresUpdateDocumentScript>() {});
+        ), 5), new TypeReference<JresUpdateDocumentScript>() {});
     }
 
     @Test
@@ -77,7 +77,7 @@ public class JsonSerializableTest {
                 ), ImmutableMap.of(
                         "fields", "initial",
                         "another", Arrays.asList("one", "two")
-                )))
+                ), 10))
         );
         String json = ObjectMappers.toJsonPretty(bulkActions);
         List<JresBulkable> backAgain = ObjectMappers.fromJson(json, new TypeReference<List<JresBulkable>>() {});

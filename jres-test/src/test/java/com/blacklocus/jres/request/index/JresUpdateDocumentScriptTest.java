@@ -20,15 +20,11 @@ import com.blacklocus.jres.request.JresBulkable;
 import com.blacklocus.jres.request.bulk.JresBulk;
 import com.blacklocus.jres.request.document.JresGetDocument;
 import com.blacklocus.jres.request.search.JresSearch;
-import com.blacklocus.jres.request.search.JresSearchBody;
-import com.blacklocus.jres.request.search.query.JresTermQuery;
 import com.blacklocus.jres.response.common.JresErrorReplyException;
 import com.blacklocus.jres.response.document.JresGetDocumentReply;
 import com.blacklocus.jres.response.search.JresSearchReply;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Range;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -69,8 +65,8 @@ public class JresUpdateDocumentScriptTest extends BaseJresTest {
         Object updateDoc1WithFood = ImmutableMap.of("description", Arrays.asList("Es horchata"));
         Object updateDoc2WithFood = ImmutableMap.of("description", Arrays.asList("Es margarita"));
         // Scripts don't matter, because this should fall back to insert since the docs don't exist.
-        jres.quest(new JresUpdateDocumentScript(index, type, id1, "", Collections.<String, Object>emptyMap(), updateDoc1WithFood));
-        jres.quest(new JresUpdateDocumentScript(index, type, id2, "", Collections.<String, Object>emptyMap(), updateDoc2WithFood));
+        jres.quest(new JresUpdateDocumentScript(index, type, id1, "", Collections.<String, Object>emptyMap(), updateDoc1WithFood, null));
+        jres.quest(new JresUpdateDocumentScript(index, type, id2, "", Collections.<String, Object>emptyMap(), updateDoc2WithFood, null));
         jres.quest(new JresRefresh(index));
 
         JresSearchReply searchReply = jres.quest(new JresSearch(index, type));
@@ -109,8 +105,8 @@ public class JresUpdateDocumentScriptTest extends BaseJresTest {
         Map<String, List<String>> updateDoc2WithFood = ImmutableMap.of("description", Arrays.asList("Es margarita"));
         // Scripts don't matter, because this should fall back to insert since the docs don't exist.
         jres.quest(new JresBulk(index, type, Arrays.<JresBulkable>asList(
-                new JresUpdateDocumentScript(index, type, id1, "", Collections.<String, Object>emptyMap(), updateDoc1WithFood),
-                new JresUpdateDocumentScript(index, type, id2, "", Collections.<String, Object>emptyMap(), updateDoc2WithFood)
+                new JresUpdateDocumentScript(index, type, id1, "", Collections.<String, Object>emptyMap(), updateDoc1WithFood, null),
+                new JresUpdateDocumentScript(index, type, id2, "", Collections.<String, Object>emptyMap(), updateDoc2WithFood, null)
         )));
         jres.quest(new JresRefresh(index));
 
@@ -126,7 +122,7 @@ public class JresUpdateDocumentScriptTest extends BaseJresTest {
                 // results in insert of new doc
                 new JresUpdateDocumentScript(index, type, "id3", "", Collections.<String, Object>emptyMap(), ImmutableMap.of(
                         "description", Arrays.asList("the 3rd document")
-                ))
+                ), null)
         )));
         jres.quest(new JresRefresh(index));
 
@@ -164,7 +160,7 @@ public class JresUpdateDocumentScriptTest extends BaseJresTest {
                 public Void call() throws Exception {
                     for (int j = 0; j < numIterations; j++) {
                         jres.quest(new JresUpdateDocumentScript(index, type, id, "ctx._source.value += 1",
-                                null, ImmutableMap.of("value", 0)));
+                                null, ImmutableMap.of("value", 0), null));
                     }
                     return null;
                 }
@@ -201,7 +197,7 @@ public class JresUpdateDocumentScriptTest extends BaseJresTest {
                             int increment = random.nextInt(5);
                             total.addAndGet(increment);
                             JresUpdateDocumentScript req = new JresUpdateDocumentScript(index, type, id, "ctx._source.value += increment",
-                                    ImmutableMap.of("increment", increment), ImmutableMap.of("value", increment));
+                                    ImmutableMap.of("increment", increment), ImmutableMap.of("value", increment), null);
                             req.setRetryOnConflict(numIterations * 10);
                             jres.quest(req);
                         }
