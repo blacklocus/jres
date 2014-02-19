@@ -22,7 +22,6 @@ import com.blacklocus.jres.response.index.JresIndexDocumentReply;
 import com.blacklocus.jres.strings.JresPaths;
 import com.blacklocus.misc.NoNullsMap;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.ImmutableMap;
 import org.apache.http.client.methods.HttpPost;
@@ -59,7 +58,7 @@ public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentR
      * @param script ElasticSearch update script
      */
     public JresUpdateDocumentScript(@Nullable String index, @Nullable String type, String id, String script) {
-        this(index, type, id, script, null, null);
+        this(index, type, id, script, null, null, null);
     }
 
     /**
@@ -71,7 +70,7 @@ public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentR
      */
     public JresUpdateDocumentScript(@Nullable String index, @Nullable String type, String id, String script,
                                     @Nullable Map<String, ?> params) {
-        this(index, type, id, script, params, null);
+        this(index, type, id, script, params, null, null);
     }
 
     /**
@@ -81,9 +80,11 @@ public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentR
      * @param script ElasticSearch update script
      * @param params (optional) corresponding to update script
      * @param upsert (optional) initial document to index if no such document exists at the given `id`
+     * @param retryOnConflict (optional) how many times ElasticSearch should retry an update if concurrent writes are
+     *                        causing version conflict exceptions
      */
     public JresUpdateDocumentScript(@Nullable String index, @Nullable String type, String id, String script,
-                                    @Nullable Map<String, ?> params, @Nullable Object upsert) {
+                                    @Nullable Map<String, ?> params, @Nullable Object upsert, Integer retryOnConflict) {
         super(JresIndexDocumentReply.class);
         this.index = index;
         this.type = type;
@@ -91,6 +92,7 @@ public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentR
         this.script = script;
         this.params = params;
         this.upsert = upsert;
+        this.retryOnConflict = retryOnConflict;
     }
 
     @Override
@@ -212,6 +214,8 @@ public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentR
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (index != null ? !index.equals(that.index) : that.index != null) return false;
         if (params != null ? !params.equals(that.params) : that.params != null) return false;
+        if (retryOnConflict != null ? !retryOnConflict.equals(that.retryOnConflict) : that.retryOnConflict != null)
+            return false;
         if (script != null ? !script.equals(that.script) : that.script != null) return false;
         if (type != null ? !type.equals(that.type) : that.type != null) return false;
         if (upsert != null ? !upsert.equals(that.upsert) : that.upsert != null) return false;
@@ -227,6 +231,7 @@ public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentR
         result = 31 * result + (script != null ? script.hashCode() : 0);
         result = 31 * result + (params != null ? params.hashCode() : 0);
         result = 31 * result + (upsert != null ? upsert.hashCode() : 0);
+        result = 31 * result + (retryOnConflict != null ? retryOnConflict.hashCode() : 0);
         return result;
     }
 }
