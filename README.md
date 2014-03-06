@@ -13,7 +13,7 @@ maven
     <dependency>
         <groupId>com.blacklocus</groupId>
         <artifactId>jres</artifactId>
-        <version>0.1.1</version>
+        <version>0.1.5</version>
     </dependency>
             
 gradle
@@ -24,7 +24,7 @@ gradle
     }
     dependencies {
         // ...
-        compile 'com.blacklocus:jres:0.1.2'
+        compile 'com.blacklocus:jres:0.1.5'
     }
 
 
