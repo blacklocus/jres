@@ -62,12 +62,18 @@ public class Hit {
         return source;
     }
 
+    /**
+     * May return <code>null</code> if source was not available.
+     */
     public <T> T getSourceAsType(Class<T> klass) {
-        return ObjectMappers.fromJson(source, klass);
+        return source == null ? null : ObjectMappers.fromJson(source, klass);
     }
 
+    /**
+     * May return <code>null</code> if source was not available.
+     */
     public <T> T getSourceAsType(TypeReference<T> typeReference) {
-        return ObjectMappers.fromJson(source, typeReference);
+        return source == null ? null : ObjectMappers.fromJson(source, typeReference);
     }
 
 

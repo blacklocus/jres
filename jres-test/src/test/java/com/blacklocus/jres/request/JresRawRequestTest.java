@@ -65,7 +65,7 @@ public class JresRawRequestTest extends BaseJresTest {
 
         // Imagine this is much more complicated and we just want to insert values in a few key places.
         JresSearchBody searchBody = Jres.load(JresRawRequestTest.class.getResource("raw query base.json"), JresSearchBody.class);
-        searchBody.getQuery(new JresBoolQuery()).should(
+        searchBody.getQuery(JresBoolQuery.class).should(
                 new JresMatchQuery("compass", "big")
         );
         hits = jres.quest(new JresSearch(index, type, searchBody)).getHitsAsType(Document.class);
