@@ -15,6 +15,8 @@
  */
 package com.blacklocus.jres.request.search.query;
 
+import com.blacklocus.jres.strings.ObjectMappers;
+
 import java.util.HashMap;
 
 public class JresMatchQuery extends HashMap<String, Object> implements JresQuery {
@@ -34,6 +36,11 @@ public class JresMatchQuery extends HashMap<String, Object> implements JresQuery
     @Override
     public String queryType() {
         return "match";
+    }
+
+    @Override
+    public String toString() {
+        return ObjectMappers.toJson(this);
     }
 
 }

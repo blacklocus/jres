@@ -1,5 +1,6 @@
 package com.blacklocus.jres.request.search.query;
 
+import com.blacklocus.jres.strings.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class JresQueryStringQuery implements JresQuery {
@@ -60,4 +61,10 @@ public class JresQueryStringQuery implements JresQuery {
     public String queryType() {
         return "query_string";
     }
+
+    @Override
+    public String toString() {
+        return ObjectMappers.toJson(this);
+    }
+
 }

@@ -15,6 +15,7 @@
  */
 package com.blacklocus.jres.request.search.query;
 
+import com.blacklocus.jres.strings.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.Collections;
@@ -33,4 +34,10 @@ public class JresMatchAllQuery implements JresQuery {
     public Map<Object, Object> getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return ObjectMappers.toJson(this);
+    }
+
 }

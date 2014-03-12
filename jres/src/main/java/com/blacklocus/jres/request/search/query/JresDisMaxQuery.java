@@ -15,6 +15,7 @@
  */
 package com.blacklocus.jres.request.search.query;
 
+import com.blacklocus.jres.strings.ObjectMappers;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -44,6 +45,11 @@ public class JresDisMaxQuery implements JresQuery {
     @Override
     public String queryType() {
         return "dis_max";
+    }
+
+    @Override
+    public String toString() {
+        return ObjectMappers.toJson(this);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

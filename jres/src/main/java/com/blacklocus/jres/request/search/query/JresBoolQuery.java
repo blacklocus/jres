@@ -15,6 +15,7 @@
  */
 package com.blacklocus.jres.request.search.query;
 
+import com.blacklocus.jres.strings.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
@@ -90,6 +91,11 @@ public class JresBoolQuery implements JresQuery {
     @Override
     public String queryType() {
         return "bool";
+    }
+
+    @Override
+    public String toString() {
+        return ObjectMappers.toJson(this);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

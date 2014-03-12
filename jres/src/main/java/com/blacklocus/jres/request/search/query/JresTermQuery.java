@@ -15,6 +15,8 @@
  */
 package com.blacklocus.jres.request.search.query;
 
+import com.blacklocus.jres.strings.ObjectMappers;
+
 import java.util.HashMap;
 
 public class JresTermQuery extends HashMap<String, Object> implements JresQuery {
@@ -34,5 +36,10 @@ public class JresTermQuery extends HashMap<String, Object> implements JresQuery 
     @Override
     public String queryType() {
         return "term";
+    }
+
+    @Override
+    public String toString() {
+        return ObjectMappers.toJson(this);
     }
 }
