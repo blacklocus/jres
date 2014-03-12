@@ -27,6 +27,31 @@ import org.junit.Test;
 public class JresBoolQueryTest extends BaseJresTest {
 
     @Test
+    public void testMustAndMustNot() {
+        String index = "JresBoolQueryTest.testMustAndMustNot".toLowerCase();
+        String type = "test";
+
+        jres.quest(new JresIndexDocument(index, type, new Document("red balloon")));
+        jres.quest(new JresIndexDocument(index, type, new Document("yellow balloon")));
+        jres.quest(new JresIndexDocument(index, type, new Document("yellow car")));
+        jres.quest(new JresRefresh(index));
+        JresSearchReply quest = jres.quest(new JresSearch(index, type));
+        Assert.assertEquals((Object) 3L, quest.getHits().getTotal());
+
+        JresSearchReply searchReply = jres.quest(new JresSearch(index, type,
+                new JresSearchBody().query(
+                        new JresBoolQuery()
+                                .must(new JresMatchQuery("description", "yellow"))
+                                .mustNot(new JresQueryStringQuery("description:balloon"))
+                )
+        ));
+        Assert.assertEquals((Object) 1L, searchReply.getHits().getTotal());
+        for (Document document : searchReply.getHitsAsType(Document.class)) {
+            Assert.assertTrue(document.description.contains("yellow") && !document.description.contains("balloon"));
+        }
+    }
+
+    @Test
     public void testShould() {
         String index = "JresBoolQueryTest_testShould".toLowerCase();
         String type = "test";

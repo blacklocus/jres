@@ -27,10 +27,41 @@ import java.util.Map;
 public class JresBoolQuery implements JresQuery {
 
     /** Each map is a single entry from {@link JresQuery#queryType()} to the JresQuery itself */
+    private List<Map<String, JresQuery>> must;
+    @JsonProperty("must_not")
+    private List<Map<String, JresQuery>> mustNot;
     private List<Map<String, JresQuery>> should;
     @JsonProperty("minimum_should_match")
     private Integer minimumShouldMatch;
     private Double boost;
+
+    public JresBoolQuery must(JresQuery... must) {
+        return must(Arrays.asList(must));
+    }
+
+    public JresBoolQuery must(List<JresQuery> must) {
+        this.must = Lists.transform(must, new Function<JresQuery, Map<String, JresQuery>>() {
+            @Override
+            public Map<String, JresQuery> apply(JresQuery input) {
+                return ImmutableMap.of(input.queryType(), input);
+            }
+        });
+        return this;
+    }
+
+    public JresBoolQuery mustNot(JresQuery... must) {
+        return mustNot(Arrays.asList(must));
+    }
+
+    public JresBoolQuery mustNot(List<JresQuery> mustNot) {
+        this.mustNot = Lists.transform(mustNot, new Function<JresQuery, Map<String, JresQuery>>() {
+            @Override
+            public Map<String, JresQuery> apply(JresQuery input) {
+                return ImmutableMap.of(input.queryType(), input);
+            }
+        });
+        return this;
+    }
 
     public JresBoolQuery should(JresQuery... should) {
         return should(Arrays.asList(should));
@@ -63,6 +94,15 @@ public class JresBoolQuery implements JresQuery {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Serializable getter properties
+
+
+    public List<Map<String, JresQuery>> getMust() {
+        return must;
+    }
+
+    public List<Map<String, JresQuery>> getMustNot() {
+        return mustNot;
+    }
 
     public List<Map<String, JresQuery>> getShould() {
         return should;
