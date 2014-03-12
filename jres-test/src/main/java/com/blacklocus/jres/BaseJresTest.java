@@ -21,8 +21,6 @@ import org.junit.BeforeClass;
 /**
  * Extend this to be guaranteed that a test ElasticSearch instance will be available for usage with the member
  * {@link #jres}.
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 public class BaseJresTest {
 

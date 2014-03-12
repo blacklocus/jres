@@ -27,8 +27,6 @@ import org.apache.http.client.methods.HttpDelete;
  * This command will return successful even if the alias didn't exist. The index must still exist.
  * <p>
  * Can throw {@link JresErrorReplyException}.
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 public class JresDeleteAlias extends JresJsonRequest<JresAcknowledgedReply> {
 

@@ -20,9 +20,6 @@ import com.blacklocus.jres.response.common.JresShardsReply;
 import com.blacklocus.jres.strings.JresPaths;
 import org.apache.http.client.methods.HttpPost;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresRefresh extends JresJsonRequest<JresShardsReply> {
 
     private final String index;

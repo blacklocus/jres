@@ -24,8 +24,6 @@ import org.apache.http.client.methods.HttpPut;
  * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-create-index.html#indices-create-index">Create Index API</a>
  * <p>
  * Can throw {@link JresErrorReplyException}.
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 public class JresCreateIndex extends JresJsonRequest<JresAcknowledgedReply> {
 

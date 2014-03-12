@@ -32,7 +32,6 @@ import java.io.IOException;
  * Note that {@link #handleResponse(HttpResponse)} of this type may also throw {@link JresErrorReplyException}
  *
  * @param <REPLY> response type
- * @author Jason Dunkelberger (dirkraft)
  */
 public class JresJsonResponseHandler<REPLY extends JresJsonReply> extends AbstractJresResponseHandler<REPLY> {
 

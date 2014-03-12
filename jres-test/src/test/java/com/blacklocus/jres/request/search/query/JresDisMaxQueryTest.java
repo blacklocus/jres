@@ -24,9 +24,6 @@ import com.blacklocus.jres.response.search.JresSearchReply;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresDisMaxQueryTest extends BaseJresTest {
 
     @Test

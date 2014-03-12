@@ -17,9 +17,6 @@ package com.blacklocus.jres.request;
 
 import com.blacklocus.jres.response.JresReply;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public abstract class JresJsonRequest<REPLY extends JresReply> implements JresRequest<REPLY> {
 
     private final Class<REPLY> responseClass;

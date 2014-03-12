@@ -25,8 +25,6 @@ import org.apache.http.client.methods.HttpGet;
  * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-aliases.html#alias-adding">Add Single Index Alias API</a>
  * <p>
  * Can throw {@link JresErrorReplyException}.
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 public class JresRetrieveAliases extends JresJsonRequest<JresRetrieveAliasesReply> {
 

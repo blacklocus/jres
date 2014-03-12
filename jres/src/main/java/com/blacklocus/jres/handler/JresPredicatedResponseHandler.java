@@ -22,9 +22,6 @@ import org.apache.http.HttpResponse;
 
 import java.io.IOException;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresPredicatedResponseHandler extends AbstractJresResponseHandler<JresBooleanReply> {
 
     private final Predicate<HttpResponse> predicate;

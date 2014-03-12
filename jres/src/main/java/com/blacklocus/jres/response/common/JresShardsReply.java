@@ -19,9 +19,6 @@ import com.blacklocus.jres.model.Shards;
 import com.blacklocus.jres.response.JresJsonReply;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresShardsReply extends JresJsonReply {
 
     private Boolean ok;

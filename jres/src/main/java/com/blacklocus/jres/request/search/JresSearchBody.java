@@ -28,9 +28,6 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresSearchBody {
 
     /**

@@ -19,7 +19,6 @@ import com.blacklocus.jres.response.JresReply;
 
 /**
  * @param <REPLY> response type - the wrapper object built by Jres to encapsulte the full response
- * @author Jason Dunkelberger (dirkraft)
  */
 public interface JresRequest<REPLY extends JresReply> {
 

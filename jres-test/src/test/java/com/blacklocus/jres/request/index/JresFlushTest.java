@@ -20,9 +20,6 @@ import com.blacklocus.jres.response.common.JresShardsReply;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresFlushTest extends BaseJresTest {
     
     @Test

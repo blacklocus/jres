@@ -25,9 +25,6 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresDeleteAliasTest extends BaseJresTest {
 
     @Test

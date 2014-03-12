@@ -21,9 +21,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Objects;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class Hit {
 
     @JsonProperty("_index")

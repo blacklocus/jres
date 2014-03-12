@@ -23,9 +23,6 @@ import com.blacklocus.jres.response.common.JresErrorReplyException;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresPutMappingTest extends BaseJresTest {
 
     @Test

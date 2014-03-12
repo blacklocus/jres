@@ -24,8 +24,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Produces HttpClient instances based on a thread-safe connection pool.
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 public class HttpClientFactory {
 

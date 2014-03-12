@@ -23,9 +23,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresDisMaxQuery implements JresQuery {
 
     /** Each map is a single entry from {@link JresQuery#queryType()} to the JresQuery itself */

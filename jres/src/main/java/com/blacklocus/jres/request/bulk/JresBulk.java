@@ -31,9 +31,6 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresBulk extends JresJsonRequest<JresBulkReply> {
 
     private final @Nullable String index;

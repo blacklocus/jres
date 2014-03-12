@@ -40,9 +40,6 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class Jres {
 
     private final Supplier<String> hosts;

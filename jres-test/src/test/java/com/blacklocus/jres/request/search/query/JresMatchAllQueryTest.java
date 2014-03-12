@@ -28,9 +28,6 @@ import org.junit.Test;
 
 import java.util.Set;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresMatchAllQueryTest extends BaseJresTest {
 
     @Test

@@ -20,9 +20,6 @@ import com.blacklocus.jres.response.document.JresGetDocumentReply;
 import com.blacklocus.jres.strings.JresPaths;
 import org.apache.http.client.methods.HttpGet;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresGetDocument extends JresJsonRequest<JresGetDocumentReply> {
 
     private final String index;

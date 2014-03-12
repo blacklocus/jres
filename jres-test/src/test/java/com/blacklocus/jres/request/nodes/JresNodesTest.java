@@ -18,9 +18,6 @@ package com.blacklocus.jres.request.nodes;
 import com.blacklocus.jres.BaseJresTest;
 import org.junit.Test;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresNodesTest extends BaseJresTest {
 
     @Test

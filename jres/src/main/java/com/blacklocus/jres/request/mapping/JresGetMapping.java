@@ -25,8 +25,6 @@ import org.apache.http.client.methods.HttpGet;
  * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-get-mapping.html#indices-get-mapping">Get Mapping API</a>
  * <p>
  * Can throw {@link JresErrorReplyException}
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 public class JresGetMapping extends JresJsonRequest<JresJsonReply> {
 

@@ -20,8 +20,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 /**
  * ElasticSearch models most operations as actions, and many (all?) actions can often be chained into a bulk request.
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 public interface JresBulkable {

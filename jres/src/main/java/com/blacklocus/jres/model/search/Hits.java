@@ -19,9 +19,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-/**
-* @author Jason Dunkelberger (dirkraft)
-*/
 public class Hits {
 
     private Long total;

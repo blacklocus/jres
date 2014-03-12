@@ -17,9 +17,6 @@ package com.blacklocus.jres.request.search.query;
 
 import java.util.HashMap;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresMatchQuery extends HashMap<String, Object> implements JresQuery {
 
     public JresMatchQuery() {

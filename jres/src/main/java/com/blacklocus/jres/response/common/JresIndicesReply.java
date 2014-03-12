@@ -19,9 +19,6 @@ import com.blacklocus.jres.model.Indices;
 import com.blacklocus.jres.response.JresJsonReply;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresIndicesReply extends JresJsonReply {
 
     private Boolean ok;

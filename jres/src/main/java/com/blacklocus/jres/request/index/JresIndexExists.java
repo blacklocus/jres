@@ -23,8 +23,6 @@ import org.apache.http.client.methods.HttpHead;
 
 /**
  * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-exists.html#indices-exists">Index Exists API</a>
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 public class JresIndexExists extends JresBooleanRequest {
 

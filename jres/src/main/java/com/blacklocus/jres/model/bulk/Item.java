@@ -17,9 +17,6 @@ package com.blacklocus.jres.model.bulk;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class Item {
 
     @JsonProperty

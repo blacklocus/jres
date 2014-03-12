@@ -23,9 +23,6 @@ import com.blacklocus.jres.response.index.JresIndexDocumentReply;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresGetDocumentTest extends BaseJresTest {
 
     @Test

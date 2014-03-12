@@ -20,9 +20,6 @@ import com.blacklocus.jres.response.JresBooleanReply;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresIndexExistsTest extends BaseJresTest {
 
     @Test

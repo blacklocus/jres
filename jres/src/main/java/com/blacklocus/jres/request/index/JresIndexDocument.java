@@ -33,8 +33,6 @@ import static com.blacklocus.jres.strings.JresPaths.slashedPath;
 
 /**
  * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-index_.html#docs-index_">Index Document API</a>
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class JresIndexDocument extends JresJsonRequest<JresIndexDocumentReply> implements JresBulkable {

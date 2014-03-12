@@ -23,8 +23,6 @@ import java.util.List;
 
 /**
  * Response for {@link JresRetrieveAliases}.
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 public class JresRetrieveAliasesReply extends JresJsonReply {
 

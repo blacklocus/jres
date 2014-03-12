@@ -24,9 +24,6 @@ import org.apache.http.HttpStatus;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public final class JresTest extends BaseJresTest { // final to prevent accidentally extending instead of BaseJresTest
 
     @Test(expected = JresErrorReplyException.class)

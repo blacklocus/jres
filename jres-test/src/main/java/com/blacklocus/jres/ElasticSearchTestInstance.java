@@ -26,8 +26,6 @@ import java.io.File;
 /**
  * This is a thread-safe way to initialize a singleton resource. The class just needs to be referenced by whatever
  * execution entry path.
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 class ElasticSearchTestInstance {
 

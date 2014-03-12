@@ -23,9 +23,6 @@ import com.blacklocus.jres.request.search.JresSearchBody;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresTermQueryTest extends BaseJresTest {
 
     @Test

@@ -18,9 +18,6 @@ package com.blacklocus.jres.response.index;
 import com.blacklocus.jres.response.JresJsonReply;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresIndexDocumentReply extends JresJsonReply {
 
     private Boolean ok;

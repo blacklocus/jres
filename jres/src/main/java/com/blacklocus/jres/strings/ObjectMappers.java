@@ -27,9 +27,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class ObjectMappers {
 
     public static final ObjectMapper NORMAL = newConfiguredObjectMapper();

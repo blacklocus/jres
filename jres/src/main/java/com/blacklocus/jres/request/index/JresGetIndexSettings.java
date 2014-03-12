@@ -25,8 +25,6 @@ import org.apache.http.client.methods.HttpGet;
  * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/indices-get-settings.html#indices-get-settings">Get Index Settings API</a>
  * <p>
  * Can throw {@link JresErrorReplyException}.
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 public class JresGetIndexSettings extends JresJsonRequest<JresJsonReply> {
 

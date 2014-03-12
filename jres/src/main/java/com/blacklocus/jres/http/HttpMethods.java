@@ -47,9 +47,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class HttpMethods {
 
     private static final Logger LOG = LoggerFactory.getLogger(HttpMethods.class);

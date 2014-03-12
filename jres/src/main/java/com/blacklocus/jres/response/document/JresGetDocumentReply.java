@@ -21,9 +21,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresGetDocumentReply extends JresJsonReply {
 
     private Boolean ok;

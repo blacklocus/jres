@@ -32,9 +32,6 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.Iterator;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresBulkTest extends BaseJresTest {
 
     @Test

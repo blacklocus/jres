@@ -15,9 +15,6 @@
  */
 package com.blacklocus.jres.model;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class Shards {
 
     private Integer total;

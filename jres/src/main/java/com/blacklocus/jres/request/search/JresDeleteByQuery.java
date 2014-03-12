@@ -25,9 +25,6 @@ import org.apache.http.client.methods.HttpDelete;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresDeleteByQuery extends JresJsonRequest<JresIndicesReply> {
 
     private @Nullable String index;

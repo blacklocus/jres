@@ -24,9 +24,6 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresAddAliasTest extends BaseJresTest {
 
     @Test

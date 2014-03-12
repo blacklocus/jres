@@ -20,9 +20,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresJsonReply implements JresReply {
 
     private JsonNode node;

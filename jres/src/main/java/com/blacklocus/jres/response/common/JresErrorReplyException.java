@@ -35,8 +35,6 @@ import com.fasterxml.jackson.databind.JsonNode;
  * <li>{@link JresAddAlias}</li>
  * <li>{@link JresDeleteAlias}</li>
  * </ul>
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 public class JresErrorReplyException extends RuntimeException implements JresReply {
 

@@ -21,8 +21,6 @@ import org.apache.http.client.methods.HttpGet;
 
 /**
  * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/cluster-nodes-info.html#cluster-nodes-info">Nodes API</a>
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 public class JresNodes extends JresJsonRequest<JresJsonReply> {
 

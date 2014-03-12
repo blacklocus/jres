@@ -32,9 +32,6 @@ import org.junit.Test;
 
 import java.util.List;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresRawRequestTest extends BaseJresTest {
 
     @Test

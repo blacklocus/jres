@@ -22,9 +22,6 @@ import org.apache.http.client.methods.HttpPost;
 
 import javax.annotation.Nullable;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresSearch extends JresJsonRequest<JresSearchReply> {
 
     private final @Nullable String index;

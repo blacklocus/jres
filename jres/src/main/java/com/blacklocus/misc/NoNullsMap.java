@@ -25,8 +25,6 @@ import java.util.HashMap;
  * <p>
  * Use {@link #of(Object, Object)}... as a transparent replacement of {@link ImmutableMap#of()} where nulls are
  * possible, because ImmutableMap will not accept null values anyways.
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 public class NoNullsMap<K, V> extends HashMap<K, V> {
 

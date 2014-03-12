@@ -24,8 +24,6 @@ import com.blacklocus.jres.response.JresJsonReply;
  * <li>{@link JresCreateIndex}</li>
  * <li>{@link JresPutMapping}</li>
  * </ul>
- *
- * @author Jason Dunkelberger (dirkraft)
  */
 public class JresAcknowledgedReply extends JresJsonReply {
 

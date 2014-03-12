@@ -20,9 +20,6 @@ import com.blacklocus.jres.response.JresJsonReply;
 import java.io.IOException;
 import java.net.URL;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresRawRequest<REPLY extends JresJsonReply> extends JresJsonRequest<REPLY> {
 
     private final String method;

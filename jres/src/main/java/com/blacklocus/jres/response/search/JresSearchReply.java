@@ -27,9 +27,6 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresSearchReply extends JresJsonReply {
 
     private Integer took;

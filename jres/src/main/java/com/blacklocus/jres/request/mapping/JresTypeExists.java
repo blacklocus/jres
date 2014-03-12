@@ -22,9 +22,6 @@ import com.google.common.base.Predicate;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpHead;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresTypeExists extends JresBooleanRequest {
 
     private final String index;

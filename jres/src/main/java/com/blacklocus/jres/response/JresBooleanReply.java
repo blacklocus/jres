@@ -17,9 +17,6 @@ package com.blacklocus.jres.response;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-/**
- * @author Jason Dunkelberger (dirkraft)
- */
 public class JresBooleanReply implements JresReply {
 
     private final boolean verity;
