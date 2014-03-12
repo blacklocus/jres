@@ -19,6 +19,7 @@ import com.blacklocus.jres.Jres;
 import com.blacklocus.jres.request.search.facet.JresFacet;
 import com.blacklocus.jres.request.search.query.JresBoolQuery;
 import com.blacklocus.jres.request.search.query.JresQuery;
+import com.blacklocus.jres.request.search.sort.JresSort;
 import com.blacklocus.jres.strings.ObjectMappers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableList;
@@ -38,6 +39,11 @@ public class JresSearchBody {
     private List<String> fields;
     private Map<String, Object> facets;
     private Integer size;
+    /**
+     * Each map is single-keyed from {@link JresSort#sortType()} to the JresSort itself. Values are objects to support
+     * {@link Jres#load(URL, Class)} which isn't smartened up to determine a query's corresponding JresQuery subclass.
+     */
+    private List<Map<String, Object>> sort;
 
     public JresSearchBody query(JresQuery query) {
         this.query = ImmutableMap.<String, Object>of(query.queryType(), query);
@@ -71,6 +77,18 @@ public class JresSearchBody {
      */
     public JresSearchBody size(Integer size) {
         this.size = size;
+        return this;
+    }
+
+    /**
+     * Replaces the current set of sorts in this search.
+     */
+    public JresSearchBody sort(JresSort... sorts) {
+        ImmutableList.Builder<Map<String, Object>> builder = ImmutableList.builder();
+        for (JresSort sort : sorts) {
+            builder.add(ImmutableMap.<String, Object>of(sort.sortType(), sort));
+        }
+        this.sort = builder.build();
         return this;
     }
 
@@ -130,4 +148,7 @@ public class JresSearchBody {
         return size;
     }
 
+    public List<Map<String, Object>> getSort() {
+        return sort;
+    }
 }
