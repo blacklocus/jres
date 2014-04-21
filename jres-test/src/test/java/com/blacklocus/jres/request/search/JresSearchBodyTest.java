@@ -20,12 +20,13 @@ import com.blacklocus.jres.request.index.JresIndexDocument;
 import com.blacklocus.jres.request.index.JresRefresh;
 import com.blacklocus.jres.response.search.JresSearchReply;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.common.collect.ImmutableMap;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
 import java.util.Map;
+
+import static com.google.common.collect.ImmutableMap.of;
 
 public class JresSearchBodyTest extends BaseJresTest {
 
@@ -33,7 +34,7 @@ public class JresSearchBodyTest extends BaseJresTest {
     public void testFields() {
         String index = "JresSearchBodyTest.testFields".toLowerCase();
         String type = "test";
-        jres.quest(new JresIndexDocument(index, type, ImmutableMap.of("character", "dino")));
+        jres.quest(new JresIndexDocument(index, type, of("character", "dino")));
         jres.quest(new JresRefresh(index));
         TypeReference<Map<String, String>> typeRef = new TypeReference<Map<String, String>>() {};
 
@@ -43,7 +44,6 @@ public class JresSearchBodyTest extends BaseJresTest {
 
         // no setting
         reply = jres.quest(new JresSearch(index, type, new JresSearchBody()));
-        reply.getHits().getHits();
         results = reply.getHitsAsType(typeRef);
         Assert.assertEquals(1, results.size());
         result = results.get(0);
@@ -51,7 +51,6 @@ public class JresSearchBodyTest extends BaseJresTest {
 
         // no fields
         reply = jres.quest(new JresSearch(index, type, new JresSearchBody().fields()));
-        reply.getHits().getHits();
         results = reply.getHitsAsType(typeRef);
         Assert.assertEquals(1, results.size());
         result = results.get(0);
@@ -59,11 +58,33 @@ public class JresSearchBodyTest extends BaseJresTest {
 
         // non-default fields
         reply = jres.quest(new JresSearch(index, type, new JresSearchBody().fields("_timestamp")));
-        reply.getHits().getHits();
         results = reply.getHitsAsType(typeRef);
         Assert.assertEquals(1, results.size());
         result = results.get(0);
         Assert.assertNull(result);
+    }
 
+    @Test
+    public void testQueryAsMap() {
+        String index = "JresSearchBodyTest.testQueryAsMap".toLowerCase();
+        String type = "test";
+        jres.quest(new JresIndexDocument(index, type, of("character", "fred")));
+        jres.quest(new JresIndexDocument(index, type, of("character", "wilma")));
+        jres.quest(new JresRefresh(index));
+
+        TypeReference<Map<String, String>> typeRef = new TypeReference<Map<String, String>>() {};
+        JresSearchReply reply;
+        List<Map<String, String>> results;
+        Map<String, String> result;
+
+        reply = jres.quest(new JresSearch(index, type, new JresSearchBody()));
+        results = reply.getHitsAsType(typeRef);
+        Assert.assertEquals(2, results.size());
+
+        reply = jres.quest(new JresSearch(index, type, new JresSearchBody().query("match", of("character", "wilma"))));
+        results = reply.getHitsAsType(typeRef);
+        Assert.assertEquals(1, results.size());
+        result = results.get(0);
+        Assert.assertEquals("wilma", result.get("character"));
     }
 }

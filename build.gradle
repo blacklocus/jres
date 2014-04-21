@@ -65,7 +65,7 @@ subprojects {
     // Identifiers
 
     group = 'com.blacklocus'
-    version = '0.1.9-SNAPSHOT'
+    version = '0.1.9'
     ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

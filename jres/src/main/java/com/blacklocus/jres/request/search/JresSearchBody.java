@@ -51,6 +51,16 @@ public class JresSearchBody {
     }
 
     /**
+     * @param queryType e.g. "match", "bool", "term", ...
+     * @param queryParams the body of that query, e.g. for "match" might be simply
+     *                    <code>ImmutableMap.of("field", "find this value")</code>
+     */
+    public JresSearchBody query(String queryType, Map<String, ?> queryParams) {
+        this.query = ImmutableMap.<String, Object>of(queryType, queryParams);
+        return this;
+    }
+
+    /**
      * Replaces the current set of fields in this search. Note that invoking this method with no arguments will set
      * the list of fields to an empty list, which is different than not setting it at all, which would tell
      * elasticsearch to return the default set of fields.
