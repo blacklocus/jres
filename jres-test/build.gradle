@@ -1,6 +1,6 @@
 dependencies {
 
-    compile project(':jres')
+    compile project(':jres-core')
 
     compile deps.junit
     compile deps.elasticsearch

@@ -1,5 +1,7 @@
 dependencies {
 
+    compile project(':jres-api')
+
     compile deps.httpclient
     compile deps.jackson_databind
 
