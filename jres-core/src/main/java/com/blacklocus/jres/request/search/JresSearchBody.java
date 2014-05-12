@@ -55,7 +55,7 @@ public class JresSearchBody {
      * @param queryParams the body of that query, e.g. for "match" might be simply
      *                    <code>ImmutableMap.of("field", "find this value")</code>
      */
-    public JresSearchBody query(String queryType, Map<String, ?> queryParams) {
+    public JresSearchBody query(String queryType, Object queryParams) {
         this.query = ImmutableMap.<String, Object>of(queryType, queryParams);
         return this;
     }
