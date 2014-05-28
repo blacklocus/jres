@@ -28,11 +28,6 @@ public class JresMatchQuery extends HashMap<String, Object> implements JresQuery
         put(field, subquery);
     }
 
-    public JresMatchQuery addField(String field, Object subquery) {
-        put(field, subquery);
-        return this;
-    }
-
     @Override
     public String queryType() {
         return "match";
