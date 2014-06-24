@@ -32,6 +32,6 @@ public class BaseJresTest {
     /**
      * Configured to connect to a local ElasticSearch instance created specifically for unit testing
      */
-    protected Jres jres = new Jres(Suppliers.ofInstance("http://localhost:9201"));
+    protected JresImpl jres = new JresImpl(Suppliers.ofInstance("http://localhost:9201"));
 
 }

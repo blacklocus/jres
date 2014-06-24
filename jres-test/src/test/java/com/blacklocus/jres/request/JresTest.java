@@ -16,7 +16,7 @@
 package com.blacklocus.jres.request;
 
 import com.blacklocus.jres.BaseJresTest;
-import com.blacklocus.jres.Jres;
+import com.blacklocus.jres.JresImpl;
 import com.blacklocus.jres.request.index.JresDeleteIndex;
 import com.blacklocus.jres.response.common.JresAcknowledgedReply;
 import com.blacklocus.jres.response.common.JresErrorReplyException;
@@ -36,7 +36,7 @@ public final class JresTest extends BaseJresTest { // final to prevent accidenta
         String index = "JresTest.testExcept".toLowerCase();
         Integer toleratedStatus = HttpStatus.SC_NOT_FOUND;
 
-        Jres.Tolerance<JresAcknowledgedReply> tolerance = jres.tolerate(new JresDeleteIndex(index), toleratedStatus);
+        JresImpl.Tolerance<JresAcknowledgedReply> tolerance = jres.tolerate(new JresDeleteIndex(index), toleratedStatus);
         Assert.assertTrue(tolerance.isError());
         Assert.assertNull(tolerance.getReply());
         Assert.assertNotNull(tolerance.getError());

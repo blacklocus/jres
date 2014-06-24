@@ -1,0 +1,8 @@
+dependencies {
+    compile project(':jres-core')
+
+    compile deps.metrics_core
+
+    testCompile deps.junit
+    testCompile deps.mockito_core
+}

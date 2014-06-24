@@ -15,7 +15,7 @@
  */
 package com.blacklocus.jres.request.search;
 
-import com.blacklocus.jres.Jres;
+import com.blacklocus.jres.JresImpl;
 import com.blacklocus.jres.request.search.facet.JresFacet;
 import com.blacklocus.jres.request.search.query.JresBoolQuery;
 import com.blacklocus.jres.request.search.query.JresQuery;
@@ -33,7 +33,7 @@ public class JresSearchBody {
 
     /**
      * Single entry from {@link JresQuery#queryType()} to the JresQuery itself. Values are objects to support
-     * {@link Jres#load(URL, Class)} which isn't smartened up to determine a query's corresponding JresQuery subclass.
+     * {@link JresImpl#load(URL, Class)} which isn't smartened up to determine a query's corresponding JresQuery subclass.
      */
     private Map<String, Object> query;
     private List<String> fields;
@@ -41,7 +41,7 @@ public class JresSearchBody {
     private Integer size;
     /**
      * Each map is single-keyed from {@link JresSort#sortType()} to the JresSort itself. Values are objects to support
-     * {@link Jres#load(URL, Class)} which isn't smartened up to determine a query's corresponding JresQuery subclass.
+     * {@link JresImpl#load(URL, Class)} which isn't smartened up to determine a query's corresponding JresQuery subclass.
      */
     private List<Map<String, Object>> sort;
 

@@ -59,7 +59,7 @@ public class JresBulkRequestor implements Runnable, Closeable {
 
     private final String targetIndex;
     private final String targetType;
-    private final Jres jres;
+    private final JresImpl jres;
 
     private final Integer numThreads;
     private final ExecutorService executorService;
@@ -74,7 +74,7 @@ public class JresBulkRequestor implements Runnable, Closeable {
      *
      * <p>Be sure to {@link #start()} this requestor
      */
-    public JresBulkRequestor(int batchSize, int sleepIntervalMs, int numThreads, Jres jres) {
+    public JresBulkRequestor(int batchSize, int sleepIntervalMs, int numThreads, JresImpl jres) {
         this(batchSize, sleepIntervalMs, numThreads, null, null, jres);
     }
 
@@ -84,7 +84,7 @@ public class JresBulkRequestor implements Runnable, Closeable {
      *
      * <p>Be sure to {@link #start()} this requestor
      */
-    public JresBulkRequestor(int batchSize, int sleepIntervalMs, int numThreads, @Nullable String targetIndex, Jres jres) {
+    public JresBulkRequestor(int batchSize, int sleepIntervalMs, int numThreads, @Nullable String targetIndex, JresImpl jres) {
         this(batchSize, sleepIntervalMs, numThreads, targetIndex, null, jres);
     }
 
@@ -95,7 +95,7 @@ public class JresBulkRequestor implements Runnable, Closeable {
      * <p>Be sure to {@link #start()} this requestor
      */
     public JresBulkRequestor(int batchSize, int sleepIntervalMs, int numThreads,
-                             @Nullable String targetIndex, @Nullable String targetType, Jres jres) {
+                             @Nullable String targetIndex, @Nullable String targetType, JresImpl jres) {
         this.batchSize = batchSize;
         this.sleepIntervalMs = sleepIntervalMs;
         this.numThreads = numThreads;

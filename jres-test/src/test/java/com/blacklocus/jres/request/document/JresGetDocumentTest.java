@@ -16,7 +16,7 @@
 package com.blacklocus.jres.request.document;
 
 import com.blacklocus.jres.BaseJresTest;
-import com.blacklocus.jres.Jres;
+import com.blacklocus.jres.JresImpl;
 import com.blacklocus.jres.request.index.JresIndexDocument;
 import com.blacklocus.jres.response.document.JresGetDocumentReply;
 import com.blacklocus.jres.response.index.JresIndexDocumentReply;
@@ -33,7 +33,7 @@ public class JresGetDocumentTest extends BaseJresTest {
         JresIndexDocumentReply indexDocumentReply = jres.quest(new JresIndexDocument(index, type, new Document()));
         String generatedId = indexDocumentReply.getId();
 
-        Jres.Tolerance<JresGetDocumentReply> tolerance = jres.tolerate(new JresGetDocument(index, type, "bogus"), 404);
+        JresImpl.Tolerance<JresGetDocumentReply> tolerance = jres.tolerate(new JresGetDocument(index, type, "bogus"), 404);
         Assert.assertTrue(tolerance.isError());
         Assert.assertFalse(tolerance.getError().asType(JresGetDocumentReply.class).getExists());
 

@@ -16,7 +16,7 @@
 package com.blacklocus.jres.request;
 
 import com.blacklocus.jres.BaseJresTest;
-import com.blacklocus.jres.Jres;
+import com.blacklocus.jres.JresImpl;
 import com.blacklocus.jres.request.index.JresIndexDocument;
 import com.blacklocus.jres.request.index.JresRefresh;
 import com.blacklocus.jres.request.search.JresSearch;
@@ -61,7 +61,7 @@ public class JresRawRequestTest extends BaseJresTest {
         Assert.assertEquals("small", hits.get(0).compass);
 
         // Imagine this is much more complicated and we just want to insert values in a few key places.
-        JresSearchBody searchBody = Jres.load(JresRawRequestTest.class.getResource("raw query base.json"), JresSearchBody.class);
+        JresSearchBody searchBody = JresImpl.load(JresRawRequestTest.class.getResource("raw query base.json"), JresSearchBody.class);
         searchBody.getQuery(JresBoolQuery.class).should(
                 new JresMatchQuery("compass", "big")
         );

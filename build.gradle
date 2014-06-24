@@ -32,6 +32,8 @@ ext {
             jackson_databind: 'com.fasterxml.jackson.core:jackson-databind:2.3.0',
             jsr305: 'com.google.code.findbugs:jsr305:2.0.2',
             junit: 'junit:junit:4.11',
+            metrics_core: 'com.codahale.metrics:metrics-core:3.0.1',
+            mockito_core: 'org.mockito:mockito-core:1.9.5',
             reflections: 'org.reflections:reflections:0.9.8',
             slf4j_api: 'org.slf4j:slf4j-api:1.7.5',
             slf4j_simple: 'org.slf4j:slf4j-simple:1.7.5',
@@ -65,7 +67,7 @@ subprojects {
     // Identifiers
 
     group = 'com.blacklocus'
-    version = '0.1.13-SNAPSHOT'
+    version = '0.2.0-SNAPSHOT'
     ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

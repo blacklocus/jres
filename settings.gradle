@@ -1,1 +1,1 @@
-include 'jres-api', 'jres-core', 'jres-util', 'jres-test'
+include 'jres-api', 'jres-core', 'jres-metrics', 'jres-util', 'jres-test'
