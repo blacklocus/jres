@@ -62,11 +62,16 @@ public class JresMetrics {
                 // All Jres method first arguments are subclasses of JresRequest.
                 JresRequest request = (JresRequest) args[0];
                 String metricName = metricNameFn.apply(request);
-                Timer.Context context = registry.timer(metricName).time();
+                Timer.Context context = null;
+                if (metricName != null) {
+                    context = registry.timer(metricName).time();
+                }
                 try {
                     return method.invoke(jres, args);
                 } finally {
-                    context.stop();
+                    if (context != null) {
+                        context.stop();
+                    }
                 }
             }
         });
