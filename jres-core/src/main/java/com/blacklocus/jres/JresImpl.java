@@ -112,7 +112,7 @@ public class JresImpl implements Jres {
      * it gracefully if the status code matches that given. This is sometimes preferable to inline try-catch blocks for
      * expected error responses, but otherwise functionally equivalent -- e.g. checking if an index exists will return
      * a 404 which is normally translated into a thrown JresErrorResponseException. If 404 was given as the
-     * tolerated status then such a JresErrorResponseException will be wrapped up into a {@link Tolerance}.
+     * tolerated status then such a JresErrorResponseException will be wrapped up into a {@link Jres.Tolerance}.
      * <p/>
      * Currently assumes a JsonNode basis for now, to keep exposed signatures' generics simpler.
      *
@@ -120,8 +120,8 @@ public class JresImpl implements Jres {
      * @param toleratedStatus which if encountered will return wrapped up in a Tolerance instead of being thrown
      * @param <QUEST>       request - type of request object
      * @param <REPLY>      response - type of response object produced as the returned value
-     * @return a Tolerance which wraps up the possible ok response or error response. Check {@link Tolerance#isError()}.
-     * @see Tolerance
+     * @return a Tolerance which wraps up the possible ok response or error response. Check {@link Jres.Tolerance#isError()}.
+     * @see Jres.Tolerance
      */
     @Override
     public <REPLY extends JresJsonReply, QUEST extends JresJsonRequest<REPLY>> Tolerance<REPLY> tolerate(QUEST quest, int toleratedStatus) {

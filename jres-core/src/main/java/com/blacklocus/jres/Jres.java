@@ -1,3 +1,18 @@
+/**
+ * Copyright 2013 BlackLocus
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.blacklocus.jres;
 
 import com.blacklocus.jres.request.JresBooleanRequest;
@@ -13,13 +28,13 @@ public interface Jres {
 
     <REPLY extends JresJsonReply, QUEST extends JresJsonRequest<REPLY>> REPLY quest(QUEST quest);
 
-    <REPLY extends JresJsonReply, QUEST extends JresJsonRequest<REPLY>> JresImpl.Tolerance<REPLY> tolerate(QUEST quest, int toleratedStatus);
+    <REPLY extends JresJsonReply, QUEST extends JresJsonRequest<REPLY>> Tolerance<REPLY> tolerate(QUEST quest, int toleratedStatus);
 
     /**
      * @param <REPLY> response - type of response object produced for a successful ElasticSearch response. Currently assumes
      *                   a JsonNode basis.
      */
-    class Tolerance<REPLY extends JresReply> {
+    public static class Tolerance<REPLY extends JresReply> {
         // Assume JsonNode basis for now, keep exposed signatures' generics simpler.
 
         private final boolean error;
