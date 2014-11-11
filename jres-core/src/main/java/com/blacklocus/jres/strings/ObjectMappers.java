@@ -124,7 +124,7 @@ public class ObjectMappers {
      */
     public static <T> T fromJson(JsonNode json, Class<T> klass) {
         try {
-            return NORMAL.readValue(json.traverse(), klass);
+            return NORMAL.readValue(json.traverse(NORMAL), klass);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -136,7 +136,7 @@ public class ObjectMappers {
      */
     public static <T> T fromJson(JsonNode json, TypeReference<T> typeReference) {
         try {
-            return NORMAL.readValue(json.traverse(), typeReference);
+            return NORMAL.readValue(json.traverse(NORMAL), typeReference);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
