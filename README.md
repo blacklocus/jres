@@ -11,8 +11,8 @@ communication is JSON over HTTP.
 maven
 
     <dependency>
-        <groupId>com.blacklocus</groupId>
-        <artifactId>jres</artifactId>
+        <groupId>com.blacklocus.jres</groupId>
+        <artifactId>jres-core</artifactId>
         <version>0.1.13</version>
     </dependency>
             
@@ -24,7 +24,7 @@ gradle
     }
     dependencies {
         // ...
-        compile 'com.blacklocus:jres:0.1.13'
+        compile 'com.blacklocus.jres:jres-core:0.1.13'
     }
 
 
