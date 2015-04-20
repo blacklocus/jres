@@ -13,7 +13,7 @@ maven
     <dependency>
         <groupId>com.blacklocus.jres</groupId>
         <artifactId>jres-core</artifactId>
-        <version>0.1.13</version>
+        <version>0.1.14</version>
     </dependency>
             
 gradle
