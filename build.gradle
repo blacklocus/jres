@@ -127,14 +127,14 @@ subprojects {
         repositories.mavenDeployer {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            //# ./gradlew -PdeployUrl=http://server/artifactory/repo -PdeployUsername=admin -PdeployPassword=pass uploadArchives
+            //# ./gradlew -PdeployUrl=http://server/artifactory/repo -PdeployUser=admin -PdeployPass=pass uploadArchives
             // for snapshots https://oss.sonatype.org/content/repositories/snapshots
             // for staging/release https://oss.sonatype.org/service/local/staging/deploy/maven2
             repository(
                     url: defaultBlank({ deployUrl })
             ) {
                 // If these are not defined assemble needlessly fails for unrelated tasks, hence, defaultBlank.
-                authentication(userName: defaultBlank({ deployUsername }), password: defaultBlank({ deployPassword }))
+                authentication(userName: defaultBlank({ deployUsern }), password: defaultBlank({ deployPass }))
             }
 
             pom.project {
