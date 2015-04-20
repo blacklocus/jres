@@ -24,7 +24,7 @@ gradle
     }
     dependencies {
         // ...
-        compile 'com.blacklocus.jres:jres-core:0.1.13'
+        compile 'com.blacklocus.jres:jres-core:0.1.14'
     }
 
 
