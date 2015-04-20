@@ -42,20 +42,22 @@ import java.util.concurrent.TimeUnit;
  *
  * <p>Be sure to {@link #start()} this requestor. This requestor can be properly shutdown if such behavior is desired
  * through {@link #close()}. Allow ample time for the buffers to flush and submit to ElasticSearch (see
- * {@link #CLOSING_LENIENCY_SECONDS}).
+ * {@link #closingLeniencySeconds}).
  */
 public class JresBulkRequestor implements Runnable, Closeable {
 
     private static final Logger LOG = LoggerFactory.getLogger(JresBulkRequestor.class);
 
-    /** Polling lenience, how long in seconds each poll to the transfer queue is willing to wait. */
-    public static final int POLLING_LENIENCY_SECONDS = 5;
-    /** Amount of time {@link #close()} should wait for buffers to flush and submit before excepting. */
-    public static final int CLOSING_LENIENCY_SECONDS = 60;
+    public static final int DEFAULT_POLLING_LENIENCY_SEC = 5;
+    public static final int DEFAULT_CLOSING_LENIENCY_SEC = 60;
 
 
     private final int batchSize;
     private final int sleepIntervalMs;
+    /** Polling lenience, how long in seconds each poll to the transfer queue is willing to wait. */
+    private final int pollingLeniencySeconds;
+    /** Amount of time {@link #close()} should wait for buffers to flush and submit before excepting. */
+    private final int closingLeniencySeconds;
 
     private final String targetIndex;
     private final String targetType;
@@ -96,9 +98,10 @@ public class JresBulkRequestor implements Runnable, Closeable {
      */
     public JresBulkRequestor(int batchSize, int sleepIntervalMs, int numThreads,
                              @Nullable String targetIndex, @Nullable String targetType, Jres jres) {
-        this(batchSize, sleepIntervalMs, numThreads, targetIndex, targetType, jres,
+        this(batchSize, sleepIntervalMs, DEFAULT_POLLING_LENIENCY_SEC, DEFAULT_CLOSING_LENIENCY_SEC,
+                targetIndex, targetType, jres, numThreads,
                 new ThreadPoolExecutor(
-                        2, 2, 1, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), new DaemonThreadFactory()
+                        numThreads, numThreads, 1, TimeUnit.MINUTES, new SynchronousQueue<Runnable>(), new DaemonThreadFactory()
                 ));
     }
 
@@ -108,17 +111,19 @@ public class JresBulkRequestor implements Runnable, Closeable {
      *
      * <p>Be sure to {@link #start()} this requestor
      */
-    public JresBulkRequestor(int batchSize, int sleepIntervalMs, int numThreads,
+    public JresBulkRequestor(int batchSize, int sleepIntervalMs, int pollingLeniencySeconds, int closingLeniencySeconds,
                              @Nullable String targetIndex, @Nullable String targetType,
-                             Jres jres, ExecutorService executorService) {
+                             Jres jres, int numThreads, ExecutorService executorService) {
         this.batchSize = batchSize;
         this.sleepIntervalMs = sleepIntervalMs;
-        this.numThreads = numThreads;
+        this.pollingLeniencySeconds = pollingLeniencySeconds;
+        this.closingLeniencySeconds = closingLeniencySeconds;
 
         this.targetIndex = targetIndex;
         this.targetType = targetType;
         this.jres = jres;
 
+        this.numThreads = numThreads;
         this.executorService = executorService;
 
         this.q = new SynchronousQueue<FuturedDocument>(true);
@@ -235,7 +240,7 @@ public class JresBulkRequestor implements Runnable, Closeable {
      */
     private FuturedDocument poll() {
         try {
-            return q.poll(POLLING_LENIENCY_SECONDS, TimeUnit.SECONDS);
+            return q.poll(pollingLeniencySeconds, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             LOG.debug("Poll interrupted. Absorbing this exception. Main loop in this thread should be checking " +
                     "interrupted status and stop the worker in a moment.", e);
@@ -267,7 +272,7 @@ public class JresBulkRequestor implements Runnable, Closeable {
                 indexerWorkerFuture.cancel(true);
             }
             executorService.shutdown();
-            executorService.awaitTermination(CLOSING_LENIENCY_SECONDS, TimeUnit.SECONDS);
+            executorService.awaitTermination(closingLeniencySeconds, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             LOG.warn("Failed to stop worker threads. Pool may fail to shutdown.", e);
         }
