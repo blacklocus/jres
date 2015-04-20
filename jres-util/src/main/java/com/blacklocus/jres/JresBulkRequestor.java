@@ -96,6 +96,21 @@ public class JresBulkRequestor implements Runnable, Closeable {
      */
     public JresBulkRequestor(int batchSize, int sleepIntervalMs, int numThreads,
                              @Nullable String targetIndex, @Nullable String targetType, Jres jres) {
+        this(batchSize, sleepIntervalMs, numThreads, targetIndex, targetType, jres,
+                new ThreadPoolExecutor(
+                        2, 2, 1, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), new DaemonThreadFactory()
+                ));
+    }
+
+    /**
+     * Create a JresBulkRequestor defaulting to a particular index. This means JresBulkable that specify their index
+     * or type will be placed there. But for unspecified will default to the parameters given here.
+     *
+     * <p>Be sure to {@link #start()} this requestor
+     */
+    public JresBulkRequestor(int batchSize, int sleepIntervalMs, int numThreads,
+                             @Nullable String targetIndex, @Nullable String targetType,
+                             Jres jres, ExecutorService executorService) {
         this.batchSize = batchSize;
         this.sleepIntervalMs = sleepIntervalMs;
         this.numThreads = numThreads;
@@ -104,9 +119,7 @@ public class JresBulkRequestor implements Runnable, Closeable {
         this.targetType = targetType;
         this.jres = jres;
 
-        this.executorService = new ThreadPoolExecutor(
-                2, 2, 1, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), new DaemonThreadFactory()
-        );
+        this.executorService = executorService;
 
         this.q = new SynchronousQueue<FuturedDocument>(true);
     }
