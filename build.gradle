@@ -65,7 +65,7 @@ subprojects {
     // Identifiers
 
     group = 'com.blacklocus.jres'
-    version = '0.1.14'
+    version = '0.1.15-SNAPSHOT'
     ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
