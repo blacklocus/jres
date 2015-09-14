@@ -30,6 +30,127 @@ gradle
 
 ## Usage ##
 
+```java
+public class Main {
+
+    public static void main(String[] args) {
+
+        // Setup an index with a mapping for documents of type MyText.
+        String index = "readme_test_index";
+        String type = "definition";
+        String mapping = "{" +
+                "  \"definition\": {" +
+                "    \"properties\": {" +
+                "      \"body\": {" +
+                "        \"type\": \"string\"" +
+                "      }" +
+                "    }" +
+                "  }" +
+                "}";
+
+        Jres jres = new Jres(host);
+        jres.quest(new JresCreateIndex(index));
+        jres.quest(new JresPutMapping(index, type, mapping));
+
+        // Index two documents (definitions via Google)
+        Definition cat = new Definition("cat",
+                "a small domesticated carnivorous mammal " +
+                        "with soft fur, a short snout, and retractile claws. It is " +
+                        "widely kept as a pet or for catching mice, and many breeds " +
+                        "have been developed.");
+        Definition dog = new Definition("dog",
+                "a domesticated carnivorous mammal that " +
+                        "typically has a long snout, an acute sense of smell, and a " +
+                        "barking, howling, or whining voice. It is widely kept as a pet " +
+                        "or for work or field sports.");
+        jres.quest(new JresIndexDocument(index, type, cat));
+        jres.quest(new JresIndexDocument(index, type, dog));
+
+        // Do some querying
+        JresMatchQuery retractileQuery = new JresMatchQuery("body", "retractile");
+        JresMatchQuery mammalQuery = new JresMatchQuery("body", "mammal");
+        JresMatchQuery alligatorQuery = new JresMatchQuery("body", "alligator");
+        JresBoolQuery retractileAndMammalQuery = new JresBoolQuery()
+                .must(retractileQuery, mammalQuery);
+
+        // We need to flush the queue in ElasticSearch otherwise our recently
+        // submitted documents may not yet be indexed.
+        jres.quest(new JresFlush(index));
+
+        JresSearchReply reply;
+
+        System.out.println("Searching 'retractile'");
+        reply = jres.quest(new JresSearch(index, type, new JresSearchBody()
+                .query(retractileQuery)));
+        for (Hit hit : reply.getHits().getHits()) {
+            Definition definition = hit.getSourceAsType(Definition.class);
+            System.out.println("  Found " + definition.term);
+        }
+
+        System.out.println("Searching 'mammal'");
+        reply = jres.quest(new JresSearch(index, type, new JresSearchBody()
+                .query(mammalQuery)));
+        for (Hit hit : reply.getHits().getHits()) {
+            Definition definition = hit.getSourceAsType(Definition.class);
+            System.out.println("  Found " + definition.term);
+        }
+
+        System.out.println("Searching 'alligator'");
+        reply = jres.quest(new JresSearch(index, type, new JresSearchBody()
+                .query(alligatorQuery)));
+        if (reply.getHits().getTotal() == 0) {
+            System.out.println("  Nothing found about alligators");
+        }
+
+        System.out.println("Searching 'retractile' and 'mammal'");
+        reply = jres.quest(new JresSearch(index, type, new JresSearchBody()
+                .query(retractileAndMammalQuery)));
+        for (Hit hit : reply.getHits().getHits()) {
+            Definition definition = hit.getSourceAsType(Definition.class);
+            System.out.println("  Found " + definition.term);
+        }
+    }
+
+    // This must be (de)serializable by Jackson. I have chosen to go with
+    // public fields, and provided a non-private default constructor.
+    // This is just one of many ways to enable Jackson (de)serialization.
+    static class Definition {
+        public String term;
+        public String body;
+
+        Definition() {
+        }
+
+        public Definition(String term, String body) {
+            this.term = term;
+            this.body = body;
+        }
+
+        @Override
+        public String toString() {
+            return term + ": " + body;
+        }
+    }
+}
+```
+
+This program produces this output.
+
+```
+Searching 'retractile'
+  Found cat
+Searching 'domestic'
+  Found cat
+  Found dog
+Searching 'alligator'
+  Nothing found about alligators
+Searching 'retractile' and 'mammal'
+  Found cat
+```
+
+
+### More ###
+
 Select ElasticSearch APIs are wrapped up in corresponding request objects that implement
 [`JresRequest`](https://github.com/blacklocus/jres/tree/master/jres/src/main/java/com/blacklocus/jres/request/JresRequest.java).
 All such request objects are located in the `com.blacklocus.jres.request` package tree.

@@ -202,5 +202,12 @@ public class Jres {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * @return the internal supplier of ElasticSearch hosts as provided in a constructor.
+     */
+    public Supplier<String> getHosts() {
+        return hosts;
+    }
 }
 

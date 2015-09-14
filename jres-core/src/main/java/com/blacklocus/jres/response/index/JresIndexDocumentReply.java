@@ -20,8 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class JresIndexDocumentReply extends JresJsonReply {
 
-    private Boolean ok;
-
     @JsonProperty("_index")
     private String index;
 
@@ -34,9 +32,7 @@ public class JresIndexDocumentReply extends JresJsonReply {
     @JsonProperty("_version")
     private String version;
 
-    public Boolean getOk() {
-        return ok;
-    }
+    private Boolean created;
 
     public String getIndex() {
         return index;
@@ -52,6 +48,10 @@ public class JresIndexDocumentReply extends JresJsonReply {
 
     public String getVersion() {
         return version;
+    }
+
+    public Boolean getCreated() {
+        return created;
     }
 
 }

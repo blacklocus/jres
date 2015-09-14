@@ -39,7 +39,7 @@ public class JresIndexDocumentTest extends BaseJresTest {
         Document document = new Document();
         JresIndexDocumentReply reply = jres.quest(new JresIndexDocument(index, type, document));
 
-        Assert.assertTrue(reply.getOk());
+        Assert.assertTrue(reply.getCreated());
         Assert.assertEquals(index, reply.getIndex());
         Assert.assertEquals(type, reply.getType());
         Assert.assertEquals("1", reply.getVersion());
@@ -54,7 +54,7 @@ public class JresIndexDocumentTest extends BaseJresTest {
         Document document = new Document();
         JresIndexDocumentReply reply = jres.quest(new JresIndexDocument(index, type, id, document));
 
-        Assert.assertTrue(reply.getOk());
+        Assert.assertTrue(reply.getCreated());
         Assert.assertEquals(index, reply.getIndex());
         Assert.assertEquals(type, reply.getType());
         Assert.assertEquals(id, reply.getId());
@@ -82,14 +82,14 @@ public class JresIndexDocumentTest extends BaseJresTest {
 
         Document document = new Document();
         JresIndexDocumentReply reply = jres.quest(new JresIndexDocument(index, type, id, document, true));
-        Assert.assertTrue(reply.getOk());
+        Assert.assertTrue(reply.getCreated());
         Assert.assertEquals(index, reply.getIndex());
         Assert.assertEquals(type, reply.getType());
         Assert.assertEquals(id, reply.getId());
         Assert.assertEquals("1", reply.getVersion());
 
         reply = jres.quest(new JresIndexDocument(index, type, id, document, false));
-        Assert.assertTrue(reply.getOk());
+        Assert.assertFalse("Updated, though not a new document", reply.getCreated());
         Assert.assertEquals(index, reply.getIndex());
         Assert.assertEquals(type, reply.getType());
         Assert.assertEquals(id, reply.getId());
