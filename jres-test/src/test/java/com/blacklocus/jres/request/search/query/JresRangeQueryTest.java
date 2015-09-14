@@ -79,7 +79,7 @@ public class JresRangeQueryTest extends BaseJresTest {
         Assert.assertEquals((Object) 3L, quest.getHits().getTotal());
 
         JresSearchReply searchReply = jres.quest(new JresSearch(index, type, new JresSearchBody()
-                .query(new JresRangeQuery("value").lte("2014-01-01T01:02:00"))));
+                .query(new JresRangeQuery("value").lte(DateTime.parse("2014-01-01T01:02:00").toDate()))));
         Assert.assertEquals((Object) 2L, searchReply.getHits().getTotal());
         for (NumericDocument document : searchReply.getHitsAsType(NumericDocument.class)) {
             Assert.assertTrue(document.description.contains("balloon"));
