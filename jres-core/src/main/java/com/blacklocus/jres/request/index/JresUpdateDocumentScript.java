@@ -32,7 +32,11 @@ import java.util.Map;
 /**
  * <a href="http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/docs-update.html">Update Document API</a>
  *
- * Covers the scripted update portion.
+ * <p>Covers the scripted update portion.
+ *
+ * <p><b>Note:</b> ElasticSearch defaults the script lang to groovy, but declares the groovy dependency as optional.
+ * You must explicitly include groovy 2.4+ in the classpath. Also, you must explicitly enable dynamic scripting in
+ * elasticsearch.yml: <code>script.disable_dynamic: false</code>
  */
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 public class JresUpdateDocumentScript extends JresJsonRequest<JresIndexDocumentReply> implements JresBulkable {

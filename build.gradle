@@ -27,6 +27,7 @@ ext {
             commons_io: 'commons-io:commons-io:2.4',
             commons_lang3: 'org.apache.commons:commons-lang3:3.4',
             elasticsearch: 'org.elasticsearch:elasticsearch:1.7.1',
+            groovy_all: 'org.codehaus.groovy:groovy-all:2.4.4',
             guava: 'com.google.guava:guava:18.0',
             httpclient: 'org.apache.httpcomponents:httpclient:4.5',
             jackson_databind: 'com.fasterxml.jackson.core:jackson-databind:2.6.1',

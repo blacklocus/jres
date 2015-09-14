@@ -62,8 +62,8 @@ public class JresUpdateDocumentScriptTest extends BaseJresTest {
         String id1 = "horchata";
         String id2 = "margarita";
 
-        Object updateDoc1WithFood = ImmutableMap.of("description", Arrays.asList("Es horchata"));
-        Object updateDoc2WithFood = ImmutableMap.of("description", Arrays.asList("Es margarita"));
+        Object updateDoc1WithFood = ImmutableMap.of("description", Collections.singletonList("Es horchata"));
+        Object updateDoc2WithFood = ImmutableMap.of("description", Collections.singletonList("Es margarita"));
         // Scripts don't matter, because this should fall back to insert since the docs don't exist.
         jres.quest(new JresUpdateDocumentScript(index, type, id1, "", Collections.<String, Object>emptyMap(), updateDoc1WithFood, null));
         jres.quest(new JresUpdateDocumentScript(index, type, id2, "", Collections.<String, Object>emptyMap(), updateDoc2WithFood, null));
@@ -90,7 +90,7 @@ public class JresUpdateDocumentScriptTest extends BaseJresTest {
         Map<String, List<String>> doc2 = jres.quest(new JresGetDocument(index, type, id2)).getSourceAsType(
                 new TypeReference<Map<String, List<String>>>() {});
         Assert.assertEquals(ImmutableMap.of(
-                "description", Arrays.asList("Es margarita")
+                "description", Collections.singletonList("Es margarita")
         ), doc2);
     }
 
@@ -101,8 +101,8 @@ public class JresUpdateDocumentScriptTest extends BaseJresTest {
         String id1 = "horchata";
         String id2 = "margarita";
 
-        Map<String, List<String>> updateDoc1WithFood = ImmutableMap.of("description", Arrays.asList("Es horchata"));
-        Map<String, List<String>> updateDoc2WithFood = ImmutableMap.of("description", Arrays.asList("Es margarita"));
+        Map<String, List<String>> updateDoc1WithFood = ImmutableMap.of("description", Collections.singletonList("Es horchata"));
+        Map<String, List<String>> updateDoc2WithFood = ImmutableMap.of("description", Collections.singletonList("Es margarita"));
         // Scripts don't matter, because this should fall back to insert since the docs don't exist.
         jres.quest(new JresBulk(index, type, Arrays.<JresBulkable>asList(
                 new JresUpdateDocumentScript(index, type, id1, "", Collections.<String, Object>emptyMap(), updateDoc1WithFood, null),
@@ -121,7 +121,7 @@ public class JresUpdateDocumentScriptTest extends BaseJresTest {
                 new JresUpdateDocumentScript(index, type, id1, updateDoc1Script, updateDoc1With2ndDesc),
                 // results in insert of new doc
                 new JresUpdateDocumentScript(index, type, "id3", "", Collections.<String, Object>emptyMap(), ImmutableMap.of(
-                        "description", Arrays.asList("the 3rd document")
+                        "description", Collections.singletonList("the 3rd document")
                 ), null)
         )));
         jres.quest(new JresRefresh(index));
@@ -139,7 +139,7 @@ public class JresUpdateDocumentScriptTest extends BaseJresTest {
         Map<String, List<String>> doc2 = jres.quest(new JresGetDocument(index, type, id2))
                 .getSourceAsType(new TypeReference<Map<String, List<String>>>() {});
         Assert.assertEquals(ImmutableMap.of(
-                "description", Arrays.asList("Es margarita")
+                "description", Collections.singletonList("Es margarita")
         ), doc2);
     }
 

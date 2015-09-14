@@ -10,5 +10,6 @@ dependencies {
 
     testCompile deps.slf4j_simple
     testCompile deps.reflections
+    testCompile deps.groovy_all
 
 }
