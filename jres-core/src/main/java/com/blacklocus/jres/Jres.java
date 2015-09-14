@@ -63,7 +63,7 @@ public class Jres {
 
     /**
      * @param elasticSearchHostOrHosts externalized host name provider to support arbitrary request load allocation. Use
-     *                    <code>{@link Suppliers#ofInstance(Object) Suppliers.ofInstance(host)}</code> for single entry.
+     *                                 <code>{@link Suppliers#ofInstance(Object) Suppliers.ofInstance(host)}</code> for single entry.
      */
     public Jres(Supplier<String> elasticSearchHostOrHosts) {
         this.hosts = elasticSearchHostOrHosts;
@@ -72,6 +72,8 @@ public class Jres {
 
     /**
      * There are a few requests that return no JSON and are based entirely on status codes.
+     *
+     * @param request pattern class for ElasticSearch request
      */
     public <REQUEST extends JresBooleanRequest> JresBooleanReply bool(REQUEST request) {
 
@@ -88,7 +90,7 @@ public class Jres {
     }
 
     /**
-     * @param <QUEST>  request - type of request object
+     * @param <QUEST> request - type of request object
      * @param <REPLY> response - type of response object produced as the returned value
      * @return corresponding response object ({@link JresRequest}'s RESPONSE type)
      */
@@ -115,10 +117,10 @@ public class Jres {
      * <p/>
      * Currently assumes a JsonNode basis for now, to keep exposed signatures' generics simpler.
      *
-     * @param quest         JresRequest with JsonNode basis
+     * @param quest           JresRequest with JsonNode basis
      * @param toleratedStatus which if encountered will return wrapped up in a Tolerance instead of being thrown
-     * @param <QUEST>       request - type of request object
-     * @param <REPLY>      response - type of response object produced as the returned value
+     * @param <QUEST>         request - type of request object
+     * @param <REPLY>         response - type of response object produced as the returned value
      * @return a Tolerance which wraps up the possible ok response or error response. Check {@link Tolerance#isError()}.
      * @see Tolerance
      */
@@ -137,8 +139,8 @@ public class Jres {
     }
 
     /**
-     * @param <REPLY> response - type of response object produced for a successful ElasticSearch response. Currently assumes
-     *                   a JsonNode basis.
+     * @param <REPLY> response - type of response object produced for a successful ElasticSearch response. Currently
+     *                assumes a JsonNode basis.
      */
     public static class Tolerance<REPLY extends JresReply> {
         // Assume JsonNode basis for now, keep exposed signatures' generics simpler.

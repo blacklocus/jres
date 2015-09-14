@@ -1,12 +1,12 @@
 /**
  * Copyright 2015 BlackLocus
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,6 +24,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 public class JresDeleteAliasTest extends BaseJresTest {
 
@@ -34,22 +35,18 @@ public class JresDeleteAliasTest extends BaseJresTest {
 
         jres.quest(new JresCreateIndex(index));
 
-        // delete doesn't seem to care whether the alias exists or not
-        jres.quest(new JresDeleteAlias(index, alias));
+        // Delete alias excepts if the alias doesn't exist.
+        jres.tolerate(new JresDeleteAlias(index, alias), 404);
 
         jres.quest(new JresAddAlias(index, alias));
         JresRetrieveAliasesReply retrieveAliasesResponse = jres.quest(new JresRetrieveAliases(index, alias));
-        Assert.assertEquals(Arrays.asList(alias), retrieveAliasesResponse.getAliases(index));
+        Assert.assertEquals(Collections.singletonList(alias), retrieveAliasesResponse.getAliases(index));
 
         JresAcknowledgedReply response = jres.quest(new JresDeleteAlias(index, alias));
         Assert.assertTrue(response.getAcknowledged());
-        try {
-            retrieveAliasesResponse = jres.quest(new JresRetrieveAliases(index, "*"));
-            Assert.assertEquals(0, retrieveAliasesResponse.getAliases(index).size());
-            Assert.fail("Should have failed with 404, no aliases found.");
-        } catch (JresErrorReplyException e) {
-            // good
-        }
+
+        retrieveAliasesResponse = jres.quest(new JresRetrieveAliases(index, "*"));
+        Assert.assertEquals(0, retrieveAliasesResponse.getAliases(index).size());
     }
 
     @Test(expected = JresErrorReplyException.class)
