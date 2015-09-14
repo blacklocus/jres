@@ -21,14 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class JresShardsReply extends JresJsonReply {
 
-    private Boolean ok;
-
     @JsonProperty("_shards")
     private Shards shards;
-
-    public Boolean getOk() {
-        return ok;
-    }
 
     public Shards getShards() {
         return shards;
