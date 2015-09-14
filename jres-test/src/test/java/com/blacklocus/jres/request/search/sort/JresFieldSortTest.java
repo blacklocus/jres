@@ -20,7 +20,7 @@ import com.blacklocus.jres.request.index.JresIndexDocument;
 import com.blacklocus.jres.request.index.JresRefresh;
 import com.blacklocus.jres.request.search.JresSearch;
 import com.blacklocus.jres.request.search.JresSearchBody;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.junit.Assert;
@@ -91,7 +91,7 @@ public class JresFieldSortTest extends BaseJresTest {
 
         @Override
         public String toString() {
-            return Objects.toStringHelper(this)
+            return MoreObjects.toStringHelper(this)
                     .add("the_answer", the_answer)
                     .toString();
         }

@@ -25,16 +25,16 @@ def defaultBlank(closure) {
 ext {
     deps = [
             commons_io: 'commons-io:commons-io:2.4',
-            commons_lang3: 'org.apache.commons:commons-lang3:3.1',
-            elasticsearch: 'org.elasticsearch:elasticsearch:0.90.7',
-            guava: 'com.google.guava:guava:15.0',
-            httpclient: 'org.apache.httpcomponents:httpclient:4.3.1',
-            jackson_databind: 'com.fasterxml.jackson.core:jackson-databind:2.3.0',
-            jsr305: 'com.google.code.findbugs:jsr305:2.0.2',
-            junit: 'junit:junit:4.11',
-            reflections: 'org.reflections:reflections:0.9.8',
-            slf4j_api: 'org.slf4j:slf4j-api:1.7.5',
-            slf4j_simple: 'org.slf4j:slf4j-simple:1.7.5',
+            commons_lang3: 'org.apache.commons:commons-lang3:3.4',
+            elasticsearch: 'org.elasticsearch:elasticsearch:1.7.1',
+            guava: 'com.google.guava:guava:18.0',
+            httpclient: 'org.apache.httpcomponents:httpclient:4.5',
+            jackson_databind: 'com.fasterxml.jackson.core:jackson-databind:2.6.1',
+            jsr305: 'com.google.code.findbugs:jsr305:3.0.0',
+            junit: 'junit:junit:4.12',
+            reflections: 'org.reflections:reflections:0.9.10',
+            slf4j_api: 'org.slf4j:slf4j-api:1.7.12',
+            slf4j_simple: 'org.slf4j:slf4j-simple:1.7.12',
     ]
 }
 
@@ -48,7 +48,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.5.0'
+        classpath 'nl.javadude.gradle.plugins:license-gradle-plugin:0.10.0'
     }
 }
 allprojects {
@@ -56,6 +56,7 @@ allprojects {
 
     license {
         header rootProject.file('src/license/HEADER')
+        exclude '**/*.json'
     }
 }
 
@@ -72,8 +73,8 @@ subprojects {
     // Plugins
 
     apply plugin: 'java'
-    sourceCompatibility = 1.6
-    targetCompatibility = 1.6
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 
     apply plugin: 'maven'
     apply plugin: 'signing'
@@ -172,11 +173,11 @@ subprojects {
 // Misc
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.10'
+    gradleVersion = '2.6'
 }
 
 idea {
     project {
-        languageLevel = '1.6'
+        languageLevel = '1.7'
     }
 }

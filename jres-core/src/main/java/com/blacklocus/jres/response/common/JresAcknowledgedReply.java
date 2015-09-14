@@ -27,12 +27,7 @@ import com.blacklocus.jres.response.JresJsonReply;
  */
 public class JresAcknowledgedReply extends JresJsonReply {
 
-    private Boolean ok;
     private Boolean acknowledged;
-
-    public Boolean getOk() {
-        return ok;
-    }
 
     public Boolean getAcknowledged() {
         return acknowledged;

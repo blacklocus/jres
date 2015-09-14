@@ -20,7 +20,7 @@ import com.blacklocus.jres.request.index.JresRefresh;
 import com.blacklocus.jres.request.index.JresUpdateDocument;
 import com.blacklocus.jres.request.search.JresSearch;
 import com.blacklocus.jres.response.search.JresSearchReply;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -117,7 +117,7 @@ public class JresBulkRequestorTest extends BaseJresTest {
 
         @Override
         public String toString() {
-            return Objects.toStringHelper(this)
+            return MoreObjects.toStringHelper(this)
                     .add("id", id)
                     .add("name", name)
                     .add("the_number", the_number)

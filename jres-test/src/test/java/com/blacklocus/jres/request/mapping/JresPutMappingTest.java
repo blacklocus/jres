@@ -74,7 +74,7 @@ public class JresPutMappingTest extends BaseJresTest {
         jres.quest(new JresCreateIndex(index));
         {
             JresAcknowledgedReply response = jres.quest(new JresPutMapping(index, type, "{\"test\":{}}"));
-            Assert.assertTrue(response.getOk() && response.getAcknowledged());
+            Assert.assertTrue(response.getAcknowledged());
         }
 
         {

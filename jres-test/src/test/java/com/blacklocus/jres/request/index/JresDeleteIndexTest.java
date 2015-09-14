@@ -30,7 +30,6 @@ public class JresDeleteIndexTest extends BaseJresTest {
         Assert.assertTrue(jres.bool(new JresIndexExists(index)).verity());
 
         JresAcknowledgedReply deleteReply = jres.quest(new JresDeleteIndex(index));
-        Assert.assertTrue(deleteReply.getOk());
         Assert.assertTrue(deleteReply.getAcknowledged());
     }
 

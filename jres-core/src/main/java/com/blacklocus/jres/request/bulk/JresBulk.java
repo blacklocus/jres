@@ -23,8 +23,6 @@ import com.blacklocus.jres.strings.ObjectMappers;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteSource;
-import com.google.common.io.ByteStreams;
-import com.google.common.io.InputSupplier;
 import org.apache.http.client.methods.HttpPost;
 
 import javax.annotation.Nullable;
@@ -63,7 +61,7 @@ public class JresBulk extends JresJsonRequest<JresBulkReply> {
         // Note that while _bulk requests are made up of JSON, the body as a whole isn't actually valid JSON.
         final InputStream input;
         try {
-            input = ByteStreams.join(Iterables.transform(actions, new PayloadFn())).getInput();
+            input = ByteSource.concat(Iterables.transform(actions, new PayloadFn())).openStream();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -72,9 +70,9 @@ public class JresBulk extends JresJsonRequest<JresBulkReply> {
 
     private static final ByteSource NEW_LINE = ByteSource.wrap("\n".getBytes());
 
-    private static class PayloadFn implements Function<JresBulkable, InputSupplier<InputStream>> {
+    private static class PayloadFn implements Function<JresBulkable, ByteSource> {
         @Override
-        public InputSupplier<InputStream> apply(JresBulkable action) {
+        public ByteSource apply(JresBulkable action) {
             try {
 
                 ByteSource lines = ByteSource.concat(

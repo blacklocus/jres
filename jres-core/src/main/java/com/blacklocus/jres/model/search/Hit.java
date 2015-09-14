@@ -19,7 +19,7 @@ import com.blacklocus.jres.strings.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 public class Hit {
 
@@ -76,7 +76,7 @@ public class Hit {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("index", index)
                 .add("type", type)
                 .add("id", id)
