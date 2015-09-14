@@ -28,6 +28,6 @@ public class JresRefreshTest extends BaseJresTest {
 
         jres.quest(new JresCreateIndex(index));
         JresShardsReply refreshReply = jres.quest(new JresRefresh(index));
-        Assert.assertEquals(1, (int) refreshReply.getShards().getSuccessful());
+        Assert.assertEquals(0, (int) refreshReply.getShards().getFailed());
     }
 }

@@ -17,6 +17,7 @@ package com.blacklocus.jres.request.index;
 
 import com.blacklocus.jres.BaseJresTest;
 import com.blacklocus.jres.response.common.JresShardsReply;
+import com.google.common.collect.ImmutableMap;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -28,6 +29,6 @@ public class JresFlushTest extends BaseJresTest {
 
         jres.quest(new JresCreateIndex(index));
         JresShardsReply flushReply = jres.quest(new JresFlush(index));
-        Assert.assertEquals(1, (int) flushReply.getShards().getSuccessful());
+        Assert.assertEquals("" + flushReply.node(), 0, (int) flushReply.getShards().getFailed());
     }
 }

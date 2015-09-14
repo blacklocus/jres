@@ -95,6 +95,10 @@ subprojects {
         manifest = defaultManifest()
     }
 
+    javadoc {
+        failOnError false
+    }
+
     task javadocJar(type: Jar, dependsOn: javadoc) {
         classifier = 'javadoc'
         from 'build/docs/javadoc'
