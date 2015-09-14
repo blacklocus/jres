@@ -1,10 +1,11 @@
-(incubating...)
+(experimental...)
 
 Jres
 ====
 A Java ElasticSearch client library which does not have a code dependency on the entire ElasticSearch library. All
 communication is JSON over HTTP.
 
+<img src="https://travis-ci.org/blacklocus/jres.svg?branch=master"/>
 
 ### Dependency ###
 
