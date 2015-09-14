@@ -46,7 +46,7 @@ class ElasticSearchTestInstance {
                 .put("index.number_of_shards", 1)
                 .put("index.number_of_replicas", 0)
                 .put("path.data", dir.getAbsolutePath())
-                .put("script.disable_dynamic", false)
+                .put("script.inline", "on")
                 .build();
 
         node = NodeBuilder.nodeBuilder().local(true).settings(settings).clusterName("junit_test_cluster").node();
