@@ -25,6 +25,12 @@ import org.apache.http.client.methods.HttpDelete;
 import javax.annotation.Nullable;
 import java.util.Map;
 
+/**
+ * <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-delete-by-query.html">Delete By Query API</a>
+ *
+ * @deprecated see ElasticSearch docs
+ */
+@Deprecated
 public class JresDeleteByQuery extends JresJsonRequest<JresIndicesReply> {
 
     private @Nullable String index;
@@ -55,6 +61,8 @@ public class JresDeleteByQuery extends JresJsonRequest<JresIndicesReply> {
 
     @Override
     public Object getPayload() {
-        return query;
+        return ImmutableMap.of(
+                "query", query
+        );
     }
 }

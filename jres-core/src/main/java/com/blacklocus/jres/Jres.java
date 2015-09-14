@@ -101,7 +101,7 @@ public class Jres {
             HttpUriRequest httpRequest = HttpMethods.createRequest(quest.getHttpMethod(), url, quest.getPayload());
             // We like the one that takes a ResponseHandler because supposedly that should prevent http resource
             // leaks whether botched local code or unexpected exceptions.
-            return http.execute(httpRequest, new JresJsonResponseHandler<REPLY>(quest.getResponseClass()));
+            return http.execute(httpRequest, new JresJsonResponseHandler<>(quest.getResponseClass()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -127,12 +127,12 @@ public class Jres {
     public <REPLY extends JresJsonReply, QUEST extends JresJsonRequest<REPLY>> Tolerance<REPLY> tolerate(QUEST quest, int toleratedStatus) {
 
         try {
-            return new Tolerance<REPLY>(false, quest(quest));
+            return new Tolerance<>(false, quest(quest));
         } catch (JresErrorReplyException e) {
             if (e.getStatus() != toleratedStatus) {
                 throw e;
             } else {
-                return new Tolerance<REPLY>(true, e);
+                return new Tolerance<>(true, e);
             }
         }
 

@@ -55,7 +55,7 @@ public class JresJsonResponseHandler<REPLY extends JresJsonReply> extends Abstra
         } else if (statusCode / 100 >= 4) {
             Pair<JsonNode, JresJsonReply> replyPair = read(http, null); // only want the node
             JsonNode node = replyPair.getLeft();
-            String error = node != null && node.has("error") ? node.get("error").asText() : null;
+            String error = node != null && node.has("error") ? node.get("error").asText() : "Status: " + statusCode;
             throw new JresErrorReplyException(error, statusCode, node);
 
         } else {
