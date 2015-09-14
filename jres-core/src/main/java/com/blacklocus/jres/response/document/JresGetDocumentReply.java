@@ -23,8 +23,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class JresGetDocumentReply extends JresJsonReply {
 
-    private Boolean ok;
-
     @JsonProperty("_index")
     private String index;
 
@@ -37,14 +35,10 @@ public class JresGetDocumentReply extends JresJsonReply {
     @JsonProperty("_version")
     private Integer version;
 
-    private Boolean exists;
+    private Boolean found;
 
     @JsonProperty("_source")
     private JsonNode source;
-
-    public Boolean getOk() {
-        return ok;
-    }
 
     public String getIndex() {
         return index;
@@ -62,8 +56,8 @@ public class JresGetDocumentReply extends JresJsonReply {
         return version;
     }
 
-    public Boolean getExists() {
-        return exists;
+    public Boolean getFound() {
+        return found;
     }
 
     public JsonNode getSource() {

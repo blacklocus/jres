@@ -35,10 +35,10 @@ public class JresGetDocumentTest extends BaseJresTest {
 
         Jres.Tolerance<JresGetDocumentReply> tolerance = jres.tolerate(new JresGetDocument(index, type, "bogus"), 404);
         Assert.assertTrue(tolerance.isError());
-        Assert.assertFalse(tolerance.getError().asType(JresGetDocumentReply.class).getExists());
+        Assert.assertFalse(tolerance.getError().asType(JresGetDocumentReply.class).getFound());
 
         JresGetDocumentReply getDocumentReply = jres.quest(new JresGetDocument(index, type, generatedId));
-        Assert.assertTrue(getDocumentReply.getExists());
+        Assert.assertTrue(getDocumentReply.getFound());
         Assert.assertEquals(generatedId, getDocumentReply.getId());
     }
 
