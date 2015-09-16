@@ -68,7 +68,6 @@ subprojects {
 
     group = 'com.blacklocus.jres'
     version = '0.2.1-SNAPSHOT'
-    ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Plugins
@@ -125,7 +124,7 @@ subprojects {
     }
 
     signing {
-        required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+        required { !version.endsWith("SNAPSHOT") && gradle.taskGraph.hasTask('uploadArchives') }
         sign configurations.archives
     }
 
