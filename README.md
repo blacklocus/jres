@@ -9,14 +9,6 @@ communication is JSON over HTTP.
 
 ### Dependency ###
 
-maven
-
-    <dependency>
-        <groupId>com.blacklocus.jres</groupId>
-        <artifactId>jres-core</artifactId>
-        <version>0.1.14</version>
-    </dependency>
-            
 gradle
 
     repositories {
@@ -25,8 +17,10 @@ gradle
     }
     dependencies {
         // ...
-        compile 'com.blacklocus.jres:jres-core:0.1.14'
+        compile 'com.blacklocus.jres:jres-core:0.2.0'
     }
+
+other dependency syntax on [mvnrepository.com](http://mvnrepository.com/artifact/com.blacklocus.jres/jres-core)
 
 
 ## Usage ##
