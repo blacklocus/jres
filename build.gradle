@@ -124,7 +124,7 @@ subprojects {
     }
 
     signing {
-        required { !version.endsWith("SNAPSHOT") && gradle.taskGraph.hasTask('uploadArchives') }
+        required { !version.endsWith("SNAPSHOT") && (gradle.taskGraph.hasTask('uploadArchives') || gradle.taskGraph.hasTask(':uploadArchives')) }
         sign configurations.archives
     }
 
